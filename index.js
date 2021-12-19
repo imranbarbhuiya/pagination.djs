@@ -284,16 +284,30 @@ class Pagination extends MessageEmbed {
    */
   goToPage(pageNumber) {
     this.currentPage = pageNumber;
-    this.setDescription(
-      `${this.prevDescription}\n
-        ${this.descriptions
-          .slice(pageNumber * this.limit - this.limit, pageNumber * this.limit)
-          .join("\n")}\n${this.postDescription}`
-    )
-      .setImage(this.images[pageNumber - 1])
-      .setFooter(
+    if (!this.footer)
+      this.setFooter(
         `Pages: ${pageNumber}/${Math.ceil(this.totalEntry / this.limit)}`
       );
+    else if (this.footer?.text) {
+      this.footer.text = this.footer.text
+        .replace(/{pageNumber}/g, pageNumber)
+        .replace(/{totalPages}/g, Math.ceil(this.totalEntry / this.limit));
+    }
+    if (this.images.length) {
+      this.setImage(this.images[pageNumber - 1]);
+    }
+    if (this.descriptions.length) {
+      this.setDescription(
+        `${this.prevDescription}\n
+          ${this.descriptions
+            .slice(
+              pageNumber * this.limit - this.limit,
+              pageNumber * this.limit
+            )
+            .join("\n")}\n${this.postDescription}`
+      );
+    }
+
     if (this.fieldPaginate) {
       this.setFields(
         this.fields.slice(
@@ -302,7 +316,6 @@ class Pagination extends MessageEmbed {
         )
       );
     }
-
     return this;
   }
   goFirst(i) {
@@ -379,8 +392,8 @@ class Pagination extends MessageEmbed {
     i.update(this.payloads);
     return i;
   }
-  paginate() {
-    const collector = this.message.createMessageComponentCollector({
+  paginate(message) {
+    const collector = message.createMessageComponentCollector({
       idle: this.idle,
     });
 
@@ -403,18 +416,25 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
-   * @returns {Promise<Message}
+   * @returns {MessagePayload}
    */
-  async sendMessage() {
+  ready() {
     this.totalEntry = Math.max(this.descriptions.length, this.images.length);
     if (this.fieldPaginate) {
       this.totalEntry = Math.max(this.totalEntry, this.fields.length);
     }
     const payloads = this.readyPayloads();
     this.goToPage(this.currentPage);
+    return payloads;
+  }
+  /**
+   *
+   * @returns {Promise<Message}
+   */
+  async reply() {
+    const payloads = this.ready();
     const message = await this.interaction.reply(payloads);
-    this.message = message;
-    this.paginate();
+    this.paginate(message);
     return message;
   }
 }

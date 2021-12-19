@@ -25,7 +25,7 @@ export interface PaginationOptions extends EmojiOptions {
 }
 
 export class Pagination extends MessageEmbed {
-  public interaction: Interaction;
+  public interaction: Interaction | Message;
   public images: string[];
   public descriptions: string[];
   public actionsRows: MessageActionRow[];
@@ -42,7 +42,7 @@ export class Pagination extends MessageEmbed {
   public postDescription: string;
   public attachments: string[];
   private currentPage: number;
-  constructor(interaction: Interaction, options: PaginationOptions);
+  constructor(interaction: Interaction | Message, options?: PaginationOptions);
 
   public setOptions(options: PaginationOptions): this;
 
@@ -87,5 +87,5 @@ export class Pagination extends MessageEmbed {
 
   private paginate(): this;
 
-  sendMessage(): Promise<Message>;
+  reply(): Promise<Message>;
 }
