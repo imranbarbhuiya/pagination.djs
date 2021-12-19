@@ -19,7 +19,7 @@ Example shows how to use it with any application command but it's valid for mess
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction);
+const pagination = new Pagination(interaction);
 
 const descriptions = [
   "This is a description.",
@@ -33,7 +33,7 @@ pagination.reply();
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction);
+const pagination = new Pagination(interaction);
 
 const images = [
   "https://i.imgur.com/w3duR07.png",
@@ -47,7 +47,7 @@ pagination.reply();
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction);
+const pagination = new Pagination(interaction);
 
 pagination.setFields([
   {
@@ -73,7 +73,7 @@ The pagination class extends the [discord.js Embed](https://discord.js.org/#/doc
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction);
+const pagination = new Pagination(interaction);
 
 pagination.setTitle("Pagination");
 pagination.setDescription("This is a description.");
@@ -104,7 +104,7 @@ pagination.reply();
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction);
+const pagination = new Pagination(interaction);
 pagination.setPrevDescription("Previous");
 pagination.setPostDescription("Post");
 pagination.descriptions(["Array of descriptions"]);
@@ -117,7 +117,7 @@ You can customize the behavior of the pagination by passing the following option
 
 ```js
 const { Pagination } = require("pagination.js");
-const pagination = new Pagination(Interaction, {
+const pagination = new Pagination(interaction, {
   firstEmoji: "⏮", // First button emoji
   prevEmoji: "⬅️", // Previous button emoji
   nextEmoji: "➡️", // Next button emoji
