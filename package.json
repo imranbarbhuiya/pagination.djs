@@ -2,9 +2,12 @@
   "name": "pagination.djs",
   "version": "1.0.1",
   "description": "A discord.js compatible pagination module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build",
+    "build": "tsc -p tsconfig.json",
+    "docs": "npx typedoc src/index.ts"
   },
   "keywords": [
     "pagination",
@@ -13,9 +16,10 @@
   ],
   "author": "imranbarbhuiya",
   "license": "MIT",
-  "types": "./index.d.ts",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "discord.js": "^13.3.1",
+    "typedoc": "^0.22.10",
     "typescript": "^4.5.4"
   },
   "peerDependencies": {

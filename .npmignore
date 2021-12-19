@@ -2,3 +2,4 @@
 .eslintrc.json
 tsconfig.json
 .github
+docs

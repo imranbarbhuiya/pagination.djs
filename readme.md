@@ -144,13 +144,20 @@ By default embed will show page number and total pages in footer as
 
 You can change it by setting `pagination.setFooter("my footer")` and you can pass `{pageNumber}` and `{totalPages}` which will be replaced with the respective value.
 
-### Custom reply
+### Other send options
 
-By default `reply()` will reply to the interaction. If you want to send the reply as a followUp or edit then you need to get the MessagePayload from `ready()` method and send it manually. Then call `paginate(message)` by passing the message
+By default `reply()` will reply to the interaction but you can change it. Available builtin methods are
+
+- `reply()` reply to the interaction
+- `followUp()` send followUp reply to the interaction
+- `editReply()` edit interaction reply
+- `send()` send message in the interaction channel
+
+If you want to send it by yourself or send in a different channel then you can follow the following steps:
 
 ```js
 const payloads = pagination.ready();
-const message = await interaction.followUp(payloads);
+const message = await interaction.reply(payloads);
 pagination.paginate(message);
 ```
 
