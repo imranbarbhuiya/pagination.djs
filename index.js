@@ -24,6 +24,7 @@ class Pagination extends MessageEmbed {
     this.actionRows = [];
     this.payloads = { fetchReply: true };
     this.totalEntry = 0;
+    this.customFooter = true;
   }
   /**
    *
@@ -284,15 +285,18 @@ class Pagination extends MessageEmbed {
    */
   goToPage(pageNumber) {
     this.currentPage = pageNumber;
-    if (!this.footer)
-      this.setFooter(
-        `Pages: ${pageNumber}/${Math.ceil(this.totalEntry / this.limit)}`
-      );
-    else if (this.footer?.text) {
-      this.footer.text = this.footer.text
-        .replace(/{pageNumber}/g, pageNumber)
-        .replace(/{totalPages}/g, Math.ceil(this.totalEntry / this.limit));
+    if (!this.footer) {
+      this.customFooter = false;
+      this.rawFooter = `Pages: {pageNumber}/{totalPages}`;
+    } else if (this.customFooter) {
+      this.rawFooter = this.footer.text;
     }
+    this.setFooter(
+      this.rawFooter
+        .replace(/{pageNumber}/g, pageNumber)
+        .replace(/{totalPages}/g, Math.ceil(this.totalEntry / this.limit)),
+      this.footer?.iconURL
+    );
     if (this.images.length) {
       this.setImage(this.images[pageNumber - 1]);
     }
