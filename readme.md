@@ -154,6 +154,18 @@ const message = await interaction.followUp(payloads);
 pagination.paginate(message);
 ```
 
+### Preview
+
+<p align="center">
+  <a href="#image1">
+    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
+  </a>
+  <a href="#image2">
+    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
+  <a href="#image3">
+    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
+</P>
+
 ## License
 
 MIT
