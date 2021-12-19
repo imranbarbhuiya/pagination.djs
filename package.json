@@ -1,5 +1,5 @@
 {
-  "name": "pagination.js",
+  "name": "pagination.djs",
   "version": "1.0.0",
   "description": "A discord.js compatible pagination module",
   "main": "index.js",

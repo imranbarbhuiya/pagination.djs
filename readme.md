@@ -18,7 +18,7 @@ Example shows how to use it with any application command but it's valid for mess
 ### Paginate through descriptions
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction);
 
 const descriptions = [
@@ -32,7 +32,7 @@ pagination.reply();
 ### Paginate through images
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction);
 
 const images = ["1st image link", "2nd image link"];
@@ -43,7 +43,7 @@ pagination.reply();
 ### Paginate through Fields
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction);
 
 pagination.setFields([
@@ -64,12 +64,14 @@ pagination.paginateFields(true);
 pagination.reply();
 ```
 
+Note: You need to add `paginateFields(true)` in order to paginate through fields
+
 ### Customize embed
 
-The pagination class extends the [discord.js Embed](https://discord.js.org/#/docs/main/stable/class/MessageEmbed) class. So you can directly use the embed methods.
+The pagination class extends the [discord.js MessageEmbed](https://discord.js.org/#/docs/main/stable/class/MessageEmbed) class. So you can directly use the embed methods.
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction);
 
 pagination.setTitle("Pagination");
@@ -97,10 +99,10 @@ pagination.paginateFields(true);
 pagination.reply();
 ```
 
-### Add a fixed prev descriptions and post descriptions
+### Add fixed prev descriptions and post descriptions
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction);
 pagination.setPrevDescription("Previous");
 pagination.setPostDescription("Post");
@@ -113,7 +115,7 @@ pagination.reply();
 You can customize the behavior of the pagination by passing the following options:
 
 ```js
-const { Pagination } = require("pagination.js");
+const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction, {
   firstEmoji: "⏮", // First button emoji
   prevEmoji: "⬅️", // Previous button emoji
