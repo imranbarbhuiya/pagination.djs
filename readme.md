@@ -138,11 +138,11 @@ You can set the options with `setOptions()` method also
 pagination.setOptions(option);
 ```
 
-By default embed will show page number and total pages in footer in
+By default embed will show page number and total pages in footer as
 
 `Pages: pageNumber/totalPages`
 
-You can change it by setting `this.setFooter` and you can pass `{pageNumber}` and `{totalPages}` which will be replaced with the respective value.
+You can change it by setting `pagination.setFooter("my footer")` and you can pass `{pageNumber}` and `{totalPages}` which will be replaced with the respective value.
 
 ### Custom reply
 
