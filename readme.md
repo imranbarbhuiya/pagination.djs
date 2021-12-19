@@ -35,10 +35,7 @@ pagination.reply();
 const { Pagination } = require("pagination.js");
 const pagination = new Pagination(interaction);
 
-const images = [
-  "https://i.imgur.com/w3duR07.png",
-  "https://i.imgur.com/w3duR07.png",
-];
+const images = ["1st image link", "2nd image link"];
 pagination.setImages(images);
 pagination.reply();
 ```
