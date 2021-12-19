@@ -288,7 +288,7 @@ class Pagination extends MessageEmbed {
     if (!this.footer) {
       this.customFooter = false;
       this.rawFooter = `Pages: {pageNumber}/{totalPages}`;
-    } else if (this.customFooter) {
+    } else if (this.customFooter && !this.rawFooter) {
       this.rawFooter = this.footer.text;
     }
     this.setFooter(
