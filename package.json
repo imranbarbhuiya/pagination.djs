@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
-    "docs": "npx typedoc src/index.ts"
+    "docs": "npx typedoc src/index.ts",
+    "docs:publish": "git subtree push --prefix docs origin gh-pages "
   },
   "keywords": [
     "pagination",
