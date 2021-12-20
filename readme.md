@@ -159,6 +159,7 @@ const pagination = new Pagination(interaction, {
   postDescription: "",
   attachments: [new MessageAttachment()], // attachments you want to pass with the embed
   buttonStyle: "SECONDARY",
+  loop: false, // loop through the pages
 });
 ```
 
