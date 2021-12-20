@@ -93,7 +93,7 @@ export interface ButtonOptions {
   style?: ButtonStyle;
 }
 
-interface ButtonOptionsRequired {
+export interface ButtonOptionsRequired {
   emoji: EmojiIdentifierResolvable;
   label: string;
   style: ButtonStyle;
@@ -106,7 +106,7 @@ export interface ButtonsOptions {
   last?: ButtonOptions;
 }
 
-interface ButtonsOptionsRequired {
+export interface ButtonsOptionsRequired {
   first: ButtonOptionsRequired;
   prev: ButtonOptionsRequired;
   next: ButtonOptionsRequired;
