@@ -1,3 +1,7 @@
+![npm](https://img.shields.io/npm/v/pagination.djs?style=for-the-badge)
+![npm](https://img.shields.io/npm/dw/pagination.djs?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs?style=for-the-badge)
+
 # Pagination.djs
 
 A discord.js compatible pagination module.
