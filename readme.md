@@ -1,12 +1,15 @@
-# Pagination.js
+# Pagination.djs
 
 A discord.js compatible pagination module.
-It's a simple and lightweight module to paginate discord embeds
+It's a simple and lightweight module to paginate discord embeds.
+
+- npm: [pagination.djs](https://www.npmjs.com/package/pagination.djs)
+- docs: [pagination.djs](https://imranbarbhuiya.github.io/pagination.djs/)
 
 ## Installation
 
 ```bash
-npm install pagination.js
+npm install pagination.djs
 ```
 
 This package uses buttons so [discord.js](https://discord.js.org) v13+ is required.
@@ -26,7 +29,7 @@ const descriptions = [
   "This is a second description.",
 ];
 pagination.setDescriptions(descriptions);
-pagination.reply();
+pagination.render();
 ```
 
 ### Paginate through images
@@ -37,7 +40,7 @@ const pagination = new Pagination(interaction);
 
 const images = ["1st image link", "2nd image link"];
 pagination.setImages(images);
-pagination.reply();
+pagination.render();
 ```
 
 ### Paginate through Fields
@@ -61,7 +64,7 @@ pagination.setFields([
   },
 ]);
 pagination.paginateFields(true);
-pagination.reply();
+pagination.render();
 ```
 
 Note: You need to add `paginateFields(true)` in order to paginate through fields
@@ -96,7 +99,7 @@ pagination.addFields([
   },
 ]);
 pagination.paginateFields(true);
-pagination.reply();
+pagination.render();
 ```
 
 ### Add fixed prev descriptions and post descriptions
@@ -107,7 +110,7 @@ const pagination = new Pagination(interaction);
 pagination.setPrevDescription("Previous");
 pagination.setPostDescription("Post");
 pagination.descriptions(["Array of descriptions"]);
-pagination.reply();
+pagination.render();
 ```
 
 ### Customization
@@ -144,9 +147,59 @@ By default embed will show page number and total pages in footer as
 
 You can change it by setting `pagination.setFooter("my footer")` and you can pass `{pageNumber}` and `{totalPages}` which will be replaced with the respective value.
 
+#### Set emojis
+
+set button emojis with `setEmojis()` method
+
+```js
+pagination.setEmojis({
+  firstEmoji: "⏮",
+  prevEmoji: "⬅️",
+  nextEmoji: "➡️",
+  lastEmoji: "⏭",
+});
+```
+
+### Customize button
+
+Customize label, emoji or style of button using `setButtonAppearance()` method
+
+```js
+pagination.setButtonAppearance({
+  first: {
+    label: "First",
+    emoji: "⏮",
+    style: "PRIMARY",
+  },
+  prev: {
+    label: "Prev",
+    emoji: "⬅️",
+    style: "SECONDARY",
+  },
+  next: {
+    label: "Next",
+    emoji: "➡️",
+    style: "SUCCESS",
+  },
+  last: {
+    label: "Last",
+    emoji: "⏭",
+    style: "DANGER",
+  },
+});
+```
+
+#### Add Action row
+
+Add some action rows above or below the pagination button row
+
+```js
+pagination.addActionRow(new MessageActionRow(), "above");
+```
+
 ### Other send options
 
-By default `reply()` will reply to the interaction but you can change it. Available builtin methods are
+By default `render()` will reply to the interaction but you can change it. Available builtin methods are
 
 - `reply()` reply to the interaction
 - `followUp()` send followUp reply to the interaction

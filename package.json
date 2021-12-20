@@ -27,10 +27,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imranbarbhuiya/pagination.git"
+    "url": "git+https://github.com/imranbarbhuiya/pagination.djs.git"
   },
   "bugs": {
-    "url": "https://github.com/imranbarbhuiya/pagination/issues"
+    "url": "https://github.com/imranbarbhuiya/pagination.djs/issues"
   },
-  "homepage": "https://github.com/imranbarbhuiya/pagination#readme"
+  "homepage": "https://imranbarbhuiya.github.io/pagination.djs"
 }
