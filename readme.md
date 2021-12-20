@@ -259,14 +259,14 @@ pagination.setAttachments([new MessageAttachment()]);
 
 ### Other send options
 
-By default `render()` will reply to the interaction but you can change it. Available builtin methods are
+By default `render()` will reply to the interaction but you can change it. Available in build methods are:
 
 - `reply()` reply to the interaction
 - `followUp()` send followUp reply to the interaction
 - `editReply()` edit interaction reply
 - `send()` send message in the interaction channel
 
-If you want to send it by yourself or send in a different channel then you can follow the following steps:
+If you want to send it by yourself or send in a different channel then you can follow these steps:
 
 ```js
 const payloads = pagination.ready();

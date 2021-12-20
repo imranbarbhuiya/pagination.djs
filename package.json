@@ -8,7 +8,8 @@
     "prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
     "docs": "npx typedoc src/index.ts",
-    "docs:publish": "git subtree push --prefix docs origin gh-pages "
+    "docs:publish": "git subtree push --prefix docs origin gh-pages",
+    "lint": "eslint src/**/*.ts"
   },
   "keywords": [
     "pagination",
@@ -19,7 +20,10 @@
   "license": "MIT",
   "types": "dist/index.d.ts",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
     "discord.js": "^13.3.1",
+    "eslint": "^8.5.0",
     "typedoc": "^0.22.10",
     "typescript": "^4.5.4"
   },

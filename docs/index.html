@@ -122,14 +122,14 @@ You can pass attachments in the <code>setOptions</code> or using <code>setAttach
 <a href="#other-send-options" id="other-send-options" style="color: inherit; text-decoration: none;">
   <h3>Other send options</h3>
 </a>
-<p>By default <code>render()</code> will reply to the interaction but you can change it. Available builtin methods are</p>
+<p>By default <code>render()</code> will reply to the interaction but you can change it. Available in build methods are:</p>
 <ul>
 <li><code>reply()</code> reply to the interaction</li>
 <li><code>followUp()</code> send followUp reply to the interaction</li>
 <li><code>editReply()</code> edit interaction reply</li>
 <li><code>send()</code> send message in the interaction channel</li>
 </ul>
-<p>If you want to send it by yourself or send in a different channel then you can follow the following steps:</p>
+<p>If you want to send it by yourself or send in a different channel then you can follow these steps:</p>
 <pre><code class="language-js"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">payloads</span><span class="hl-0"> = </span><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">ready</span><span class="hl-0">();</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">message</span><span class="hl-0"> = </span><span class="hl-8">await</span><span class="hl-0"> </span><span class="hl-5">interaction</span><span class="hl-0">.</span><span class="hl-3">reply</span><span class="hl-0">(</span><span class="hl-5">payloads</span><span class="hl-0">);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">paginate</span><span class="hl-0">(</span><span class="hl-5">message</span><span class="hl-0">);</span>
 </code></pre>
 

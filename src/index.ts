@@ -24,6 +24,7 @@ const defaultOptions = {
   postDescription: "",
   attachments: [],
   buttonStyle: "SECONDARY",
+  loop: false,
 } as Options;
 
 export interface Options extends EmojiOptions {
@@ -62,6 +63,11 @@ export interface Options extends EmojiOptions {
    * @default "SECONDARY"
    */
   buttonStyle?: ButtonStyle;
+  /**
+   * loop through the pages.
+   * @default false
+   */
+  loop?: boolean;
 }
 
 export interface EmojiOptions {
@@ -218,6 +224,7 @@ class Pagination extends MessageEmbed {
    * the total number of entries
    */
   public totalEntry: number;
+  public totalPages: number;
   /**
    * footer is a custom footer
    * @private
@@ -258,6 +265,11 @@ class Pagination extends MessageEmbed {
    * the attachments to show with the paginated messages
    * @default []
    */
+  /**
+   * loop through the pages
+   * @default false
+   */
+  public loop!: boolean;
   public attachments!: MessageAttachment[];
   /**
    * current page number
@@ -302,6 +314,7 @@ class Pagination extends MessageEmbed {
    *  postDescription: "",
    *  attachments: [],
    *  buttonStyle: "SECONDARY",
+   *  loop: false,
    * });
    * ```
    *
@@ -341,6 +354,7 @@ class Pagination extends MessageEmbed {
     this.actionRows = [];
     this.payloads = { fetchReply: true };
     this.totalEntry = 0;
+    this.totalPages = 0;
     this.customFooter = true;
     this.mainActionRow = new MessageActionRow();
     this.setOptions(options);
@@ -365,6 +379,7 @@ class Pagination extends MessageEmbed {
    *  postDescription: "",
    *  attachments: [],
    *  buttonStyle: "SECONDARY",
+   *  loop: false,
    * });
    * ```
    *
@@ -380,6 +395,7 @@ class Pagination extends MessageEmbed {
     this.limit = options.limit || this.limit;
     this.idle = options.idle || this.idle;
     this.ephemeral = options.ephemeral || this.ephemeral;
+    this.loop = options.loop || this.loop;
     this.prevDescription =
       typeof options.prevDescription === "string"
         ? options.prevDescription
@@ -495,6 +511,7 @@ class Pagination extends MessageEmbed {
   /**
    *
    * paginate through fields
+   * It will be ignored if you are not paginating through fields
    * @param paginate
    * @returns
    * @example
@@ -567,6 +584,7 @@ class Pagination extends MessageEmbed {
   /**
    *
    * set a fixed prev descriptions which will be shown in all pages before the paginated descriptions
+   * It will be ignored if you are not paginating through descriptions
    * @param prevDescription
    * @returns
    * @example
@@ -583,6 +601,7 @@ class Pagination extends MessageEmbed {
   /**
    *
    * set a fixed post descriptions which will be shown in all pages after the paginated descriptions
+   * It will be ignored if you are not paginating through descriptions
    * @param postDescription
    * @returns
    * @example
@@ -762,14 +781,12 @@ class Pagination extends MessageEmbed {
         .setCustomId("first")
         .setEmoji(this.buttonInfo.first.emoji)
         .setLabel(this.buttonInfo.first.label)
-        .setStyle(this.buttonInfo.first.style)
-        .setDisabled(true),
+        .setStyle(this.buttonInfo.first.style),
       prev: new MessageButton()
         .setCustomId("prev")
         .setEmoji(this.buttonInfo.prev.emoji)
         .setLabel(this.buttonInfo.prev.label)
-        .setStyle(this.buttonInfo.prev.style)
-        .setDisabled(true),
+        .setStyle(this.buttonInfo.prev.style),
       next: new MessageButton()
         .setCustomId("next")
         .setEmoji(this.buttonInfo.next.emoji)
@@ -783,9 +800,13 @@ class Pagination extends MessageEmbed {
         .setStyle(this.buttonInfo.last.style)
         .setDisabled(true),
     };
-    if (this.totalEntry > this.limit) {
-      this.buttons.next.setDisabled(false);
+    if (!this.loop) {
+      this.buttons.first.setDisabled(true);
+      this.buttons.prev.setDisabled(true);
+    }
+    if (this.totalEntry > this.limit || this.loop) {
       this.buttons.last.setDisabled(false);
+      this.buttons.next.setDisabled(false);
     }
     this.mainActionRow.addComponents(
       this.buttons.first,
@@ -823,17 +844,19 @@ class Pagination extends MessageEmbed {
    *
    */
   goToPage(pageNumber: number): this {
+    if (pageNumber < 1) pageNumber = this.totalPages;
+    if (pageNumber > this.totalPages) pageNumber = 1;
     this.currentPage = pageNumber;
     if (!this.footer) {
       this.customFooter = false;
-      this.rawFooter = `Pages: {pageNumber}/{totalPages}`;
+      this.rawFooter = "Pages: {pageNumber}/{totalPages}";
     } else if (this.customFooter && !this.rawFooter) {
       this.rawFooter = this.footer.text;
     }
     this.setFooter(
       this.rawFooter
         .replace(/{pageNumber}/g, `${pageNumber}`)
-        .replace(/{totalPages}/g, `${Math.ceil(this.totalEntry / this.limit)}`),
+        .replace(/{totalPages}/g, `${this.totalPages}`),
       this.footer?.iconURL
     );
     if (this.images.length) {
@@ -876,11 +899,13 @@ class Pagination extends MessageEmbed {
    */
   goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
-    this.buttons?.prev.setDisabled(true);
-    this.buttons?.first.setDisabled(true);
-    this.buttons?.next.setDisabled(false);
-    this.buttons?.last.setDisabled(false);
-    this.mainActionRow?.setComponents(
+    if (!this.loop) {
+      this.buttons.first.setDisabled(true);
+      this.buttons.prev.setDisabled(true);
+    }
+    this.buttons.next.setDisabled(false);
+    this.buttons.last.setDisabled(false);
+    this.mainActionRow.setComponents(
       this.buttons.first,
       this.buttons.prev,
       this.buttons.next,
@@ -906,21 +931,21 @@ class Pagination extends MessageEmbed {
    *
    */
   goPrev(i: ButtonInteraction): ButtonInteraction {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.buttons?.prev.setDisabled(this.currentPage === 1);
-      this.buttons?.first.setDisabled(this.currentPage === 1);
-      this.buttons?.next.setDisabled(false);
-      this.buttons?.last.setDisabled(false);
-      this.mainActionRow.setComponents(
-        this.buttons.first,
-        this.buttons.prev,
-        this.buttons.next,
-        this.buttons.last
-      );
-      this.goToPage(this.currentPage);
-      i.update(this.payloads);
+    this.currentPage--;
+    if (!this.loop) {
+      this.buttons.first.setDisabled(this.currentPage === 1);
+      this.buttons.prev.setDisabled(this.currentPage === 1);
     }
+    this.buttons.next.setDisabled(false);
+    this.buttons.last.setDisabled(false);
+    this.mainActionRow.setComponents(
+      this.buttons.first,
+      this.buttons.prev,
+      this.buttons.next,
+      this.buttons.last
+    );
+    this.goToPage(this.currentPage);
+    i.update(this.payloads);
     return i;
   }
   /**
@@ -937,25 +962,25 @@ class Pagination extends MessageEmbed {
    *
    */
   goNext(i: ButtonInteraction): ButtonInteraction {
-    if (this.currentPage < Math.ceil(this.totalEntry / this.limit)) {
-      this.currentPage++;
-      this.buttons?.prev.setDisabled(false);
-      this.buttons?.first.setDisabled(false);
-      this.buttons?.next.setDisabled(
+    this.currentPage++;
+    this.buttons.prev.setDisabled(false);
+    this.buttons.first.setDisabled(false);
+    if (!this.loop) {
+      this.buttons.next.setDisabled(
         this.currentPage === Math.ceil(this.totalEntry / this.limit)
       );
-      this.buttons?.last.setDisabled(
+      this.buttons.last.setDisabled(
         this.currentPage === Math.ceil(this.totalEntry / this.limit)
       );
-      this.mainActionRow.setComponents(
-        this.buttons.first,
-        this.buttons.prev,
-        this.buttons.next,
-        this.buttons.last
-      );
-      this.goToPage(this.currentPage);
-      i.update(this.payloads);
     }
+    this.mainActionRow.setComponents(
+      this.buttons.first,
+      this.buttons.prev,
+      this.buttons.next,
+      this.buttons.last
+    );
+    this.goToPage(this.currentPage);
+    i.update(this.payloads);
     return i;
   }
   /**
@@ -973,10 +998,12 @@ class Pagination extends MessageEmbed {
    */
   goLast(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = Math.ceil(this.totalEntry / this.limit);
-    this.buttons?.prev.setDisabled(false);
-    this.buttons?.first.setDisabled(false);
-    this.buttons?.next.setDisabled(true);
-    this.buttons?.last.setDisabled(true);
+    this.buttons.prev.setDisabled(false);
+    this.buttons.first.setDisabled(false);
+    if (!this.loop) {
+      this.buttons.next.setDisabled(true);
+      this.buttons.last.setDisabled(true);
+    }
     this.mainActionRow.setComponents(
       this.buttons.first,
       this.buttons.prev,
@@ -1039,10 +1066,12 @@ class Pagination extends MessageEmbed {
    *
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
-    this.totalEntry = Math.max(this.descriptions.length, this.images.length);
-    if (this.fieldPaginate) {
-      this.totalEntry = Math.max(this.totalEntry, this.fields.length);
-    }
+    this.totalEntry = Math.max(
+      this.descriptions.length,
+      this.images.length,
+      this.fieldPaginate ? this.fields.length : 0
+    );
+    this.totalPages = Math.ceil(this.totalEntry / this.limit);
     const payloads = this._readyPayloads();
     this.goToPage(this.currentPage);
     return payloads;
