@@ -4,6 +4,8 @@
 
 # Pagination.djs
 
+V1.2.4
+
 A discord.js compatible pagination module.
 It's a simple and lightweight module to paginate discord embeds.
 
