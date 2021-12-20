@@ -791,22 +791,21 @@ class Pagination extends MessageEmbed {
         .setCustomId("next")
         .setEmoji(this.buttonInfo.next.emoji)
         .setLabel(this.buttonInfo.next.label)
-        .setStyle(this.buttonInfo.next.style)
-        .setDisabled(true),
+        .setStyle(this.buttonInfo.next.style),
       last: new MessageButton()
         .setCustomId("last")
         .setEmoji(this.buttonInfo.last.emoji)
         .setLabel(this.buttonInfo.last.label)
-        .setStyle(this.buttonInfo.last.style)
-        .setDisabled(true),
+        .setStyle(this.buttonInfo.last.style),
     };
-    if (!this.loop) {
+    if (this.totalEntry <= this.limit) {
       this.buttons.first.setDisabled(true);
       this.buttons.prev.setDisabled(true);
-    }
-    if (this.totalEntry > this.limit) {
-      this.buttons.last.setDisabled(false);
-      this.buttons.next.setDisabled(false);
+      this.buttons.last.setDisabled(true);
+      this.buttons.next.setDisabled(true);
+    } else if (!this.loop) {
+      this.buttons.first.setDisabled(true);
+      this.buttons.prev.setDisabled(true);
     }
     this.mainActionRow.addComponents(
       this.buttons.first,
