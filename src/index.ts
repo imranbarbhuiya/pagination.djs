@@ -13,9 +13,9 @@ import {
 } from "discord.js";
 
 const defaultOptions = {
-  firstEmoji: "⏮",
-  prevEmoji: "⬅️",
-  nextEmoji: "➡️",
+  firstEmoji: "⏪",
+  prevEmoji: "▶️",
+  nextEmoji: "◀️",
   lastEmoji: "⏭",
   limit: 5,
   idle: 5 * 60 * 1000,
@@ -72,12 +72,12 @@ export interface EmojiOptions {
   firstEmoji?: EmojiIdentifierResolvable;
   /**
    * The emoji to use for the previous button.
-   * @default "⬅️"
+   * @default "◀️"
    */
   prevEmoji?: EmojiIdentifierResolvable;
   /**
    * The emoji to use for the next button.
-   * @default "➡️"
+   * @default "▶️"
    */
   nextEmoji?: EmojiIdentifierResolvable;
   /**
@@ -88,76 +88,223 @@ export interface EmojiOptions {
 }
 
 export interface ButtonOptions {
+  /**
+   * The emoji to use for the button.
+   */
   emoji?: EmojiIdentifierResolvable;
+  /**
+   * The text to show on the button.
+   * @default ""
+   */
   label?: string;
+  /**
+   * The style of the button.
+   * @default "SECONDARY"
+   */
   style?: ButtonStyle;
 }
 
 export interface ButtonOptionsRequired {
+  /**
+   * The emoji to use for the button.
+   */
   emoji: EmojiIdentifierResolvable;
+  /**
+   * The text to show on the button.
+   * @default ""
+   */
   label: string;
+  /**
+   * The style of the button.
+   * @default "SECONDARY"
+   */
   style: ButtonStyle;
 }
 
 export interface ButtonsOptions {
+  /**
+   * The first button of the pagination row
+   */
   first?: ButtonOptions;
+  /**
+   * The previous button of the pagination row
+   */
   prev?: ButtonOptions;
+  /**
+   * The next button of the pagination row
+   */
   next?: ButtonOptions;
+  /**
+   * The last button of the pagination row
+   */
   last?: ButtonOptions;
 }
 
 export interface ButtonsOptionsRequired {
+  /**
+   * The first button of the pagination row
+   */
   first: ButtonOptionsRequired;
+  /**
+   * The previous button of the pagination row
+   */
   prev: ButtonOptionsRequired;
+  /**
+   * The next button of the pagination row
+   */
   next: ButtonOptionsRequired;
+  /**
+   * The last button of the pagination row
+   */
   last: ButtonOptionsRequired;
 }
 
+/**
+ * The style of the paginator buttons.
+ */
 export type ButtonStyle = "PRIMARY" | "SECONDARY" | "DANGER" | "SUCCESS";
 class Pagination extends MessageEmbed {
+  /**
+   * The interaction that the paginator is for.
+   * @readonly
+   */
   public readonly interaction: CommandInteraction | ButtonInteraction | Message;
-  public images: string[];
-  public descriptions: string[];
-  public actionRows: MessageActionRow[];
-  private readonly payloads: InteractionReplyOptions & { fetchReply: true };
-  public totalEntry: number;
+  /**
+   * pagination button infos
+   * @readonly
+   * @default {
+   *  first: {
+   *    emoji: "⏮",
+   *    label: "",
+   *    style: "SECONDARY",
+   *  },
+   *  prev: {
+   *    emoji: "◀️",
+   *    label: "",
+   *    style: "SECONDARY",
+   *  },
+   *  next: {
+   *    emoji: "▶️",
+   *    label: "",
+   *    style: "SECONDARY",
+   *  },
+   *  last: {
+   *    emoji: "⏭",
+   *    label: "",
+   *    style: "SECONDARY",
+   *  },
+   * }
+   */
   public readonly buttonInfo: ButtonsOptionsRequired;
-  public limit!: number;
-  public idle!: number;
-  public ephemeral!: boolean;
-  public prevDescription!: string;
-  public postDescription!: string;
-  public attachments!: MessageAttachment[];
-  public currentPage!: number;
+  /**
+   * the images to paginate through
+   */
+  public images: string[];
+  /**
+   * the descriptions to paginate through
+   */
+  public descriptions: string[];
+  /**
+   * the action rows of the final message
+   */
+  public actionRows: MessageActionRow[];
+  /**
+   * the payloads of the final message
+   * @readonly
+   * @private
+   */
+  private readonly payloads: InteractionReplyOptions & { fetchReply: true };
+  /**
+   * the total number of entries
+   */
+  public totalEntry: number;
+  /**
+   * footer is a custom footer
+   * @private
+   */
   private customFooter: boolean;
+  /**
+   * main action row
+   * @readonly
+   * @private
+   */
+  private readonly mainActionRow: MessageActionRow;
+  /**
+   * per page entry limit
+   * @default 5
+   */
+  public limit!: number;
+  /**
+   * idle time before closing
+   * @default 5 minutes
+   */
+  public idle!: number;
+  /**
+   * whether the reply should be ephemeral
+   * @default false
+   */
+  public ephemeral!: boolean;
+  /**
+   * the description to show before the paginated descriptions
+   * @default ""
+   */
+  public prevDescription!: string;
+  /**
+   * the description to show after the paginated descriptions
+   * @default ""
+   */
+  public postDescription!: string;
+  /**
+   * the attachments to show with the paginated messages
+   * @default []
+   */
+  public attachments!: MessageAttachment[];
+  /**
+   * current page number
+   */
+  public currentPage!: number;
+  /**
+   * paginate through fields
+   * @default false
+   */
   public fieldPaginate!: boolean;
-  public buttons!: {
+  /**
+   * pagination buttons
+   * @private
+   */
+  private buttons!: {
     first: MessageButton;
     prev: MessageButton;
     next: MessageButton;
     last: MessageButton;
   };
-  private readonly mainActionRow: MessageActionRow;
-  public rawFooter!: string;
+  /**
+   * raw footer text
+   * @private
+   */
+  private rawFooter!: string;
 
   /**
    *
    * @param interaction
    * @param options
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction, {
    *  firstEmoji: "⏮",
-   * prevEmoji: "⬅️",
-   * nextEmoji: "➡️",
-   * lastEmoji: "⏭",
-   * limit: 5,
-   * idle: 5 * 60 * 1000,
-   * ephemeral: false,
-   * prevDescription: "",
-   * postDescription: "",
-   * attachments: [],
-   * buttonStyle: "SECONDARY",
+   *  prevEmoji: "◀️",
+   *  nextEmoji: "▶️",
+   *  lastEmoji: "⏭",
+   *  limit: 5,
+   *  idle: 5 * 60 * 1000,
+   *  ephemeral: false,
+   *  prevDescription: "",
+   *  postDescription: "",
+   *  attachments: [],
+   *  buttonStyle: "SECONDARY",
    * });
+   * ```
+   *
    */
 
   constructor(
@@ -166,15 +313,7 @@ class Pagination extends MessageEmbed {
   ) {
     super();
     options = Object.assign({}, defaultOptions, options);
-    /**
-     * The interaction that the paginator is for.
-     * @readonly
-     */
     this.interaction = interaction;
-    /**
-     * pagination button infos
-     * @readonly
-     */
     this.buttonInfo = {
       first: {
         emoji: options.firstEmoji || "⏮",
@@ -182,12 +321,12 @@ class Pagination extends MessageEmbed {
         style: "SECONDARY",
       },
       prev: {
-        emoji: options.prevEmoji || "⬅️",
+        emoji: options.prevEmoji || "◀️",
         label: "",
         style: "SECONDARY",
       },
       next: {
-        emoji: options.nextEmoji || "➡️",
+        emoji: options.nextEmoji || "▶️",
         label: "",
         style: "SECONDARY",
       },
@@ -197,38 +336,12 @@ class Pagination extends MessageEmbed {
         style: "SECONDARY",
       },
     };
-    /**
-     * the images to paginate through
-     */
     this.images = [];
-    /**
-     * the descriptions to paginate through
-     */
     this.descriptions = [];
-    /**
-     * the action rows of the final message
-     */
     this.actionRows = [];
-    /**
-     * the payloads of the final message
-     * @readonly
-     * @private
-     */
     this.payloads = { fetchReply: true };
-    /**
-     * the total number of entries
-     */
     this.totalEntry = 0;
-    /**
-     * footer is a custom footer
-     * @private
-     */
     this.customFooter = true;
-    /**
-     * main action row
-     * @readonly
-     * @private
-     */
     this.mainActionRow = new MessageActionRow();
     this.setOptions(options);
   }
@@ -238,20 +351,23 @@ class Pagination extends MessageEmbed {
    * @param options
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    *  .setOptions({
-   * firstEmoji: "⏮",
-   * prevEmoji: "⬅️",
-   * nextEmoji: "➡️",
-   * lastEmoji: "⏭",
-   * limit: 5,
-   * idle: 5 * 60 * 1000,
-   * ephemeral: false,
-   * prevDescription: "",
-   * postDescription: "",
-   * attachments: [],
-   * buttonStyle: "SECONDARY",
+   *  firstEmoji: "⏮",
+   *  prevEmoji: "◀️",
+   *  nextEmoji: "▶️",
+   *  lastEmoji: "⏭",
+   *  limit: 5,
+   *  idle: 5 * 60 * 1000,
+   *  ephemeral: false,
+   *  prevDescription: "",
+   *  postDescription: "",
+   *  attachments: [],
+   *  buttonStyle: "SECONDARY",
    * });
+   * ```
+   *
    */
   setOptions(options: Options): this {
     this.setEmojis({
@@ -282,8 +398,11 @@ class Pagination extends MessageEmbed {
    * @param images
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setImages(["1st image", "2nd image", "3rd image"]);
+   * ```
+   *
    */
   setImages(images: string[]): this {
     this.images = images;
@@ -295,9 +414,11 @@ class Pagination extends MessageEmbed {
    * @param image
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setImages(["1st image", "2nd image", "3rd image"])
    * .addImage("4st image");
+   * ```
    *
    */
   addImage(image: string): this {
@@ -310,9 +431,11 @@ class Pagination extends MessageEmbed {
    * @param images
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setImages(["1st image", "2nd image", "3rd image"])
    * .addImages(["4st image", "5nd image", "6rd image"]);
+   * ```
    *
    */
   addImages(images: string[]): this {
@@ -325,8 +448,11 @@ class Pagination extends MessageEmbed {
    * @param descriptions
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setDescriptions(["1st description", "2nd description", "3rd description"]);
+   * ```
+   *
    */
   setDescriptions(descriptions: string[]): this {
     this.descriptions = descriptions;
@@ -338,9 +464,12 @@ class Pagination extends MessageEmbed {
    * @param description
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setDescriptions(["1st description", "2nd description", "3rd description"])
    * .addDescription("4st description");
+   * ```
+   *
    */
   addDescription(description: string): this {
     this.descriptions.push(description);
@@ -352,9 +481,12 @@ class Pagination extends MessageEmbed {
    * @param descriptions
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setDescriptions(["1st description", "2nd description", "3rd description"])
    * .addDescriptions(["4st description", "5nd description", "6rd description"]);
+   * ```
+   *
    */
   addDescriptions(descriptions: string[]): this {
     this.descriptions.push(...descriptions);
@@ -366,6 +498,7 @@ class Pagination extends MessageEmbed {
    * @param paginate
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setFields([{
    * name: "Field 1",
@@ -375,7 +508,9 @@ class Pagination extends MessageEmbed {
    * name: "Field 2",
    * value: "Field 2 value",
    * }])
-   *.paginateFields(true);
+   * .paginateFields(true);
+   * ```
+   *
    */
   paginateFields(paginate: boolean): this {
     this.fieldPaginate = paginate;
@@ -387,8 +522,11 @@ class Pagination extends MessageEmbed {
    * @param idle
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setIdle(5 * 60 * 1000)
+   * ```
+   *
    */
   setIdle(idle: number): this {
     this.idle = idle;
@@ -400,8 +538,11 @@ class Pagination extends MessageEmbed {
    * @param ephemeral
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setEphemeral(true)
+   * ```
+   *
    */
   setEphemeral(ephemeral: boolean): this {
     this.ephemeral = ephemeral;
@@ -413,8 +554,11 @@ class Pagination extends MessageEmbed {
    * @param limit
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setLimit(5)
+   * ```
+   *
    */
   setLimit(limit: number): this {
     this.limit = limit;
@@ -426,8 +570,11 @@ class Pagination extends MessageEmbed {
    * @param prevDescription
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setPrevDescription("role info")
+   * ```
+   *
    */
   setPrevDescription(prevDescription: string): this {
     this.prevDescription = prevDescription;
@@ -439,8 +586,11 @@ class Pagination extends MessageEmbed {
    * @param postDescription
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setPostDescription("role id: 123456789")
+   * ```
+   *
    */
   setPostDescription(postDescription: string): this {
     this.postDescription = postDescription;
@@ -452,6 +602,7 @@ class Pagination extends MessageEmbed {
    * @param emojiOptions
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setEmojis({
    * firstEmoji: ":first_emoji:",
@@ -459,6 +610,8 @@ class Pagination extends MessageEmbed {
    * nextEmoji: ":next_emoji:",
    * lastEmoji: ":last_emoji:"
    * })
+   * ```
+   *
    */
   setEmojis(emojiOptions: EmojiOptions): this {
     this.buttonInfo.first.emoji =
@@ -476,8 +629,10 @@ class Pagination extends MessageEmbed {
    * @param style
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setStyle("SECONDARY")
+   * ```
    *
    */
   setStyle(style?: ButtonStyle): this {
@@ -493,6 +648,7 @@ class Pagination extends MessageEmbed {
    * @param buttonOptions
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setButtonAppearance({
    * first: {
@@ -500,6 +656,7 @@ class Pagination extends MessageEmbed {
    * emoji: ":first_emoji:",
    * style: "SECONDARY"
    * }})
+   * ```
    *
    */
   setButtonAppearance(options: ButtonsOptions): this {
@@ -528,8 +685,10 @@ class Pagination extends MessageEmbed {
    * @param position
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .addActionRows([new MessageActionRow()], "above")
+   * ```
    *
    */
   addActionRows(
@@ -549,8 +708,10 @@ class Pagination extends MessageEmbed {
    * @param attachments
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setAttachments([new MessageAttachment()])
+   * ```
    */
   setAttachments(attachments: MessageAttachment[]): this {
     this.attachments = attachments;
@@ -562,9 +723,12 @@ class Pagination extends MessageEmbed {
    * @param attachment
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setAttachments([new MessageAttachment()])
    * .addAttachment(new MessageAttachment())
+   * ```
+   *
    */
   addAttachment(attachment: MessageAttachment): this {
     this.attachments.push(attachment);
@@ -576,14 +740,22 @@ class Pagination extends MessageEmbed {
    * @param attachments
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setAttachments([new MessageAttachment()])
    * .addAttachments([new MessageAttachment(), new MessageAttachment()])
+   * ```
+   *
    */
   addAttachments(attachments: MessageAttachment[]): this {
     this.attachments.push(...attachments);
     return this;
   }
+  /**
+   * make the pagination action rows
+   * @returns
+   * @private
+   */
   readyActionRows(): this {
     this.buttons = {
       first: new MessageButton()
@@ -624,6 +796,11 @@ class Pagination extends MessageEmbed {
     this.actionRows.push(this.mainActionRow);
     return this;
   }
+  /**
+   * ready message payloads
+   * @returns
+   * @private
+   */
   readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
     this.readyActionRows();
     this.payloads.components = this.actionRows;
@@ -636,11 +813,14 @@ class Pagination extends MessageEmbed {
    * @param pageNumber
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * .setLimit(1)
    * .setDescriptions(["1st page", "2nd page", "3rd page", "4th page", "5th page"])
    * ...
    * pagination.goToPage(2)
+   * ```
+   *
    */
   goToPage(pageNumber: number): this {
     this.currentPage = pageNumber;
@@ -687,9 +867,12 @@ class Pagination extends MessageEmbed {
    * @param i
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.goFirst(i)
+   * ```
+   *
    */
   goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
@@ -715,9 +898,12 @@ class Pagination extends MessageEmbed {
    * @param i
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.goPrev(i)
+   * ```
+   *
    */
   goPrev(i: ButtonInteraction): ButtonInteraction {
     if (this.currentPage > 1) {
@@ -743,9 +929,12 @@ class Pagination extends MessageEmbed {
    * @param i
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.goNext(i)
+   * ```
+   *
    */
   goNext(i: ButtonInteraction): ButtonInteraction {
     if (this.currentPage < Math.ceil(this.totalEntry / this.limit)) {
@@ -775,9 +964,12 @@ class Pagination extends MessageEmbed {
    * @param i
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.goLast(i)
+   * ```
+   *
    */
   goLast(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = Math.ceil(this.totalEntry / this.limit);
@@ -801,9 +993,12 @@ class Pagination extends MessageEmbed {
    * @param message
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.paginate(message)
+   * ```
+   *
    */
   paginate(message: Message): this {
     const collector = message.createMessageComponentCollector({
@@ -836,9 +1031,12 @@ class Pagination extends MessageEmbed {
    * ready the pagination
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.ready()
+   * ```
+   *
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
     this.totalEntry = Math.max(this.descriptions.length, this.images.length);
@@ -854,9 +1052,12 @@ class Pagination extends MessageEmbed {
    * send the final message
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.render()
+   * ```
+   *
    */
   async render(): Promise<Message> {
     return await this.reply();
@@ -866,9 +1067,12 @@ class Pagination extends MessageEmbed {
    * reply the final message
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.reply()
+   * ```
+   *
    */
   async reply(): Promise<Message> {
     const payloads = this.ready();
@@ -883,9 +1087,12 @@ class Pagination extends MessageEmbed {
    * send reply as a followUp
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.followUp()
+   * ```
+   *
    */
   async followUp(): Promise<Message> {
     const payloads = this.ready();
@@ -900,9 +1107,12 @@ class Pagination extends MessageEmbed {
    * edit the original reply with the final message
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.editReply()
+   * ```
+   *
    */
   async editReply(): Promise<Message> {
     const payloads = this.ready();
@@ -917,9 +1127,12 @@ class Pagination extends MessageEmbed {
    * update to button interaction
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.update()
+   * ```
+   *
    */
   async update(): Promise<Message> {
     const payloads = this.ready();
@@ -934,9 +1147,12 @@ class Pagination extends MessageEmbed {
    * send the final message in the interaction channel
    * @returns
    * @example
+   * ```javascript
    * const pagination = new Pagination(interaction)
    * ...
    * pagination.send()
+   * ```
+   *
    */
   async send(): Promise<Message> {
     const payloads = this.ready();

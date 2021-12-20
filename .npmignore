@@ -1,3 +1,4 @@
+.dccache
 .vscode
 .eslintrc.json
 tsconfig.json
