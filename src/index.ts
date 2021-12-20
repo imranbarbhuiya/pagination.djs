@@ -260,7 +260,7 @@ class Pagination extends MessageEmbed {
       nextEmoji: options.nextEmoji,
       lastEmoji: options.lastEmoji,
     });
-    this.setButtonAppearance(options.buttonStyle);
+    this.setStyle(options.buttonStyle);
     this.limit = options.limit || this.limit;
     this.idle = options.idle || this.idle;
     this.ephemeral = options.ephemeral || this.ephemeral;
@@ -480,7 +480,7 @@ class Pagination extends MessageEmbed {
    * .setStyle("SECONDARY")
    *
    */
-  setButtonAppearance(style?: ButtonStyle): this {
+  setStyle(style?: ButtonStyle): this {
     this.buttonInfo.first.style = style || this.buttonInfo.first.style;
     this.buttonInfo.prev.style = style || this.buttonInfo.prev.style;
     this.buttonInfo.next.style = style || this.buttonInfo.next.style;
@@ -494,7 +494,7 @@ class Pagination extends MessageEmbed {
    * @returns
    * @example
    * const pagination = new Pagination(interaction)
-   * .setButtons({
+   * .setButtonAppearance({
    * first: {
    * label: "First",
    * emoji: ":first_emoji:",
@@ -502,7 +502,7 @@ class Pagination extends MessageEmbed {
    * }})
    *
    */
-  setButtons(options: ButtonsOptions): this {
+  setButtonAppearance(options: ButtonsOptions): this {
     const { first, prev, next, last } = options;
     this.buttonInfo.first.label = first?.label || this.buttonInfo.first.label;
     this.buttonInfo.prev.label = prev?.label || this.buttonInfo.prev.label;

@@ -189,6 +189,14 @@ pagination.setButtonAppearance({
 });
 ```
 
+#### Change button styles
+
+Change all the button style
+
+```js
+pagination.setButtonStyle("SECONDARY");
+```
+
 #### Add Action row
 
 Add some action rows above or below the pagination button row
