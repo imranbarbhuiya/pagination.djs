@@ -756,7 +756,7 @@ class Pagination extends MessageEmbed {
    * @returns
    * @private
    */
-  readyActionRows(): this {
+  _readyActionRows(): this {
     this.buttons = {
       first: new MessageButton()
         .setCustomId("first")
@@ -801,8 +801,8 @@ class Pagination extends MessageEmbed {
    * @returns
    * @private
    */
-  readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
-    this.readyActionRows();
+  _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
+    this._readyActionRows();
     this.payloads.components = this.actionRows;
     this.payloads.files = this.attachments;
     this.payloads.embeds = [this];
@@ -1043,7 +1043,7 @@ class Pagination extends MessageEmbed {
     if (this.fieldPaginate) {
       this.totalEntry = Math.max(this.totalEntry, this.fields.length);
     }
-    const payloads = this.readyPayloads();
+    const payloads = this._readyPayloads();
     this.goToPage(this.currentPage);
     return payloads;
   }

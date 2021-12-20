@@ -22,7 +22,9 @@ This package uses buttons so [discord.js](https://discord.js.org) v13+ is requir
 
 Example shows how to use it with any application command but it's valid for message commands as well. You just need to pass the message in place of interaction.
 
-### Paginate through descriptions
+### Basic examples
+
+#### Paginate through descriptions
 
 ```js
 const { Pagination } = require("pagination.djs");
@@ -36,7 +38,7 @@ pagination.setDescriptions(descriptions);
 pagination.render();
 ```
 
-### Paginate through images
+#### Paginate through images
 
 ```js
 const { Pagination } = require("pagination.djs");
@@ -47,7 +49,7 @@ pagination.setImages(images);
 pagination.render();
 ```
 
-### Paginate through Fields
+#### Paginate through Fields
 
 ```js
 const { Pagination } = require("pagination.djs");
@@ -72,6 +74,39 @@ pagination.render();
 ```
 
 Note: You need to add `paginateFields(true)` in order to paginate through fields
+
+#### Paginate through all
+
+You can paginate through descriptions, images, fields all at the same time
+
+```js
+const { Pagination } = require("pagination.djs");
+const pagination = new Pagination(interaction);
+
+const descriptions = [
+  "This is a description.",
+  "This is a second description.",
+];
+pagination.setDescriptions(descriptions);
+const images = ["1st image link", "2nd image link"];
+pagination.setImages(images);
+pagination.setFields([
+  {
+    name: "First",
+    value: "First",
+  },
+  {
+    name: "Second",
+    value: "Second",
+  },
+  {
+    name: "Third",
+    value: "Third",
+  },
+]);
+pagination.paginateFields(true);
+pagination.render();
+```
 
 ### Customize embed
 
@@ -106,17 +141,6 @@ pagination.paginateFields(true);
 pagination.render();
 ```
 
-### Add fixed prev descriptions and post descriptions
-
-```js
-const { Pagination } = require("pagination.djs");
-const pagination = new Pagination(interaction);
-pagination.setPrevDescription("Previous");
-pagination.setPostDescription("Post");
-pagination.descriptions(["Array of descriptions"]);
-pagination.render();
-```
-
 ### Customization
 
 You can customize the behavior of the pagination by passing the following options:
@@ -125,8 +149,8 @@ You can customize the behavior of the pagination by passing the following option
 const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction, {
   firstEmoji: "⏮", // First button emoji
-  prevEmoji: "⬅️", // Previous button emoji
-  nextEmoji: "➡️", // Next button emoji
+  prevEmoji: "◀️", // Previous button emoji
+  nextEmoji: "▶️", // Next button emoji
   lastEmoji: "⏭", // Last button emoji
   limit: 5, // number of entries per page
   idle: 30000, // idle time in ms before the pagination closes
@@ -134,6 +158,7 @@ const pagination = new Pagination(interaction, {
   prevDescription: "",
   postDescription: "",
   attachments: [new MessageAttachment()], // attachments you want to pass with the embed
+  buttonStyle: "SECONDARY",
 });
 ```
 
@@ -158,13 +183,13 @@ set button emojis with `setEmojis()` method
 ```js
 pagination.setEmojis({
   firstEmoji: "⏮",
-  prevEmoji: "⬅️",
-  nextEmoji: "➡️",
+  prevEmoji: "◀️",
+  nextEmoji: "▶️",
   lastEmoji: "⏭",
 });
 ```
 
-### Customize button
+#### Customize button
 
 Customize label, emoji or style of button using `setButtonAppearance()` method
 
@@ -177,12 +202,12 @@ pagination.setButtonAppearance({
   },
   prev: {
     label: "Prev",
-    emoji: "⬅️",
+    emoji: "◀️",
     style: "SECONDARY",
   },
   next: {
     label: "Next",
-    emoji: "➡️",
+    emoji: "▶️",
     style: "SUCCESS",
   },
   last: {
@@ -207,6 +232,29 @@ Add some action rows above or below the pagination button row
 
 ```js
 pagination.addActionRow(new MessageActionRow(), "above");
+```
+
+#### prevDescription and postDescription
+
+Add a fixed prev descriptions or a post descriptions
+This can only be used when pagination through descriptions else it'll be ignored
+
+```js
+const { Pagination } = require("pagination.djs");
+const pagination = new Pagination(interaction);
+pagination.setPrevDescription("Previous");
+pagination.setPostDescription("Post");
+pagination.descriptions(["Array of descriptions"]);
+pagination.render();
+```
+
+#### Send attachments
+
+Send attachments along with the message
+You can pass attachments in the `setOptions` or using `setAttachments()`, `addAttachment()` or `addAttachments()`
+
+```js
+pagination.setAttachments([new MessageAttachment()]);
 ```
 
 ### Other send options
