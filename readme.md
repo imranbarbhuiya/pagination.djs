@@ -81,30 +81,52 @@ You can paginate through descriptions, images, fields all at the same time
 
 ```js
 const { Pagination } = require("pagination.djs");
-const pagination = new Pagination(interaction);
 
 const descriptions = [
   "This is a description.",
   "This is a second description.",
 ];
-pagination.setDescriptions(descriptions);
 const images = ["1st image link", "2nd image link"];
-pagination.setImages(images);
-pagination.setFields([
-  {
-    name: "First",
-    value: "First",
-  },
-  {
-    name: "Second",
-    value: "Second",
-  },
-  {
-    name: "Third",
-    value: "Third",
-  },
-]);
-pagination.paginateFields(true);
+const pagination = new Pagination(interaction)
+  .setDescriptions(descriptions)
+  .setImages(images)
+  .setFields([
+    {
+      name: "First",
+      value: "First",
+    },
+    {
+      name: "Second",
+      value: "Second",
+    },
+    {
+      name: "Third",
+      value: "Third",
+    },
+  ])
+  .paginateFields(true);
+pagination.render();
+```
+
+#### Paginate through multiple embeds
+
+Note: If you use this then all the embed methods (`setTitle()`, ...) and other pagination methods (`setImages()`, ...) will be ignored
+
+Paginate through multiple embeds
+
+```js
+const { Pagination } = require("pagination.djs");
+const { MessageEmbed } = require("discord.js");
+const pagination = new Pagination(interaction);
+
+const embeds = [];
+
+for (let i = 0; i <= 5; i++) {
+  const newEmbed = new MessageEmbed().setTitle(`Embed ${i + 1}`);
+  embeds.push(newEmbed);
+}
+
+pagination.setEmbeds(embeds);
 pagination.render();
 ```
 
@@ -260,12 +282,12 @@ pagination.setAttachments([new MessageAttachment()]);
 
 ### Other send options
 
-By default `render()` will reply to the interaction but you can change it. Available in build methods are:
+By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will reply to the interaction but you can change it. Available in build methods are:
 
-- `reply()` reply to the interaction
-- `followUp()` send followUp reply to the interaction
-- `editReply()` edit interaction reply
-- `send()` send message in the interaction channel
+- [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
+- [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
+- [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) edit interaction reply
+- [send()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#send) send message in the interaction channel
 
 If you want to send it by yourself or send in a different channel then you can follow these steps:
 
@@ -286,6 +308,11 @@ pagination.paginate(message);
   <a href="#image3">
     <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
 </P>
+
+## Migration guide
+
+If you are migrating from other lib where you use to set multiple embeds at the same time,
+then we also have a similar method called [Pagination#setEmbeds](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds), where you can pass your embeds and use [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) method and pagination will take care of the rest.
 
 ## License
 

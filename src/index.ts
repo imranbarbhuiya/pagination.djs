@@ -14,9 +14,13 @@ import {
 
 const defaultOptions = {
   firstEmoji: "⏪",
-  prevEmoji: "▶️",
-  nextEmoji: "◀️",
+  prevEmoji: "◀️",
+  nextEmoji: "▶️",
   lastEmoji: "⏭",
+  firstLabel: "",
+  prevLabel: "",
+  nextLabel: "",
+  lastLabel: "",
   limit: 5,
   idle: 5 * 60 * 1000,
   ephemeral: false,
@@ -29,45 +33,65 @@ const defaultOptions = {
 
 export interface Options extends EmojiOptions {
   /**
+   * The label for the first page button.
+   * @default ""
+   */
+  firstLabel: string;
+  /**
+   * The label for the previous page button.
+   * @default ""
+   */
+  prevLabel: string;
+  /**
+   * The label for the next page button.
+   * @default ""
+   */
+  nextLabel: string;
+  /**
+   * The label for the last page button.
+   * @default ""
+   */
+  lastLabel: string;
+  /**
    * The number of entries to show per page.
    * @default 5
    */
-  limit?: number;
+  limit: number;
   /**
    * The number of seconds before the paginator will close after inactivity.
    * @default 5 minutes
    */
-  idle?: number;
+  idle: number;
   /**
    * Whether the reply should be ephemeral.
    * @default false
    */
-  ephemeral?: boolean;
+  ephemeral: boolean;
   /**
    * The description to show before the paginated descriptions.
    * @default ""
    */
-  prevDescription?: string;
+  prevDescription: string;
   /**
    * The description to show after the paginated descriptions.
    * @default ""
    */
-  postDescription?: string;
+  postDescription: string;
   /**
    * The attachments to show with the paginated messages.
    * @default []
    */
-  attachments?: MessageAttachment[];
+  attachments: MessageAttachment[];
   /**
    * The style of the paginator buttons.
    * @default "SECONDARY"
    */
-  buttonStyle?: ButtonStyle;
+  buttonStyle: ButtonStyle;
   /**
    * loop through the pages.
    * @default false
    */
-  loop?: boolean;
+  loop: boolean;
 }
 
 export interface EmojiOptions {
@@ -75,42 +99,48 @@ export interface EmojiOptions {
    * The emoji to use for the first button.
    * @default "⏮"
    */
-  firstEmoji?: EmojiIdentifierResolvable;
+  firstEmoji: EmojiIdentifierResolvable;
   /**
    * The emoji to use for the previous button.
    * @default "◀️"
    */
-  prevEmoji?: EmojiIdentifierResolvable;
+  prevEmoji: EmojiIdentifierResolvable;
   /**
    * The emoji to use for the next button.
    * @default "▶️"
    */
-  nextEmoji?: EmojiIdentifierResolvable;
+  nextEmoji: EmojiIdentifierResolvable;
   /**
    * The emoji to use for the last button.
    * @default "⏭"
    */
-  lastEmoji?: EmojiIdentifierResolvable;
+  lastEmoji: EmojiIdentifierResolvable;
+}
+
+export interface LabelOptions {
+  /**
+   * The label to use for the first button.
+   * @default ""
+   */
+  firstLabel: string;
+  /**
+   * The label to use for the previous button.
+   * @default ""
+   */
+  prevLabel: string;
+  /**
+   * The label to use for the next button.
+   * @default ""
+   */
+  nextLabel: string;
+  /**
+   * The label to use for the last button.
+   * @default ""
+   */
+  lastLabel: string;
 }
 
 export interface ButtonOptions {
-  /**
-   * The emoji to use for the button.
-   */
-  emoji?: EmojiIdentifierResolvable;
-  /**
-   * The text to show on the button.
-   * @default ""
-   */
-  label?: string;
-  /**
-   * The style of the button.
-   * @default "SECONDARY"
-   */
-  style?: ButtonStyle;
-}
-
-export interface ButtonOptionsRequired {
   /**
    * The emoji to use for the button.
    */
@@ -131,38 +161,19 @@ export interface ButtonsOptions {
   /**
    * The first button of the pagination row
    */
-  first?: ButtonOptions;
+  first: ButtonOptions;
   /**
    * The previous button of the pagination row
    */
-  prev?: ButtonOptions;
+  prev: ButtonOptions;
   /**
    * The next button of the pagination row
    */
-  next?: ButtonOptions;
+  next: ButtonOptions;
   /**
    * The last button of the pagination row
    */
-  last?: ButtonOptions;
-}
-
-export interface ButtonsOptionsRequired {
-  /**
-   * The first button of the pagination row
-   */
-  first: ButtonOptionsRequired;
-  /**
-   * The previous button of the pagination row
-   */
-  prev: ButtonOptionsRequired;
-  /**
-   * The next button of the pagination row
-   */
-  next: ButtonOptionsRequired;
-  /**
-   * The last button of the pagination row
-   */
-  last: ButtonOptionsRequired;
+  last: ButtonOptions;
 }
 
 /**
@@ -174,7 +185,10 @@ class Pagination extends MessageEmbed {
    * The interaction that the paginator is for.
    * @readonly
    */
-  public readonly interaction: CommandInteraction | ButtonInteraction | Message;
+  public readonly interaction:
+    | CommandInteraction
+    | MessageComponentInteraction
+    | Message;
   /**
    * pagination button infos
    * @readonly
@@ -201,7 +215,7 @@ class Pagination extends MessageEmbed {
    *  },
    * }
    */
-  public readonly buttonInfo: ButtonsOptionsRequired;
+  public readonly buttonInfo: ButtonsOptions;
   /**
    * the images to paginate through
    */
@@ -270,6 +284,15 @@ class Pagination extends MessageEmbed {
    * @default false
    */
   public loop!: boolean;
+  /**
+   * embeds if paginating through embeds
+   * @default []
+   */
+  public embeds: MessageEmbed[];
+  /**
+   * send attachment with the message
+   * @default []
+   */
   public attachments!: MessageAttachment[];
   /**
    * current page number
@@ -321,43 +344,44 @@ class Pagination extends MessageEmbed {
    */
 
   constructor(
-    interaction: CommandInteraction | ButtonInteraction | Message,
-    options: Options = {}
+    interaction: CommandInteraction | MessageComponentInteraction | Message,
+    options: Partial<Options> = {}
   ) {
     super();
-    options = Object.assign({}, defaultOptions, options);
+    const mergedOptions = Object.assign({}, defaultOptions, options);
     this.interaction = interaction;
     this.buttonInfo = {
       first: {
-        emoji: options.firstEmoji || "⏮",
-        label: "",
-        style: "SECONDARY",
+        emoji: mergedOptions.firstEmoji,
+        label: mergedOptions.firstLabel,
+        style: mergedOptions.buttonStyle,
       },
       prev: {
-        emoji: options.prevEmoji || "◀️",
-        label: "",
-        style: "SECONDARY",
+        emoji: mergedOptions.prevEmoji,
+        label: mergedOptions.prevLabel,
+        style: mergedOptions.buttonStyle,
       },
       next: {
-        emoji: options.nextEmoji || "▶️",
-        label: "",
-        style: "SECONDARY",
+        emoji: mergedOptions.nextEmoji,
+        label: mergedOptions.nextLabel,
+        style: mergedOptions.buttonStyle,
       },
       last: {
-        emoji: options.lastEmoji || "⏭",
-        label: "",
-        style: "SECONDARY",
+        emoji: mergedOptions.lastEmoji,
+        label: mergedOptions.lastLabel,
+        style: mergedOptions.buttonStyle,
       },
     };
     this.images = [];
     this.descriptions = [];
+    this.embeds = [];
     this.actionRows = [];
     this.payloads = { fetchReply: true };
     this.totalEntry = 0;
     this.totalPages = 0;
     this.customFooter = true;
     this.mainActionRow = new MessageActionRow();
-    this.setOptions(options);
+    this.setOptions(mergedOptions);
   }
   /**
    *
@@ -384,14 +408,20 @@ class Pagination extends MessageEmbed {
    * ```
    *
    */
-  setOptions(options: Options): this {
+  setOptions(options: Partial<Options>): this {
     this.setEmojis({
       firstEmoji: options.firstEmoji,
       prevEmoji: options.prevEmoji,
       nextEmoji: options.nextEmoji,
       lastEmoji: options.lastEmoji,
     });
-    this.setStyle(options.buttonStyle);
+    if (options.buttonStyle) this.setStyle(options.buttonStyle);
+    this.setLabels({
+      firstLabel: options.firstLabel,
+      prevLabel: options.prevLabel,
+      nextLabel: options.nextLabel,
+      lastLabel: options.lastLabel,
+    });
     this.limit = options.limit || this.limit;
     this.idle = options.idle || this.idle;
     this.ephemeral = options.ephemeral || this.ephemeral;
@@ -510,6 +540,59 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
+   * set pagination embeds
+   * Note: if you set this then all other pagination methods and embed methods will be ignored
+   * i.e., descriptions, images, fields, also the embed properties like title, footer and all
+   * @param embeds
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
+   * ```
+   *
+   */
+  setEmbeds(embeds: MessageEmbed[]): this {
+    this.embeds = embeds;
+    this.limit = 1;
+    return this;
+  }
+  /**
+   *
+   * add a pagination embed
+   * @param embed
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
+   * .addEmbed(new MessageEmbed);
+   * ```
+   *
+   */
+  addEmbed(embed: MessageEmbed): this {
+    this.embeds.push(embed);
+    return this;
+  }
+  /**
+   *
+   * add multiple pagination embeds
+   * @param embeds
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
+   * .addEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
+   * ```
+   *
+   */
+  addEmbeds(embeds: MessageEmbed[]): this {
+    this.embeds.push(...embeds);
+    return this;
+  }
+  /**
+   *
    * paginate through fields
    * It will be ignored if you are not paginating through fields
    * @param paginate
@@ -617,7 +700,7 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
-   * change default emoji for buttons
+   * change emoji for buttons
    * @param emojiOptions
    * @returns
    * @example
@@ -632,7 +715,7 @@ class Pagination extends MessageEmbed {
    * ```
    *
    */
-  setEmojis(emojiOptions: EmojiOptions): this {
+  setEmojis(emojiOptions: Partial<EmojiOptions>): this {
     this.buttonInfo.first.emoji =
       emojiOptions.firstEmoji || this.buttonInfo.first.emoji;
     this.buttonInfo.prev.emoji =
@@ -645,6 +728,35 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
+   * change label for buttons
+   * @param labelOptions
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setLabels({
+   * firstLabel: "first",
+   * prevLabel: "prev",
+   * nextLabel: "next",
+   * lastLabel: "last"
+   * })
+   * ```
+   *
+   */
+  setLabels(labelOptions: Partial<LabelOptions>): this {
+    this.buttonInfo.first.label =
+      labelOptions.firstLabel || this.buttonInfo.first.label;
+    this.buttonInfo.prev.label =
+      labelOptions.prevLabel || this.buttonInfo.prev.label;
+    this.buttonInfo.next.label =
+      labelOptions.nextLabel || this.buttonInfo.next.label;
+    this.buttonInfo.last.label =
+      labelOptions.lastLabel || this.buttonInfo.last.label;
+    return this;
+  }
+  /**
+   *
+   * set button style
    * @param style
    * @returns
    * @example
@@ -654,11 +766,11 @@ class Pagination extends MessageEmbed {
    * ```
    *
    */
-  setStyle(style?: ButtonStyle): this {
-    this.buttonInfo.first.style = style || this.buttonInfo.first.style;
-    this.buttonInfo.prev.style = style || this.buttonInfo.prev.style;
-    this.buttonInfo.next.style = style || this.buttonInfo.next.style;
-    this.buttonInfo.last.style = style || this.buttonInfo.last.style;
+  setStyle(style: ButtonStyle): this {
+    this.buttonInfo.first.style = style;
+    this.buttonInfo.prev.style = style;
+    this.buttonInfo.next.style = style;
+    this.buttonInfo.last.style = style;
 
     return this;
   }
@@ -825,7 +937,7 @@ class Pagination extends MessageEmbed {
     this._readyActionRows();
     this.payloads.components = this.actionRows;
     this.payloads.files = this.attachments;
-    this.payloads.embeds = [this];
+    this.payloads.embeds = [this.embeds.length ? this.embeds[0] : this];
     return this.payloads;
   }
   /**
@@ -846,6 +958,10 @@ class Pagination extends MessageEmbed {
     if (pageNumber < 1) pageNumber = this.totalPages;
     if (pageNumber > this.totalPages) pageNumber = 1;
     this.currentPage = pageNumber;
+    if (this.embeds.length) {
+      this.payloads.embeds = [this.embeds[this.currentPage - 1]];
+      return this;
+    }
     if (!this.footer) {
       this.customFooter = false;
       this.rawFooter = "Pages: {pageNumber}/{totalPages}";
@@ -1065,11 +1181,13 @@ class Pagination extends MessageEmbed {
    *
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
-    this.totalEntry = Math.max(
-      this.descriptions.length,
-      this.images.length,
-      this.fieldPaginate ? this.fields.length : 0
-    );
+    this.totalEntry =
+      this.embeds.length ||
+      Math.max(
+        this.descriptions.length,
+        this.images.length,
+        this.fieldPaginate ? this.fields.length : 0
+      );
     this.totalPages = Math.ceil(this.totalEntry / this.limit);
     const payloads = this._readyPayloads();
     this.goToPage(this.currentPage);
@@ -1125,7 +1243,7 @@ class Pagination extends MessageEmbed {
   async followUp(): Promise<Message> {
     const payloads = this.ready();
     const message = await (
-      this.interaction as CommandInteraction | ButtonInteraction
+      this.interaction as CommandInteraction | MessageComponentInteraction
     ).followUp(payloads);
     this.paginate(message as Message);
     return message as Message;
@@ -1145,7 +1263,7 @@ class Pagination extends MessageEmbed {
   async editReply(): Promise<Message> {
     const payloads = this.ready();
     const message = await (
-      this.interaction as CommandInteraction | ButtonInteraction
+      this.interaction as CommandInteraction | MessageComponentInteraction
     ).editReply(payloads);
     this.paginate(message as Message);
     return message as Message;
@@ -1164,9 +1282,9 @@ class Pagination extends MessageEmbed {
    */
   async update(): Promise<Message> {
     const payloads = this.ready();
-    const message = await (this.interaction as ButtonInteraction).update(
-      payloads
-    );
+    const message = await (
+      this.interaction as MessageComponentInteraction
+    ).update(payloads);
     this.paginate(message as Message);
     return message as Message;
   }
