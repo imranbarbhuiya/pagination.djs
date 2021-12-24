@@ -1020,12 +1020,6 @@ class Pagination extends MessageEmbed {
     }
     this.buttons.next.setDisabled(false);
     this.buttons.last.setDisabled(false);
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
 
     this.goToPage(1);
 
@@ -1053,12 +1047,6 @@ class Pagination extends MessageEmbed {
     }
     this.buttons.next.setDisabled(false);
     this.buttons.last.setDisabled(false);
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
     this.goToPage(this.currentPage);
     i.update(this.payloads);
     return i;
@@ -1088,12 +1076,6 @@ class Pagination extends MessageEmbed {
         this.currentPage === Math.ceil(this.totalEntry / this.limit)
       );
     }
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
     this.goToPage(this.currentPage);
     i.update(this.payloads);
     return i;
@@ -1119,12 +1101,6 @@ class Pagination extends MessageEmbed {
       this.buttons.next.setDisabled(true);
       this.buttons.last.setDisabled(true);
     }
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
     this.goToPage(this.currentPage);
     i.update(this.payloads);
     return i;
