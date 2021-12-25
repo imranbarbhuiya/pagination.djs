@@ -346,7 +346,11 @@ class Pagination extends MessageEmbed {
    */
 
   constructor(
-    interaction: CommandInteraction | MessageComponentInteraction | Message,
+    interaction:
+      | CommandInteraction
+      | ContextMenuInteraction
+      | MessageComponentInteraction
+      | Message,
     options: Partial<Options> = {}
   ) {
     super();
