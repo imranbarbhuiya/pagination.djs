@@ -1,6 +1,7 @@
 import {
   ButtonInteraction,
   CommandInteraction,
+  ContextMenuInteraction,
   EmojiIdentifierResolvable,
   GuildMember,
   InteractionReplyOptions,
@@ -188,6 +189,7 @@ class Pagination extends MessageEmbed {
   public readonly interaction:
     | CommandInteraction
     | MessageComponentInteraction
+    | ContextMenuInteraction
     | Message;
   /**
    * pagination button infos
@@ -1199,7 +1201,10 @@ class Pagination extends MessageEmbed {
   async reply(): Promise<Message> {
     const payloads = this.ready();
     const message = await (
-      this.interaction as CommandInteraction | MessageComponentInteraction
+      this.interaction as
+        | CommandInteraction
+        | MessageComponentInteraction
+        | ContextMenuInteraction
     ).reply(payloads);
     this.paginate(message as Message);
     return message as Message;
@@ -1219,7 +1224,10 @@ class Pagination extends MessageEmbed {
   async followUp(): Promise<Message> {
     const payloads = this.ready();
     const message = await (
-      this.interaction as CommandInteraction | MessageComponentInteraction
+      this.interaction as
+        | CommandInteraction
+        | MessageComponentInteraction
+        | ContextMenuInteraction
     ).followUp(payloads);
     this.paginate(message as Message);
     return message as Message;
@@ -1239,7 +1247,10 @@ class Pagination extends MessageEmbed {
   async editReply(): Promise<Message> {
     const payloads = this.ready();
     const message = await (
-      this.interaction as CommandInteraction | MessageComponentInteraction
+      this.interaction as
+        | CommandInteraction
+        | MessageComponentInteraction
+        | ContextMenuInteraction
     ).editReply(payloads);
     this.paginate(message as Message);
     return message as Message;
@@ -1278,9 +1289,12 @@ class Pagination extends MessageEmbed {
    */
   async send(): Promise<Message> {
     const payloads = this.ready();
-    const message = await this.interaction.channel?.send(payloads);
-    this.paginate(message as Message);
-    return message as Message;
+    const message = (await this.interaction.channel?.send(payloads)) ?? null;
+    if (message) this.paginate(message);
+    else {
+      throw new Error("Channel is not cached");
+    }
+    return message;
   }
 }
 
