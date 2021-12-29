@@ -282,7 +282,7 @@ pagination.setAttachments([new MessageAttachment()]);
 
 ### Other send options
 
-By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will reply to the interaction but you can change it. Available in build methods are:
+By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will reply to the interaction. But if the interaction is already replied or deferred then it'll [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) instead. You can change the behavior farther more with the other send methods available. Available in built-in methods are:
 
 - [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
 - [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction

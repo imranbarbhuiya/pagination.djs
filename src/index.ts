@@ -1178,6 +1178,9 @@ class Pagination extends MessageEmbed {
   /**
    *
    * send the final message
+   * by default it'll send as a reply to the message
+   * but if the interaction is already replied or deferred then it'll editReply
+   * if you want to send followup the use {@link followUp} instead
    * @returns
    * @example
    * ```javascript
@@ -1188,6 +1191,12 @@ class Pagination extends MessageEmbed {
    *
    */
   async render(): Promise<Message> {
+    if (
+      (this.interaction as CommandInteraction).replied ||
+      (this.interaction as CommandInteraction).deferred
+    ) {
+      return this.editReply();
+    }
     return await this.reply();
   }
   /**
