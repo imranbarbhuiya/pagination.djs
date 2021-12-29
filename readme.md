@@ -1,6 +1,8 @@
 ![npm](https://img.shields.io/npm/v/pagination.djs?style=for-the-badge)
 ![npm](https://img.shields.io/npm/dw/pagination.djs?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs?style=for-the-badge)
+![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
+![Build Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Build/main?label=Build&style=for-the-badge&logo=TypeScript)
 
 # Pagination.djs
 
@@ -282,7 +284,7 @@ pagination.setAttachments([new MessageAttachment()]);
 
 ### Other send options
 
-By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will reply to the interaction. But if the interaction is already replied or deferred then it'll [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) instead. You can change the behavior farther more with the other send methods available. Available in built-in methods are:
+By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) to the interaction. But if the interaction is already replied or deferred then it'll [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) instead. You can change the behavior farther more with the other send methods available. Available built-in methods are:
 
 - [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
 - [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
