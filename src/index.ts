@@ -974,12 +974,12 @@ class Pagination extends MessageEmbed {
     } else if (this.customFooter && !this.rawFooter) {
       this.rawFooter = this.footer.text;
     }
-    this.setFooter(
-      this.rawFooter
+    this.setFooter({
+      text: this.rawFooter
         .replace(/{pageNumber}/g, `${pageNumber}`)
         .replace(/{totalPages}/g, `${this.totalPages}`),
-      this.footer?.iconURL
-    );
+      iconURL: this.footer?.iconURL,
+    });
     if (this.images.length) {
       this.setImage(this.images[pageNumber - 1]);
     }
