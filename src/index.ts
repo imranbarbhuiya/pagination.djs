@@ -305,6 +305,7 @@ class Pagination extends MessageEmbed {
    * @default false
    */
   public fieldPaginate!: boolean;
+  public authorizedUsers: string[];
   /**
    * pagination buttons
    * @private
@@ -386,6 +387,7 @@ class Pagination extends MessageEmbed {
     this.totalEntry = 0;
     this.totalPages = 0;
     this.customFooter = true;
+    this.authorizedUsers = [(interaction.member as GuildMember).id];
     this.mainActionRow = new MessageActionRow();
     this.setOptions(mergedOptions);
   }
@@ -721,6 +723,10 @@ class Pagination extends MessageEmbed {
    * ```
    *
    */
+  setAuthorizedUsers(authorizedUsers: string[]): this {
+    this.authorizedUsers = authorizedUsers;
+    return this;
+  }
   setEmojis(emojiOptions: Partial<EmojiOptions>): this {
     this.buttonInfo.first.emoji =
       emojiOptions.firstEmoji || this.buttonInfo.first.emoji;
@@ -1125,7 +1131,10 @@ class Pagination extends MessageEmbed {
    *
    */
   paginate(message: Message): this {
+    const filter = ({ user }: MessageComponentInteraction) =>
+      this.authorizedUsers.includes(user.id);
     const collector = message.createMessageComponentCollector({
+      filter,
       idle: this.idle,
     });
 
