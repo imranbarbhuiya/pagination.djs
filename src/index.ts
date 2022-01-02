@@ -708,6 +708,21 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
+   * @param authorizedUsers
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setAuthorizedUsers([userId1, userId2, userId3])
+   * ```
+   *
+   */
+  setAuthorizedUsers(authorizedUsers: string[]): this {
+    this.authorizedUsers = authorizedUsers;
+    return this;
+  }
+  /**
+   *
    * change emoji for buttons
    * @param emojiOptions
    * @returns
@@ -723,10 +738,6 @@ class Pagination extends MessageEmbed {
    * ```
    *
    */
-  setAuthorizedUsers(authorizedUsers: string[]): this {
-    this.authorizedUsers = authorizedUsers;
-    return this;
-  }
   setEmojis(emojiOptions: Partial<EmojiOptions>): this {
     this.buttonInfo.first.emoji =
       emojiOptions.firstEmoji || this.buttonInfo.first.emoji;

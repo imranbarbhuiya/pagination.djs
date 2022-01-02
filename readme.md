@@ -273,6 +273,12 @@ pagination.descriptions(["Array of descriptions"]);
 pagination.render();
 ```
 
+#### Add multiple authorized users
+
+```js
+pagination.setAuthorizedUsers(["user1", "user2"]);
+```
+
 #### Send attachments
 
 Send attachments along with the message
