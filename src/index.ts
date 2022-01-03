@@ -2,6 +2,7 @@ import {
   ButtonInteraction,
   CommandInteraction,
   ContextMenuInteraction,
+  EmbedField,
   EmojiIdentifierResolvable,
   InteractionReplyOptions,
   Message,
@@ -304,6 +305,7 @@ class Pagination extends MessageEmbed {
    * @default false
    */
   public fieldPaginate!: boolean;
+  private rawFields: EmbedField[];
   public authorizedUsers: string[];
   /**
    * pagination buttons
@@ -386,6 +388,7 @@ class Pagination extends MessageEmbed {
     this.totalEntry = 0;
     this.totalPages = 0;
     this.customFooter = true;
+    this.rawFields = [];
     this.authorizedUsers = [
       (interaction as CommandInteraction).user?.id ??
         (interaction as Message).author?.id,
@@ -623,6 +626,8 @@ class Pagination extends MessageEmbed {
    *
    */
   paginateFields(paginate: boolean): this {
+    const rawFields = this.fields;
+    this.rawFields = rawFields;
     this.fieldPaginate = paginate;
     return this;
   }
@@ -1047,7 +1052,7 @@ class Pagination extends MessageEmbed {
 
     if (this.fieldPaginate) {
       this.setFields(
-        this.fields.slice(
+        this.rawFields.slice(
           pageNumber * this.limit - this.limit,
           pageNumber * this.limit
         )
@@ -1179,13 +1184,14 @@ class Pagination extends MessageEmbed {
       idle: this.idle,
     });
 
-    collector.on("collect", async (i: ButtonInteraction) => {
+    collector.on("collect", async (i) => {
       if (
         this.authorizedUsers.length &&
         !this.authorizedUsers.includes(i.user.id)
       )
         return i.deferUpdate();
       // here filter isn't used just to avoid the `interaction failed` error
+      if (!i.isButton()) return;
       if (i.customId === "paginate-first") {
         this.goFirst(i);
       }
@@ -1219,7 +1225,7 @@ class Pagination extends MessageEmbed {
       Math.max(
         this.descriptions.length,
         this.images.length,
-        this.fieldPaginate ? this.fields.length : 0
+        this.fieldPaginate ? this.rawFields.length : 0
       );
     this.totalPages = Math.ceil(this.totalEntry / this.limit);
     const payloads = this._readyPayloads();
