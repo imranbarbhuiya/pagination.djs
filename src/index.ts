@@ -3,7 +3,6 @@ import {
   CommandInteraction,
   ContextMenuInteraction,
   EmojiIdentifierResolvable,
-  GuildMember,
   InteractionReplyOptions,
   Message,
   MessageActionRow,
@@ -710,7 +709,8 @@ class Pagination extends MessageEmbed {
     return this;
   }
   /**
-   *
+   * Set authorized users who can use this pagination buttons.
+   * Leave it a empty array to allow everyone to use this pagination.
    * @param authorizedUsers
    * @returns
    * @example
@@ -725,7 +725,7 @@ class Pagination extends MessageEmbed {
     return this;
   }
   /**
-   *
+   * Add a authorized user who can use this pagination buttons.
    * @param authorizedUser
    * @returns
    * @example
@@ -740,7 +740,7 @@ class Pagination extends MessageEmbed {
     return this;
   }
   /**
-   *
+   * Add multiple authorized users who can use this pagination buttons.
    * @param authorizedUsers
    * @returns
    * @example
@@ -1182,7 +1182,7 @@ class Pagination extends MessageEmbed {
     collector.on("collect", async (i: ButtonInteraction) => {
       if (
         this.authorizedUsers.length &&
-        this.authorizedUsers.includes((i.member as GuildMember).id)
+        !this.authorizedUsers.includes(i.user.id)
       )
         return i.deferUpdate();
       // here filter isn't used just to avoid the `interaction failed` error
