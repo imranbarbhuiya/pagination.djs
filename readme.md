@@ -1,5 +1,5 @@
-![npm](https://img.shields.io/npm/v/pagination.djs?style=for-the-badge)
-![npm](https://img.shields.io/npm/dw/pagination.djs?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/pagination.djs?label=Npm&logo=npm&style=for-the-badge)
+![npm](https://img.shields.io/npm/dw/pagination.djs?label=Downloads&logo=npm&style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs?style=for-the-badge)
 ![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
 ![Build Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Build/main?label=Build&style=for-the-badge&logo=TypeScript)
@@ -279,6 +279,14 @@ pagination.render();
 pagination.setAuthorizedUsers(["user1", "user2"]);
 ```
 
+```js
+pagination.addAuthorizedUser("user1");
+```
+
+```js
+pagination.addAuthorizedUsers(["user3", "user4"]);
+```
+
 #### Send attachments
 
 Send attachments along with the message
@@ -321,6 +329,11 @@ pagination.paginate(message);
 
 If you are migrating from other lib where you use to set multiple embeds at the same time,
 then we also have a similar method called [Pagination#setEmbeds](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds), where you can pass your embeds and use [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) method and pagination will take care of the rest.
+
+## Note
+
+- If you have a global Button Interaction handler then you can ignore theinteractions with customId starting with `paginate-`.
+- When adding an additional action row or button, don't set the custom id to any of the following: `paginate-first`, `paginate-prev`, `paginate-next`, `paginate-last`.
 
 ## License
 

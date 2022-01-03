@@ -387,7 +387,10 @@ class Pagination extends MessageEmbed {
     this.totalEntry = 0;
     this.totalPages = 0;
     this.customFooter = true;
-    this.authorizedUsers = [(interaction.member as GuildMember).id];
+    this.authorizedUsers = [
+      (interaction as CommandInteraction).user?.id ??
+        (interaction as Message).author?.id,
+    ];
     this.mainActionRow = new MessageActionRow();
     this.setOptions(mergedOptions);
   }
@@ -723,6 +726,36 @@ class Pagination extends MessageEmbed {
   }
   /**
    *
+   * @param authorizedUser
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .addAuthorizedUser(userId1)
+   * ```
+   *
+   */
+  addAuthorizedUser(authorizedUser: string): this {
+    this.authorizedUsers.push(authorizedUser);
+    return this;
+  }
+  /**
+   *
+   * @param authorizedUsers
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .addAuthorizedUsers([userId1, userId2, userId3])
+   * ```
+   *
+   */
+  addAuthorizedUsers(authorizedUsers: string[]): this {
+    this.authorizedUsers.push(...authorizedUsers);
+    return this;
+  }
+  /**
+   *
    * change emoji for buttons
    * @param emojiOptions
    * @returns
@@ -913,22 +946,22 @@ class Pagination extends MessageEmbed {
   _readyActionRows(): this {
     this.buttons = {
       first: new MessageButton()
-        .setCustomId("first")
+        .setCustomId("paginate-first")
         .setEmoji(this.buttonInfo.first.emoji)
         .setLabel(this.buttonInfo.first.label)
         .setStyle(this.buttonInfo.first.style),
       prev: new MessageButton()
-        .setCustomId("prev")
+        .setCustomId("paginate-prev")
         .setEmoji(this.buttonInfo.prev.emoji)
         .setLabel(this.buttonInfo.prev.label)
         .setStyle(this.buttonInfo.prev.style),
       next: new MessageButton()
-        .setCustomId("next")
+        .setCustomId("paginate-next")
         .setEmoji(this.buttonInfo.next.emoji)
         .setLabel(this.buttonInfo.next.label)
         .setStyle(this.buttonInfo.next.style),
       last: new MessageButton()
-        .setCustomId("last")
+        .setCustomId("paginate-last")
         .setEmoji(this.buttonInfo.last.emoji)
         .setLabel(this.buttonInfo.last.label)
         .setStyle(this.buttonInfo.last.style),
@@ -1142,29 +1175,27 @@ class Pagination extends MessageEmbed {
    *
    */
   paginate(message: Message): this {
-    const filter = ({ user }: MessageComponentInteraction) =>
-      this.authorizedUsers.includes(user.id);
     const collector = message.createMessageComponentCollector({
-      filter,
       idle: this.idle,
     });
 
     collector.on("collect", async (i: ButtonInteraction) => {
       if (
-        (i.member as GuildMember).id !=
-        (this.interaction.member as GuildMember).id
+        this.authorizedUsers.length &&
+        this.authorizedUsers.includes((i.member as GuildMember).id)
       )
         return i.deferUpdate();
-      if (i.customId === "first") {
+      // here filter isn't used just to avoid the `interaction failed` error
+      if (i.customId === "paginate-first") {
         this.goFirst(i);
       }
-      if (i.customId === "prev") {
+      if (i.customId === "paginate-prev") {
         this.goPrev(i);
       }
-      if (i.customId === "next") {
+      if (i.customId === "paginate-next") {
         this.goNext(i);
       }
-      if (i.customId === "last") {
+      if (i.customId === "paginate-last") {
         this.goLast(i);
       }
     });
@@ -1233,14 +1264,14 @@ class Pagination extends MessageEmbed {
    */
   async reply(): Promise<Message> {
     const payloads = this.ready();
-    const message = await (
+    const message = (await (
       this.interaction as
         | CommandInteraction
         | MessageComponentInteraction
         | ContextMenuInteraction
-    ).reply(payloads);
-    this.paginate(message as Message);
-    return message as Message;
+    ).reply(payloads)) as Message;
+    this.paginate(message);
+    return message;
   }
   /**
    *
@@ -1256,14 +1287,14 @@ class Pagination extends MessageEmbed {
    */
   async followUp(): Promise<Message> {
     const payloads = this.ready();
-    const message = await (
+    const message = (await (
       this.interaction as
         | CommandInteraction
         | MessageComponentInteraction
         | ContextMenuInteraction
-    ).followUp(payloads);
-    this.paginate(message as Message);
-    return message as Message;
+    ).followUp(payloads)) as Message;
+    this.paginate(message);
+    return message;
   }
   /**
    *
@@ -1279,14 +1310,14 @@ class Pagination extends MessageEmbed {
    */
   async editReply(): Promise<Message> {
     const payloads = this.ready();
-    const message = await (
+    const message = (await (
       this.interaction as
         | CommandInteraction
         | MessageComponentInteraction
         | ContextMenuInteraction
-    ).editReply(payloads);
-    this.paginate(message as Message);
-    return message as Message;
+    ).editReply(payloads)) as Message;
+    this.paginate(message);
+    return message;
   }
   /**
    *
@@ -1302,11 +1333,11 @@ class Pagination extends MessageEmbed {
    */
   async update(): Promise<Message> {
     const payloads = this.ready();
-    const message = await (
+    const message = (await (
       this.interaction as MessageComponentInteraction
-    ).update(payloads);
-    this.paginate(message as Message);
-    return message as Message;
+    ).update(payloads)) as Message;
+    this.paginate(message);
+    return message;
   }
   /**
    *
