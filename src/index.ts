@@ -626,8 +626,6 @@ class Pagination extends MessageEmbed {
    *
    */
   paginateFields(paginate: boolean): this {
-    const rawFields = this.fields;
-    this.rawFields = rawFields;
     this.fieldPaginate = paginate;
     return this;
   }
@@ -1220,6 +1218,10 @@ class Pagination extends MessageEmbed {
    *
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
+    if (this.fieldPaginate) {
+      const rawFields = this.fields;
+      this.rawFields = rawFields;
+    }
     this.totalEntry =
       this.embeds.length ||
       Math.max(
