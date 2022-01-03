@@ -327,6 +327,15 @@ class Pagination extends MessageEmbed {
     last: MessageButton;
   };
   /**
+   * Extra action rows
+   * @private
+   * @default []
+   */
+  private extraRows: {
+    rows: MessageActionRow[];
+    position: "above" | "below";
+  }[];
+  /**
    * raw footer text
    * @private
    */
@@ -403,6 +412,7 @@ class Pagination extends MessageEmbed {
         (interaction as Message).author?.id,
     ];
     this.mainActionRow = new MessageActionRow();
+    this.extraRows = [];
     this.setOptions(mergedOptions);
   }
   /**
@@ -894,11 +904,10 @@ class Pagination extends MessageEmbed {
     actionRows: MessageActionRow[],
     position: "below" | "above" = "below"
   ): this {
-    if (position === "above") {
-      this.actionRows.unshift(...actionRows);
-    } else {
-      this.actionRows.push(...actionRows);
-    }
+    this.extraRows.push({
+      rows: actionRows,
+      position,
+    });
     return this;
   }
   /**
@@ -993,7 +1002,14 @@ class Pagination extends MessageEmbed {
       this.buttons.next,
       this.buttons.last
     );
-    this.actionRows.push(this.mainActionRow);
+    this.actionRows = [this.mainActionRow];
+    if (this.extraRows.length > 0) {
+      this.extraRows.forEach((row) => {
+        row.position === "above"
+          ? this.actionRows.unshift(...row.rows)
+          : this.actionRows.push(...row.rows);
+      });
+    }
     return this;
   }
   /**
