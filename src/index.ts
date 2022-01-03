@@ -1219,8 +1219,7 @@ class Pagination extends MessageEmbed {
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
     if (this.fieldPaginate) {
-      const rawFields = this.fields;
-      this.rawFields = rawFields;
+      this.rawFields.push(...this.fields);
     }
     this.totalEntry =
       this.embeds.length ||
