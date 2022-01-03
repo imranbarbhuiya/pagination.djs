@@ -240,6 +240,9 @@ class Pagination extends MessageEmbed {
    * the total number of entries
    */
   public totalEntry: number;
+  /**
+   * total number of pages
+   */
   public totalPages: number;
   /**
    * footer is a custom footer
@@ -305,7 +308,13 @@ class Pagination extends MessageEmbed {
    * @default false
    */
   public fieldPaginate!: boolean;
+  /**
+   * all the fields if paginating through fields
+   */
   private rawFields: EmbedField[];
+  /**
+   * All the authorized users who can use the pagination buttons
+   */
   public authorizedUsers: string[];
   /**
    * pagination buttons
@@ -978,7 +987,7 @@ class Pagination extends MessageEmbed {
       this.buttons.first.setDisabled(true);
       this.buttons.prev.setDisabled(true);
     }
-    this.mainActionRow.addComponents(
+    this.mainActionRow.setComponents(
       this.buttons.first,
       this.buttons.prev,
       this.buttons.next,
@@ -1219,6 +1228,7 @@ class Pagination extends MessageEmbed {
    */
   ready(): InteractionReplyOptions & { fetchReply: true } {
     if (this.fieldPaginate) {
+      this.rawFields = [];
       this.rawFields.push(...this.fields);
     }
     this.totalEntry =
