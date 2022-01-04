@@ -778,7 +778,7 @@ export class PaginationEmbed extends MessageEmbed {
    * @returns
    * @private
    */
-  _readyActionRows(): this {
+  private _readyActionRows(): this {
     this.buttons = {
       first: new MessageButton()
         .setCustomId("paginate-first")
@@ -832,7 +832,7 @@ export class PaginationEmbed extends MessageEmbed {
    * @returns
    * @private
    */
-  _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
+  private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
     this._readyActionRows();
     this.payload.components = this.actionRows;
     this.payload.files = this.attachments;
@@ -902,6 +902,7 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Goes to the first page.
+   * @protected
    * @param i
    * @returns
    * @example
@@ -912,7 +913,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  goFirst(i: ButtonInteraction): ButtonInteraction {
+  protected goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
     if (!this.loop) {
       this.buttons.first.setDisabled(true);
@@ -929,6 +930,7 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Goes to the previous page.
+   * @protected
    * @param i
    * @returns
    * @example
@@ -939,7 +941,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  goPrev(i: ButtonInteraction): ButtonInteraction {
+  protected goPrev(i: ButtonInteraction): ButtonInteraction {
     this.currentPage--;
     if (!this.loop) {
       this.buttons.first.setDisabled(this.currentPage === 1);
@@ -954,6 +956,7 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Goes to the next page.
+   * @protected
    * @param i
    * @returns
    * @example
@@ -964,7 +967,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  goNext(i: ButtonInteraction): ButtonInteraction {
+  protected goNext(i: ButtonInteraction): ButtonInteraction {
     this.currentPage++;
     this.buttons.prev.setDisabled(false);
     this.buttons.first.setDisabled(false);
@@ -983,6 +986,7 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Goes to the last page.
+   * @protected
    * @param i
    * @returns
    * @example
@@ -993,7 +997,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  goLast(i: ButtonInteraction): ButtonInteraction {
+  protected goLast(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = Math.ceil(this.totalEntry / this.limit);
     this.buttons.prev.setDisabled(false);
     this.buttons.first.setDisabled(false);
