@@ -1,7 +1,10 @@
 .dccache
 .vscode
 .eslintrc.json
+.eslintignore
+.prettierrc
 tsconfig.json
 .github
 docs
 src
+example

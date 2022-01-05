@@ -1,7 +1,8 @@
 import { ButtonOptions } from "./ButtonOptions";
 
-//TODO: add docs to describe interface
-
+/**
+ * Pagination Buttons Options
+ */
 export interface ButtonsOptions {
   /**
    * The first button of the pagination row

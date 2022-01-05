@@ -1,5 +1,6 @@
-//TODO: add docs to describe interface
-
+/**
+ * Labels for the pagination buttons
+ */
 export interface LabelOptions {
   /**
    * The label to use for the first button.

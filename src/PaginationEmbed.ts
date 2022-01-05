@@ -7,18 +7,18 @@ import {
   MessageButton,
   MessageEmbed,
 } from "discord.js";
-
 import {
   ButtonsOptions,
   ButtonStyle,
   EmojiOptions,
   LabelOptions,
   Options,
-} from "./types";
+} from "../types";
 import { defaultOptions } from "./defaultOptions";
 
-//TODO: add docs to describe class
-
+/**
+ * The PaginationEmbed class.
+ */
 export class PaginationEmbed extends MessageEmbed {
   //#region public fields
 
@@ -76,6 +76,11 @@ export class PaginationEmbed extends MessageEmbed {
   public totalPages: number;
 
   /**
+   * The current page number.
+   */
+  public currentPage!: number;
+
+  /**
    * The limit of entries per page.
    * @default 5
    */
@@ -124,17 +129,12 @@ export class PaginationEmbed extends MessageEmbed {
   public attachments!: MessageAttachment[];
 
   /**
-   * The current page number.
-   */
-  public currentPage!: number;
-
-  /**
    * Whether if paginating through embed's fields.
    * @default false
    */
   public fieldPaginate!: boolean;
 
-  //#endregion
+  //#end region
 
   //#region private fields
 
@@ -190,7 +190,7 @@ export class PaginationEmbed extends MessageEmbed {
    */
   private rawFooter!: string;
 
-  //#endregion
+  //#end region
 
   /**
    * @param options
@@ -245,6 +245,7 @@ export class PaginationEmbed extends MessageEmbed {
     this.payload = { fetchReply: true };
     this.totalEntry = 0;
     this.totalPages = 0;
+    this.currentPage = 1;
     this.customFooter = true;
     this.rawFields = [];
     this.mainActionRow = new MessageActionRow();
@@ -303,7 +304,6 @@ export class PaginationEmbed extends MessageEmbed {
         ? options.postDescription
         : this.postDescription;
     this.attachments = options.attachments || this.attachments;
-    this.currentPage = 1;
     return this;
   }
 
@@ -359,7 +359,7 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   //#region descriptions related
 
@@ -413,7 +413,7 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   //#region embeds related
 
@@ -470,7 +470,7 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   /**
    * Paginates through fields.
@@ -695,7 +695,7 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   /**
    * Adds a custom action row below or above the pagination button action row.
@@ -771,7 +771,7 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   /**
    * Prepare the message's action rows for pagination.

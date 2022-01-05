@@ -1,7 +1,8 @@
 import { EmojiIdentifierResolvable } from "discord.js";
 
-//TODO: add docs to describe interface
-
+/**
+ * Emojis of the pagination buttons
+ */
 export interface EmojiOptions {
   /**
    * The emoji to use for the first button.

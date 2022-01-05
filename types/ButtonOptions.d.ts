@@ -1,9 +1,9 @@
 import { EmojiIdentifierResolvable } from "discord.js";
-
 import { ButtonStyle } from "./ButtonStyle";
 
-//TODO: add docs to describe interface
-
+/**
+ * Pagination Button Options
+ */
 export interface ButtonOptions {
   /**
    * The emoji to use for the button.

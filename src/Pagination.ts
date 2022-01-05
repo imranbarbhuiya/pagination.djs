@@ -4,11 +4,12 @@ import {
   Message,
   MessageComponentInteraction,
 } from "discord.js";
+import { Options } from "../types";
 import { PaginationEmbed } from "./PaginationEmbed";
-import { Options } from "./types";
 
-//TODO: add docs to describe class
-
+/**
+ * The pagination class.
+ */
 export class Pagination extends PaginationEmbed {
   //#region public fields
 
@@ -27,7 +28,7 @@ export class Pagination extends PaginationEmbed {
    */
   public authorizedUsers: string[];
 
-  //#endregion
+  //#end region
 
   /**
    * @param interaction
@@ -118,7 +119,7 @@ export class Pagination extends PaginationEmbed {
     return this;
   }
 
-  //#endregion
+  //#end region
 
   /**
    * Makes the pagination interactive.
@@ -185,7 +186,7 @@ export class Pagination extends PaginationEmbed {
     ) {
       return this.editReply();
     }
-    return await this.reply();
+    return this.reply();
   }
 
   /**

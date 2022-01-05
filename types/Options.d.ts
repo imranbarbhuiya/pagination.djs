@@ -1,10 +1,10 @@
 import { MessageAttachment } from "discord.js";
-
 import { ButtonStyle } from "./ButtonStyle";
 import { EmojiOptions } from "./EmojiOptions";
 
-//TODO: add docs to describe interface
-
+/**
+ * The options to customize the pagination.
+ */
 export interface Options extends EmojiOptions {
   /**
    * The label for the first page button.

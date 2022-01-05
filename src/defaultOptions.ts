@@ -1,8 +1,9 @@
-import { Options } from "./types";
+import { Options } from "../types";
 
-//TODO: describe this "global" variable
-
-export const defaultOptions = {
+/**
+ * The default options for the paginator.
+ */
+export const defaultOptions: Options = {
   firstEmoji: "⏪",
   prevEmoji: "◀️",
   nextEmoji: "▶️",
@@ -19,4 +20,4 @@ export const defaultOptions = {
   attachments: [],
   buttonStyle: "SECONDARY",
   loop: false,
-} as Options;
+};
