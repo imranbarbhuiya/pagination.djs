@@ -332,7 +332,7 @@ then we also have a similar method called [Pagination#setEmbeds](https://imranba
 
 ## Note
 
-- If you have a global Button Interaction handler then you can ignore theinteractions with customId starting with `paginate-`.
+- If you have a global Button Interaction handler then you can ignore the interactions with customId starting with `paginate-`.
 - When adding an additional action row or button, don't set the custom id to any of the following: `paginate-first`, `paginate-prev`, `paginate-next`, `paginate-last`.
 
 ## License
