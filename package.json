@@ -8,7 +8,6 @@
     "prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
     "docs": "npx typedoc src/index.ts",
-    "docs:publish": "git subtree push --prefix docs origin gh-pages",
     "lint": "eslint src/**/*.ts"
   },
   "keywords": [
