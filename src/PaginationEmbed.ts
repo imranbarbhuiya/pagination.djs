@@ -291,10 +291,10 @@ export class PaginationEmbed extends MessageEmbed {
       nextLabel: options.nextLabel,
       lastLabel: options.lastLabel,
     });
-    this.limit = options.limit || this.limit;
-    this.idle = options.idle || this.idle;
-    this.ephemeral = options.ephemeral || this.ephemeral;
-    this.loop = options.loop || this.loop;
+    this.limit = options.limit ?? this.limit;
+    this.idle = options.idle ?? this.idle;
+    this.ephemeral = options.ephemeral ?? this.ephemeral;
+    this.loop = options.loop ?? this.loop;
     this.prevDescription =
       typeof options.prevDescription === "string"
         ? options.prevDescription
@@ -303,7 +303,7 @@ export class PaginationEmbed extends MessageEmbed {
       typeof options.postDescription === "string"
         ? options.postDescription
         : this.postDescription;
-    this.attachments = options.attachments || this.attachments;
+    this.attachments = options.attachments ?? this.attachments;
     return this;
   }
 
@@ -600,13 +600,13 @@ export class PaginationEmbed extends MessageEmbed {
    */
   setEmojis(emojiOptions: Partial<EmojiOptions>): this {
     this.buttonInfo.first.emoji =
-      emojiOptions.firstEmoji || this.buttonInfo.first.emoji;
+      emojiOptions.firstEmoji ?? this.buttonInfo.first.emoji;
     this.buttonInfo.prev.emoji =
-      emojiOptions.prevEmoji || this.buttonInfo.prev.emoji;
+      emojiOptions.prevEmoji ?? this.buttonInfo.prev.emoji;
     this.buttonInfo.next.emoji =
-      emojiOptions.nextEmoji || this.buttonInfo.next.emoji;
+      emojiOptions.nextEmoji ?? this.buttonInfo.next.emoji;
     this.buttonInfo.last.emoji =
-      emojiOptions.lastEmoji || this.buttonInfo.last.emoji;
+      emojiOptions.lastEmoji ?? this.buttonInfo.last.emoji;
     return this;
   }
 
@@ -628,13 +628,13 @@ export class PaginationEmbed extends MessageEmbed {
    */
   setLabels(labelOptions: Partial<LabelOptions>): this {
     this.buttonInfo.first.label =
-      labelOptions.firstLabel || this.buttonInfo.first.label;
+      labelOptions.firstLabel ?? this.buttonInfo.first.label;
     this.buttonInfo.prev.label =
-      labelOptions.prevLabel || this.buttonInfo.prev.label;
+      labelOptions.prevLabel ?? this.buttonInfo.prev.label;
     this.buttonInfo.next.label =
-      labelOptions.nextLabel || this.buttonInfo.next.label;
+      labelOptions.nextLabel ?? this.buttonInfo.next.label;
     this.buttonInfo.last.label =
-      labelOptions.lastLabel || this.buttonInfo.last.label;
+      labelOptions.lastLabel ?? this.buttonInfo.last.label;
     return this;
   }
 
@@ -677,20 +677,20 @@ export class PaginationEmbed extends MessageEmbed {
    */
   setButtonAppearance(options: ButtonsOptions): this {
     const { first, prev, next, last } = options;
-    this.buttonInfo.first.label = first?.label || this.buttonInfo.first.label;
-    this.buttonInfo.prev.label = prev?.label || this.buttonInfo.prev.label;
-    this.buttonInfo.next.label = next?.label || this.buttonInfo.next.label;
-    this.buttonInfo.last.label = last?.label || this.buttonInfo.last.label;
+    this.buttonInfo.first.label = first?.label ?? this.buttonInfo.first.label;
+    this.buttonInfo.prev.label = prev?.label ?? this.buttonInfo.prev.label;
+    this.buttonInfo.next.label = next?.label ?? this.buttonInfo.next.label;
+    this.buttonInfo.last.label = last?.label ?? this.buttonInfo.last.label;
 
-    this.buttonInfo.first.emoji = first?.emoji || this.buttonInfo.first.emoji;
-    this.buttonInfo.prev.emoji = prev?.emoji || this.buttonInfo.prev.emoji;
-    this.buttonInfo.next.emoji = next?.emoji || this.buttonInfo.next.emoji;
-    this.buttonInfo.last.emoji = last?.emoji || this.buttonInfo.last.emoji;
+    this.buttonInfo.first.emoji = first?.emoji ?? this.buttonInfo.first.emoji;
+    this.buttonInfo.prev.emoji = prev?.emoji ?? this.buttonInfo.prev.emoji;
+    this.buttonInfo.next.emoji = next?.emoji ?? this.buttonInfo.next.emoji;
+    this.buttonInfo.last.emoji = last?.emoji ?? this.buttonInfo.last.emoji;
 
-    this.buttonInfo.first.style = first?.style || this.buttonInfo.first.style;
-    this.buttonInfo.prev.style = prev?.style || this.buttonInfo.prev.style;
-    this.buttonInfo.next.style = next?.style || this.buttonInfo.next.style;
-    this.buttonInfo.last.style = last?.style || this.buttonInfo.last.style;
+    this.buttonInfo.first.style = first?.style ?? this.buttonInfo.first.style;
+    this.buttonInfo.prev.style = prev?.style ?? this.buttonInfo.prev.style;
+    this.buttonInfo.next.style = next?.style ?? this.buttonInfo.next.style;
+    this.buttonInfo.last.style = last?.style ?? this.buttonInfo.last.style;
 
     return this;
   }
