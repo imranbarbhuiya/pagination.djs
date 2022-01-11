@@ -10,16 +10,26 @@
 <p>A discord.js compatible pagination module.
 It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 <ul>
-<li>npm: <a href="https://www.npmjs.com/package/pagination.djs">pagination.djs</a></li>
-<li>docs: <a href="https://imranbarbhuiya.github.io/pagination.djs/">pagination.djs</a></li>
+<li>download using npm: <a href="https://www.npmjs.com/package/pagination.djs">pagination.djs</a></li>
+<li>read docs here: <a href="https://pagination-djs.js.org/">pagination.djs</a></li>
 </ul>
 
 <a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
   <h2>Installation</h2>
 </a>
+
+<a href="#using-npm" id="using-npm" style="color: inherit; text-decoration: none;">
+  <h3>Using npm</h3>
+</a>
 <pre><code class="language-bash"><span class="hl-0">npm install pagination.djs</span>
 </code></pre>
-<p>This package uses buttons so <a href="https://discord.js.org">discord.js</a> v13+ is required.</p>
+
+<a href="#using-yarn" id="using-yarn" style="color: inherit; text-decoration: none;">
+  <h3>Using yarn</h3>
+</a>
+<pre><code class="language-bash"><span class="hl-0">yarn add pagination.djs</span>
+</code></pre>
+<p>This package needs <a href="https://discord.js.org">discord.js</a> version 13.5.0 or above.</p>
 
 <a href="#uses" id="uses" style="color: inherit; text-decoration: none;">
   <h2>Uses</h2>
@@ -88,7 +98,7 @@ It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 <a href="#set-emojis" id="set-emojis" style="color: inherit; text-decoration: none;">
   <h4>Set emojis</h4>
 </a>
-<p>set button emojis with <code>setEmojis()</code> method</p>
+<p>set button emojis with <code>setEmojis()</code> method. You can set any custom or default emojis.</p>
 <pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">setEmojis</span><span class="hl-0">({</span><br/><span class="hl-0">  </span><span class="hl-5">firstEmoji:</span><span class="hl-0"> </span><span class="hl-4">&quot;⏮&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">prevEmoji:</span><span class="hl-0"> </span><span class="hl-4">&quot;◀️&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">nextEmoji:</span><span class="hl-0"> </span><span class="hl-4">&quot;▶️&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-5">lastEmoji:</span><span class="hl-0"> </span><span class="hl-4">&quot;⏭&quot;</span><span class="hl-0">,</span><br/><span class="hl-0">});</span>
 </code></pre>
 
@@ -118,7 +128,7 @@ It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 </a>
 <p>Add a fixed prev descriptions or a post descriptions
 This can only be used when pagination through descriptions else it&#39;ll be ignored</p>
-<pre><code class="language-js"><span class="hl-1">const</span><span class="hl-0"> { </span><span class="hl-2">Pagination</span><span class="hl-0"> } = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;pagination.djs&quot;</span><span class="hl-0">);</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">pagination</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Pagination</span><span class="hl-0">(</span><span class="hl-5">interaction</span><span class="hl-0">);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">setPrevDescription</span><span class="hl-0">(</span><span class="hl-4">&quot;Previous&quot;</span><span class="hl-0">);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">setPostDescription</span><span class="hl-0">(</span><span class="hl-4">&quot;Post&quot;</span><span class="hl-0">);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">descriptions</span><span class="hl-0">([</span><span class="hl-4">&quot;Array of descriptions&quot;</span><span class="hl-0">]);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">render</span><span class="hl-0">();</span>
+<pre><code class="language-js"><span class="hl-1">const</span><span class="hl-0"> { </span><span class="hl-2">Pagination</span><span class="hl-0"> } = </span><span class="hl-3">require</span><span class="hl-0">(</span><span class="hl-4">&quot;pagination.djs&quot;</span><span class="hl-0">);</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">pagination</span><span class="hl-0"> = </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">Pagination</span><span class="hl-0">(</span><span class="hl-5">interaction</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-3">setPrevDescription</span><span class="hl-0">(</span><span class="hl-4">&quot;Previous&quot;</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-3">setPostDescription</span><span class="hl-0">(</span><span class="hl-4">&quot;Post&quot;</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-3">descriptions</span><span class="hl-0">([</span><span class="hl-4">&quot;Array of descriptions&quot;</span><span class="hl-0">]);</span><br/><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">render</span><span class="hl-0">();</span>
 </code></pre>
 
 <a href="#add-multiple-authorized-users" id="add-multiple-authorized-users" style="color: inherit; text-decoration: none;">
