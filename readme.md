@@ -9,8 +9,7 @@
 A discord.js compatible pagination module.
 It's a simple and lightweight module to paginate discord embeds.
 
-- download using npm: [pagination.djs](https://www.npmjs.com/package/pagination.djs)
-- read docs here: [pagination.djs](https://pagination-djs.js.org/)
+Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 ## Installation
 
@@ -24,6 +23,12 @@ npm install pagination.djs
 
 ```bash
 yarn add pagination.djs
+```
+
+### Using pnpm
+
+```bash
+pnpm add pagination.djs
 ```
 
 This package needs [discord.js](https://discord.js.org) version 13.5.0 or above.
