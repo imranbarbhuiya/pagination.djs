@@ -9,16 +9,24 @@
 A discord.js compatible pagination module.
 It's a simple and lightweight module to paginate discord embeds.
 
-- npm: [pagination.djs](https://www.npmjs.com/package/pagination.djs)
-- docs: [pagination.djs](https://imranbarbhuiya.github.io/pagination.djs/)
+- download using npm: [pagination.djs](https://www.npmjs.com/package/pagination.djs)
+- read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 ## Installation
+
+### Using npm
 
 ```bash
 npm install pagination.djs
 ```
 
-This package uses buttons so [discord.js](https://discord.js.org) v13+ is required.
+### Using yarn
+
+```bash
+yarn add pagination.djs
+```
+
+This package needs [discord.js](https://discord.js.org) version 13.5.0 or above.
 
 ## Uses
 
@@ -203,7 +211,7 @@ You can change it by setting `pagination.setFooter("my footer")` and you can pas
 
 #### Set emojis
 
-set button emojis with `setEmojis()` method
+set button emojis with `setEmojis()` method. You can set any custom or default emojis.
 
 ```js
 pagination.setEmojis({
@@ -266,10 +274,11 @@ This can only be used when pagination through descriptions else it'll be ignored
 
 ```js
 const { Pagination } = require("pagination.djs");
-const pagination = new Pagination(interaction);
-pagination.setPrevDescription("Previous");
-pagination.setPostDescription("Post");
-pagination.descriptions(["Array of descriptions"]);
+const pagination = new Pagination(interaction)
+  .setPrevDescription("Previous")
+  .setPostDescription("Post")
+  .descriptions(["Array of descriptions"]);
+
 pagination.render();
 ```
 
