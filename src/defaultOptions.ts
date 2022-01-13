@@ -18,6 +18,7 @@ export const defaultOptions: Options = {
   prevDescription: "",
   postDescription: "",
   attachments: [],
+  contents: [],
   buttonStyle: "SECONDARY",
   loop: false,
 };

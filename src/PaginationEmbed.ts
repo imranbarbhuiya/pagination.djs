@@ -129,6 +129,12 @@ export class PaginationEmbed extends MessageEmbed {
   public attachments!: MessageAttachment[];
 
   /**
+   * Contents if changing contents per page.
+   * @default []
+   */
+  private contents!: string[];
+
+  /**
    * Whether if paginating through embed's fields.
    * @default false
    */
@@ -304,6 +310,7 @@ export class PaginationEmbed extends MessageEmbed {
         ? options.postDescription
         : this.postDescription;
     this.attachments = options.attachments ?? this.attachments;
+    this.contents = options.contents ?? this.contents;
     return this;
   }
 
@@ -770,6 +777,24 @@ export class PaginationEmbed extends MessageEmbed {
     this.attachments.push(...attachments);
     return this;
   }
+  // #end region
+
+  //#region contents related
+
+  /**
+   * Sends contents along with the embed.
+   * @param contents The contents to send.
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   *  .setContents(["this is the first page", "this is the second page"]);
+   * ```
+   */
+  setContents(contents: string[] | string): this {
+    this.contents = typeof contents === "string" ? [contents] : contents;
+    return this;
+  }
 
   //#end region
 
@@ -835,8 +860,9 @@ export class PaginationEmbed extends MessageEmbed {
   private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
     this._readyActionRows();
     this.payload.components = this.actionRows;
-    this.payload.files = this.attachments;
+    this.payload.content = this.contents[0];
     this.payload.embeds = [this.embeds.length ? this.embeds[0] : this];
+    this.payload.files = this.attachments;
     return this.payload;
   }
 
@@ -876,6 +902,9 @@ export class PaginationEmbed extends MessageEmbed {
     });
     if (this.images.length) {
       this.setImage(this.images[pageNumber - 1]);
+    }
+    if (this.contents.length > 1) {
+      this.payload.content = this.contents[this.currentPage - 1];
     }
     if (this.descriptions.length) {
       this.setDescription(

@@ -56,6 +56,12 @@ export interface Options extends EmojiOptions {
    * @default []
    */
   attachments: MessageAttachment[];
+
+  /**
+   * Contents if changing contents per page.
+   * @default []
+   */
+  contents: string[];
   /**
    * The style of the paginator buttons.
    * @default "SECONDARY"
