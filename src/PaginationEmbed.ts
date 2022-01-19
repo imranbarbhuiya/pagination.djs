@@ -908,13 +908,13 @@ export class PaginationEmbed extends MessageEmbed {
     }
     if (this.descriptions.length) {
       this.setDescription(
-        `${this.prevDescription}\n
-            ${this.descriptions
-              .slice(
-                pageNumber * this.limit - this.limit,
-                pageNumber * this.limit
-              )
-              .join("\n")}\n${this.postDescription}`
+        `${this.prevDescription}\n` +
+          `${this.descriptions
+            .slice(
+              pageNumber * this.limit - this.limit,
+              pageNumber * this.limit
+            )
+            .join("\n")}\n${this.postDescription}`
       );
     }
 
