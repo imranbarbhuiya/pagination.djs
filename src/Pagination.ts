@@ -3,6 +3,7 @@ import {
   ContextMenuInteraction,
   Message,
   MessageComponentInteraction,
+  MessageEmbed,
 } from "discord.js";
 import { Options } from "../types";
 import { PaginationEmbed } from "./PaginationEmbed";
@@ -10,7 +11,7 @@ import { PaginationEmbed } from "./PaginationEmbed";
 /**
  * The pagination class.
  */
-export class Pagination extends PaginationEmbed {
+export class Pagination<Embed = MessageEmbed> extends PaginationEmbed<Embed> {
   //#region public fields
 
   /**

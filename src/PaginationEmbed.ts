@@ -19,7 +19,7 @@ import { defaultOptions } from "./defaultOptions";
 /**
  * The PaginationEmbed class.
  */
-export class PaginationEmbed extends MessageEmbed {
+export class PaginationEmbed<Embed = MessageEmbed> extends MessageEmbed {
   //#region public fields
 
   /**
@@ -120,7 +120,7 @@ export class PaginationEmbed extends MessageEmbed {
    * The embeds if paginating through embeds.
    * @default []
    */
-  public embeds: MessageEmbed[];
+  public embeds: Embed[];
 
   /**
    * The attachments to show with the paginated messages.
@@ -433,11 +433,11 @@ export class PaginationEmbed extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
+   *  .setEmbeds([new Embed(), new Embed(), new Embed()]);
    * ```
    *
    */
-  setEmbeds(embeds: MessageEmbed[]): this {
+  setEmbeds(embeds: Embed[]): this {
     this.embeds = embeds;
     this.limit = 1;
     return this;
@@ -450,12 +450,12 @@ export class PaginationEmbed extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
-   *  .addEmbed(new MessageEmbed);
+   *  .setEmbeds([new Embed(), new Embed(), new Embed()])
+   *  .addEmbed(new Embed);
    * ```
    *
    */
-  addEmbed(embed: MessageEmbed): this {
+  addEmbed(embed: Embed): this {
     this.embeds.push(embed);
     return this;
   }
@@ -467,12 +467,12 @@ export class PaginationEmbed extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
-   *  .addEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
+   *  .setEmbeds([new Embed(), new Embed(), new Embed()])
+   *  .addEmbeds([new Embed(), new Embed(), new Embed()]);
    * ```
    *
    */
-  addEmbeds(embeds: MessageEmbed[]): this {
+  addEmbeds(embeds: Embed[]): this {
     this.embeds.push(...embeds);
     return this;
   }
