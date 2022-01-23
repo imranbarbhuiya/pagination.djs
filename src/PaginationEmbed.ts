@@ -6,6 +6,7 @@ import {
   MessageAttachment,
   MessageButton,
   MessageEmbed,
+  MessageEmbedOptions,
 } from "discord.js";
 import {
   ButtonsOptions,
@@ -16,10 +17,12 @@ import {
 } from "../types";
 import { defaultOptions } from "./defaultOptions";
 
+type Embed = MessageEmbed | MessageEmbedOptions;
+
 /**
  * The PaginationEmbed class.
  */
-export class PaginationEmbed<Embed = MessageEmbed> extends MessageEmbed {
+export class PaginationEmbed extends MessageEmbed {
   //#region public fields
 
   /**
@@ -433,7 +436,7 @@ export class PaginationEmbed<Embed = MessageEmbed> extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new Embed(), new Embed(), new Embed()]);
+   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
    * ```
    *
    */
@@ -450,8 +453,8 @@ export class PaginationEmbed<Embed = MessageEmbed> extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new Embed(), new Embed(), new Embed()])
-   *  .addEmbed(new Embed);
+   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
+   *  .addEmbed(new MessageEmbed);
    * ```
    *
    */
@@ -467,8 +470,8 @@ export class PaginationEmbed<Embed = MessageEmbed> extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction)
-   *  .setEmbeds([new Embed(), new Embed(), new Embed()])
-   *  .addEmbeds([new Embed(), new Embed(), new Embed()]);
+   *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
+   *  .addEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
    * ```
    *
    */
