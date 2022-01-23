@@ -6,6 +6,7 @@ import {
   MessageAttachment,
   MessageButton,
   MessageEmbed,
+  MessageEmbedOptions,
 } from "discord.js";
 import {
   ButtonsOptions,
@@ -15,6 +16,8 @@ import {
   Options,
 } from "../types";
 import { defaultOptions } from "./defaultOptions";
+
+type Embed = MessageEmbed | MessageEmbedOptions;
 
 /**
  * The PaginationEmbed class.
@@ -120,7 +123,7 @@ export class PaginationEmbed extends MessageEmbed {
    * The embeds if paginating through embeds.
    * @default []
    */
-  public embeds: MessageEmbed[];
+  public embeds: Embed[];
 
   /**
    * The attachments to show with the paginated messages.
@@ -437,7 +440,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setEmbeds(embeds: MessageEmbed[]): this {
+  setEmbeds(embeds: Embed[]): this {
     this.embeds = embeds;
     this.limit = 1;
     return this;
@@ -455,7 +458,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addEmbed(embed: MessageEmbed): this {
+  addEmbed(embed: Embed): this {
     this.embeds.push(embed);
     return this;
   }
@@ -472,7 +475,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addEmbeds(embeds: MessageEmbed[]): this {
+  addEmbeds(embeds: Embed[]): this {
     this.embeds.push(...embeds);
     return this;
   }
