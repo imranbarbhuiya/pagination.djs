@@ -147,6 +147,7 @@ export class Pagination extends PaginationEmbed {
    */
   paginate(message: Message): this {
     const collector = message.createMessageComponentCollector({
+      filter: ({ customId }) => customId.startsWith("paginate-"),
       idle: this.idle,
     });
 
