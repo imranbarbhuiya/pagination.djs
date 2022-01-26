@@ -84,11 +84,11 @@ pagination.setFields([
     value: "Third",
   },
 ]);
-pagination.paginateFields(true);
+pagination.paginateFields();
 pagination.render();
 ```
 
-Note: You need to add `paginateFields(true)` in order to paginate through fields
+Note: You need to add `paginateFields()` in order to paginate through fields
 
 #### Paginate through all
 

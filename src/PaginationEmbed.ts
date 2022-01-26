@@ -499,11 +499,11 @@ export class PaginationEmbed extends MessageEmbed {
    *    name: "Field 2",
    *    value: "Field 2 value",
    *  }])
-   *  .paginateFields(true);
+   *  .paginateFields();
    * ```
    *
    */
-  paginateFields(paginate: boolean): this {
+  paginateFields(paginate = true): this {
     this.fieldPaginate = paginate;
     return this;
   }

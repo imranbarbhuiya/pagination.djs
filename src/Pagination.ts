@@ -1,8 +1,10 @@
 import {
   CommandInteraction,
   ContextMenuInteraction,
+  Interaction,
   Message,
   MessageComponentInteraction,
+  Snowflake,
 } from "discord.js";
 import { Options } from "../types";
 import { PaginationEmbed } from "./PaginationEmbed";
@@ -18,15 +20,15 @@ export class Pagination extends PaginationEmbed {
    * @readonly
    */
   public readonly interaction:
-    | CommandInteraction
-    | ContextMenuInteraction
-    | MessageComponentInteraction
+    | CommandInteraction<"cached">
+    | ContextMenuInteraction<"cached">
+    | MessageComponentInteraction<"cached">
     | Message;
 
   /**
    * All the authorized users who can use the pagination buttons
    */
-  public authorizedUsers: string[];
+  public authorizedUsers: Snowflake[];
 
   //#end region
 
@@ -54,17 +56,27 @@ export class Pagination extends PaginationEmbed {
    */
   constructor(
     interaction:
-      | CommandInteraction
-      | ContextMenuInteraction
-      | MessageComponentInteraction
+      | CommandInteraction<"cached">
+      | ContextMenuInteraction<"cached">
+      | MessageComponentInteraction<"cached">
       | Message,
     options: Partial<Options> = {}
   ) {
     super(options);
+    if (
+      !(interaction instanceof Interaction) &&
+      !(interaction instanceof Message)
+    ) {
+      throw new Error(
+        "The interaction must be an instance of Interaction or Message"
+      );
+    }
     this.interaction = interaction;
     this.authorizedUsers = [
-      (interaction as CommandInteraction).user?.id ??
-        (interaction as Message).author?.id,
+      (
+        (interaction as CommandInteraction).user ??
+        (interaction as Message).author
+      ).id,
     ];
   }
 
@@ -82,7 +94,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  setAuthorizedUsers(authorizedUsers: string[]): this {
+  setAuthorizedUsers(authorizedUsers: Snowflake[]): this {
     this.authorizedUsers = authorizedUsers;
     return this;
   }
@@ -98,7 +110,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  addAuthorizedUser(authorizedUser: string): this {
+  addAuthorizedUser(authorizedUser: Snowflake): this {
     this.authorizedUsers.push(authorizedUser);
     return this;
   }
@@ -114,7 +126,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  addAuthorizedUsers(authorizedUsers: string[]): this {
+  addAuthorizedUsers(authorizedUsers: Snowflake[]): this {
     this.authorizedUsers.push(...authorizedUsers);
     return this;
   }
@@ -169,7 +181,7 @@ export class Pagination extends PaginationEmbed {
    * Sends the final message.
    * By default, it will send as a reply to the message
    * but if the interaction is already replied or deferred then it will `editReply`.
-   * If you want to send a follow-up interaction message, then use {@link followUp} instead.
+   * If you want to send follow-up or update the interaction, then use {@link followUp} or {@link update} instead.
    * @returns
    * @example
    * ```javascript
@@ -181,8 +193,8 @@ export class Pagination extends PaginationEmbed {
    */
   async render(): Promise<Message> {
     if (
-      (this.interaction as CommandInteraction).replied ||
-      (this.interaction as CommandInteraction).deferred
+      this.interaction instanceof Interaction &&
+      (this.interaction.replied || this.interaction.deferred)
     ) {
       return this.editReply();
     }
@@ -202,12 +214,13 @@ export class Pagination extends PaginationEmbed {
    */
   async reply(): Promise<Message> {
     const payloads = this.ready();
-    const message = (await (
+    //TODO: remove assertions
+    const message = await (
       this.interaction as
-        | CommandInteraction
-        | MessageComponentInteraction
-        | ContextMenuInteraction
-    ).reply(payloads)) as Message;
+        | CommandInteraction<"cached">
+        | MessageComponentInteraction<"cached">
+        | ContextMenuInteraction<"cached">
+    ).reply(payloads);
     this.paginate(message);
     return message;
   }
@@ -225,12 +238,9 @@ export class Pagination extends PaginationEmbed {
    */
   async followUp(): Promise<Message> {
     const payloads = this.ready();
-    const message = (await (
-      this.interaction as
-        | CommandInteraction
-        | MessageComponentInteraction
-        | ContextMenuInteraction
-    ).followUp(payloads)) as Message;
+    if (!(this.interaction instanceof Interaction))
+      throw new Error("The interaction is not an instance of Interaction");
+    const message = await this.interaction.followUp(payloads);
     this.paginate(message);
     return message;
   }
@@ -248,12 +258,9 @@ export class Pagination extends PaginationEmbed {
    */
   async editReply(): Promise<Message> {
     const payloads = this.ready();
-    const message = (await (
-      this.interaction as
-        | CommandInteraction
-        | MessageComponentInteraction
-        | ContextMenuInteraction
-    ).editReply(payloads)) as Message;
+    if (!(this.interaction instanceof Interaction))
+      throw new Error("The interaction is not an instance of Interaction");
+    const message = await this.interaction.editReply(payloads);
     this.paginate(message);
     return message;
   }
@@ -271,9 +278,11 @@ export class Pagination extends PaginationEmbed {
    */
   async update(): Promise<Message> {
     const payloads = this.ready();
-    const message = (await (
-      this.interaction as MessageComponentInteraction
-    ).update(payloads)) as Message;
+    if (!(this.interaction instanceof MessageComponentInteraction))
+      throw new Error(
+        "The interaction is not an instance of MessageComponentInteraction"
+      );
+    const message = await this.interaction.update(payloads);
     this.paginate(message);
     return message;
   }
@@ -291,11 +300,10 @@ export class Pagination extends PaginationEmbed {
    */
   async send(): Promise<Message> {
     const payloads = this.ready();
-    const message = (await this.interaction.channel?.send(payloads)) ?? null;
-    if (message) this.paginate(message);
-    else {
-      throw new Error("Channel is not cached");
-    }
+    if (!this.interaction.channel)
+      throw new Error("The interaction or message don't have a channel");
+    const message = await this.interaction.channel.send(payloads);
+    this.paginate(message);
     return message;
   }
 }
