@@ -135,7 +135,7 @@ export class PaginationEmbed extends MessageEmbed {
    * Contents if changing contents per page.
    * @default []
    */
-  private contents!: string[];
+  private contents!: (string | null)[] | string | null;
 
   /**
    * Whether if paginating through embed's fields.
@@ -794,8 +794,8 @@ export class PaginationEmbed extends MessageEmbed {
    *  .setContents(["this is the first page", "this is the second page"]);
    * ```
    */
-  setContents(contents: string[] | string): this {
-    this.contents = typeof contents === "string" ? [contents] : contents;
+  setContents(contents: (string | null)[] | string | null): this {
+    this.contents = contents;
     return this;
   }
 
@@ -863,7 +863,9 @@ export class PaginationEmbed extends MessageEmbed {
   private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
     this._readyActionRows();
     this.payload.components = this.actionRows;
-    this.payload.content = this.contents[0];
+    this.payload.content = Array.isArray(this.contents)
+      ? this.contents[0] ?? null
+      : this.contents;
     this.payload.embeds = [this.embeds.length ? this.embeds[0] : this];
     this.payload.files = this.attachments;
     return this.payload;
@@ -906,9 +908,9 @@ export class PaginationEmbed extends MessageEmbed {
     if (this.images.length) {
       this.setImage(this.images[pageNumber - 1]);
     }
-    if (this.contents.length > 1) {
-      this.payload.content = this.contents[this.currentPage - 1];
-    }
+    this.payload.content = Array.isArray(this.contents)
+      ? this.contents[this.currentPage - 1] ?? null
+      : this.contents;
     if (this.descriptions.length) {
       this.setDescription(
         `${this.prevDescription}\n` +
