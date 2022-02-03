@@ -432,7 +432,7 @@ export class PaginationEmbed extends MessageEmbed {
    * Note: if you set this then all other pagination methods and embed methods will be ignored
    * i.e., descriptions, images, fields, also the embed properties like title, footer and all
    * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedField}
-   * @param callback A callback function that will be called for each embed.
+   * @param template A template function that will be called for each embed.
    * @returns
    * @example
    * ```javascript
@@ -443,11 +443,11 @@ export class PaginationEmbed extends MessageEmbed {
    */
   setEmbeds(
     embeds: Embed[],
-    callback: (embed: MessageEmbed) => MessageEmbed
+    template?: (embed: MessageEmbed) => MessageEmbed
   ): this {
-    if (callback) {
+    if (template) {
       embeds = embeds.map((e) =>
-        e instanceof MessageEmbed ? callback(e) : callback(new MessageEmbed(e))
+        e instanceof MessageEmbed ? template(e) : template(new MessageEmbed(e))
       );
     }
     this.embeds = embeds;
@@ -475,7 +475,7 @@ export class PaginationEmbed extends MessageEmbed {
   /**
    * Adds multiple pagination embeds.
    * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedOptions}
-   * @param callback A callback function that will be called for each embed.
+   * @param template A template function that will be called for each embed.
    * @returns
    * @example
    * ```javascript
@@ -487,11 +487,11 @@ export class PaginationEmbed extends MessageEmbed {
    */
   addEmbeds(
     embeds: Embed[],
-    callback: (embed: MessageEmbed) => MessageEmbed
+    template?: (embed: MessageEmbed) => MessageEmbed
   ): this {
-    if (callback) {
+    if (template) {
       embeds = embeds.map((e) =>
-        e instanceof MessageEmbed ? callback(e) : callback(new MessageEmbed(e))
+        e instanceof MessageEmbed ? template(e) : template(new MessageEmbed(e))
       );
     }
     this.embeds.push(...embeds);
