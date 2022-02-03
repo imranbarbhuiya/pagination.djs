@@ -431,7 +431,8 @@ export class PaginationEmbed extends MessageEmbed {
    * Sets the pagination embeds.
    * Note: if you set this then all other pagination methods and embed methods will be ignored
    * i.e., descriptions, images, fields, also the embed properties like title, footer and all
-   * @param embeds
+   * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedField}
+   * @param callback A callback function that will be called for each embed.
    * @returns
    * @example
    * ```javascript
@@ -440,7 +441,15 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setEmbeds(embeds: Embed[]): this {
+  setEmbeds(
+    embeds: Embed[],
+    callback: (embed: MessageEmbed) => MessageEmbed
+  ): this {
+    if (callback) {
+      embeds = embeds.map((e) =>
+        e instanceof MessageEmbed ? callback(e) : callback(new MessageEmbed(e))
+      );
+    }
     this.embeds = embeds;
     this.limit = 1;
     return this;
@@ -448,7 +457,7 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Adds a pagination embed.
-   * @param embed
+   * @param embed A {@link MessageEmbed} or {@link MessageEmbedField}
    * @returns
    * @example
    * ```javascript
@@ -465,7 +474,8 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * Adds multiple pagination embeds.
-   * @param embeds
+   * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedOptions}
+   * @param callback A callback function that will be called for each embed.
    * @returns
    * @example
    * ```javascript
@@ -475,7 +485,15 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addEmbeds(embeds: Embed[]): this {
+  addEmbeds(
+    embeds: Embed[],
+    callback: (embed: MessageEmbed) => MessageEmbed
+  ): this {
+    if (callback) {
+      embeds = embeds.map((e) =>
+        e instanceof MessageEmbed ? callback(e) : callback(new MessageEmbed(e))
+      );
+    }
     this.embeds.push(...embeds);
     return this;
   }
