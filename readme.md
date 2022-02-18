@@ -315,11 +315,6 @@ const message = await interaction.reply(payloads);
 pagination.paginate(message);
 ```
 
-## Note
-
-- If you have a global Button Interaction handler then you can ignore the interactions with customId starting with `paginate-`.
-- When adding an additional action row without customizing pagination button row, then don't set the custom id of any buttons to any of the following: `paginate-first`, `paginate-prev`, `paginate-next`, `paginate-last`. But if you are customizing the button row then you can provide any customId. But just make sure that the customId don't gets duplicated with any other components in the message.
-
 ## License
 
 MIT
