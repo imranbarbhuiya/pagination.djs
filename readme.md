@@ -11,18 +11,6 @@ It's a simple and lightweight module to paginate discord embeds.
 
 Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
-## Preview
-
-<p align="center">
-  <a href="#image1">
-    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
-  </a>
-  <a href="#image2">
-    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
-  <a href="#image3">
-    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
-</P>
-
 ## Installation
 
 ### Using npm
@@ -48,22 +36,6 @@ This package needs [discord.js](https://discord.js.org) version 13.5.0 or above.
 ## Uses
 
 Example shows how to use it with any application command but it's valid for message commands as well. You just need to pass the message in place of interaction.
-
-### upgrading from v3 to v4 guide
-
-If you aren't customizing any button styles, then you don't need to change anything.
-But for those who are customizing button style, label or emoji, then you need to change your codes. This changes were done only to provide more customizations for these buttons. Like you can now only have `prev` and `next` buttons, no need of any other buttons, Or you can now have a extra button along with or without the pagination buttons.
-
-```diff
-- const pagination = new Pagination(interaction, {firstEmoji: "⏮️"})
-+ const pagination = new Pagination(interaction, {
-+ buttons: {
-+   first: new MessageButton().setEmoji("⏮️")
-+     .setCustomId("paginate-first")
-+     .setStyle("SECONDARY"),
-+ })
-
-```
 
 ### Basic examples
 
@@ -208,17 +180,22 @@ pagination.render();
 
 ### Customization
 
-You can customize the behavior of the pagination by passing the [these options](https://pagination-djs.js.org/interfaces/Options.html):
+You can customize the behavior of the pagination by passing the following options:
 
 ```js
 const { Pagination } = require("pagination.djs");
 const pagination = new Pagination(interaction, {
+  firstEmoji: "⏮", // First button emoji
+  prevEmoji: "◀️", // Previous button emoji
+  nextEmoji: "▶️", // Next button emoji
+  lastEmoji: "⏭", // Last button emoji
   limit: 5, // number of entries per page
   idle: 30000, // idle time in ms before the pagination closes
   ephemeral: false, // ephemeral reply
   prevDescription: "",
   postDescription: "",
   attachments: [new MessageAttachment()], // attachments you want to pass with the embed
+  buttonStyle: "SECONDARY",
   loop: false, // loop through the pages
 });
 ```
@@ -237,20 +214,55 @@ By default embed will show page number and total pages in footer as
 
 You can change it by setting `pagination.setFooter("my footer")` and you can pass `{pageNumber}` and `{totalPages}` which will be replaced with the respective value.
 
-#### Customize button
+#### Set emojis
 
-Send custom buttons with `#setButtons()` method. Which accepts an object of MessageButtons.
+set button emojis with `setEmojis()` method. You can set any custom or default emojis.
 
 ```js
-pagination.setButtons({
-  first: new MessageButton().setCustomId("first").setLabel("first"),
-  prev: new MessageButton().setCustomId("prev").setLabel("prev"),
-  next: new MessageButton().setCustomId("next").setLabel("next"),
-  last: new MessageButton().setCustomId("last").setLabel("last"),
+pagination.setEmojis({
+  firstEmoji: "⏮",
+  prevEmoji: "◀️",
+  nextEmoji: "▶️",
+  lastEmoji: "⏭",
 });
 ```
 
-You can provide upto 5 buttons. Also u can remove some buttons if needed. But make sure their keys are `first`, `prev`, `next` and `last`.
+#### Customize button
+
+Customize label, emoji or style of button using `setButtonAppearance()` method
+
+```js
+pagination.setButtonAppearance({
+  first: {
+    label: "First",
+    emoji: "⏮",
+    style: "PRIMARY",
+  },
+  prev: {
+    label: "Prev",
+    emoji: "◀️",
+    style: "SECONDARY",
+  },
+  next: {
+    label: "Next",
+    emoji: "▶️",
+    style: "SUCCESS",
+  },
+  last: {
+    label: "Last",
+    emoji: "⏭",
+    style: "DANGER",
+  },
+});
+```
+
+#### Change button styles
+
+Change all the button style
+
+```js
+pagination.setButtonStyle("SECONDARY");
+```
 
 #### Add Action row
 
@@ -314,6 +326,28 @@ const payloads = pagination.ready();
 const message = await interaction.reply(payloads);
 pagination.paginate(message);
 ```
+
+### Preview
+
+<p align="center">
+  <a href="#image1">
+    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
+  </a>
+  <a href="#image2">
+    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
+  <a href="#image3">
+    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
+</P>
+
+## Migration guide
+
+If you are migrating from other lib where you use to set multiple embeds at the same time,
+then we also have a similar method called [Pagination#setEmbeds](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds), where you can pass your embeds and use [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) method and pagination will take care of the rest.
+
+## Note
+
+- If you have a global Button Interaction handler then you can ignore the interactions with customId starting with `paginate-`.
+- When adding an additional action row or button, don't set the custom id to any of the following: `paginate-first`, `paginate-prev`, `paginate-next`, `paginate-last`.
 
 ## License
 

@@ -1,12 +1,12 @@
 import {
-  type CommandInteraction,
-  type ContextMenuInteraction,
+  CommandInteraction,
+  ContextMenuInteraction,
   Interaction,
   Message,
   MessageComponentInteraction,
-  type Snowflake,
+  Snowflake,
 } from "discord.js";
-import { Options } from "./Options";
+import { Options } from "../types";
 import { PaginationEmbed } from "./PaginationEmbed";
 
 /**
@@ -38,12 +38,17 @@ export class Pagination extends PaginationEmbed {
    * @example
    * ```javascript
    * const pagination = new Pagination(interaction, {
+   *  firstEmoji: "⏮",
+   *  prevEmoji: "◀️",
+   *  nextEmoji: "▶️",
+   *  lastEmoji: "⏭",
    *  limit: 5,
    *  idle: 5 * 60 * 1000,
    *  ephemeral: false,
    *  prevDescription: "",
    *  postDescription: "",
    *  attachments: [],
+   *  buttonStyle: "SECONDARY",
    *  loop: false,
    * });
    * ```
@@ -68,9 +73,9 @@ export class Pagination extends PaginationEmbed {
     }
     this.interaction = interaction;
     this.authorizedUsers = [
-      (interaction instanceof Interaction
-        ? interaction.user
-        : interaction.author
+      (
+        (interaction as CommandInteraction).user ??
+        (interaction as Message).author
       ).id,
     ];
   }
@@ -142,27 +147,31 @@ export class Pagination extends PaginationEmbed {
    */
   paginate(message: Message): this {
     const collector = message.createMessageComponentCollector({
-      filter: (i) =>
-        this.authorizedUsers.length
-          ? this.authorizedUsers.includes(i.user.id)
-          : true,
+      filter: ({ customId }) => customId.startsWith("paginate-"),
       idle: this.idle,
     });
 
     collector.on("collect", async (i) => {
+      if (
+        this.authorizedUsers.length &&
+        !this.authorizedUsers.includes(i.user.id)
+      ) {
+        return i.deferUpdate();
+      }
+
       // here filter isn't used just to avoid the `interaction failed` error
       if (!i.isButton()) return;
 
-      if (i.customId === this.buttons.first.customId) {
+      if (i.customId === "paginate-first") {
         this.goFirst(i);
       }
-      if (i.customId === this.buttons.prev.customId) {
+      if (i.customId === "paginate-prev") {
         this.goPrev(i);
       }
-      if (i.customId === this.buttons.next.customId) {
+      if (i.customId === "paginate-next") {
         this.goNext(i);
       }
-      if (i.customId === this.buttons.last.customId) {
+      if (i.customId === "paginate-last") {
         this.goLast(i);
       }
     });
