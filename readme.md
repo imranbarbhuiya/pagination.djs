@@ -47,21 +47,23 @@ This package needs [discord.js](https://discord.js.org) version 13.5.0 or above.
 
 ## Uses
 
+Example shows how to use it with any application command but it's valid for message commands as well. You just need to pass the message in place of interaction.
+
 ### upgrading from v3 to v4 guide
 
 If you aren't customizing any button styles, then you don't need to change anything.
-But for those who are customizing button style, label or emoji, then you need to change your codes.
+But for those who are customizing button style, label or emoji, then you need to change your codes. This changes were done only to provide more customizations for these buttons. Like you can now only have `prev` and `next` buttons, no need of any other buttons, Or you can now have a extra button along with or without the pagination buttons.
 
 ```diff
 - const pagination = new Pagination(interaction, {firstEmoji: "⏮️"})
 + const pagination = new Pagination(interaction, {
 + buttons: {
-+   first: new MessageButton().setEmoji("⏮️"),
++   first: new MessageButton().setEmoji("⏮️")
++     .setCustomId("paginate-first")
++     .setStyle("SECONDARY"),
 + })
 
 ```
-
-Example shows how to use it with any application command but it's valid for message commands as well. You just need to pass the message in place of interaction.
 
 ### Basic examples
 

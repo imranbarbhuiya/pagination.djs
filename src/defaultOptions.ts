@@ -14,9 +14,21 @@ export const defaultOptions: Options = {
   contents: [],
   loop: false,
   buttons: {
-    first: new MessageButton().setEmoji("⏮").setCustomId("paginate-first"),
-    prev: new MessageButton().setEmoji("◀️").setCustomId("paginate-prev"),
-    next: new MessageButton().setEmoji("▶️").setCustomId("paginate-next"),
-    last: new MessageButton().setEmoji("⏭").setCustomId("paginate-last"),
+    first: new MessageButton()
+      .setEmoji("⏮")
+      .setCustomId("paginate-first")
+      .setStyle("SECONDARY"),
+    prev: new MessageButton()
+      .setEmoji("◀️")
+      .setCustomId("paginate-prev")
+      .setStyle("SECONDARY"),
+    next: new MessageButton()
+      .setEmoji("▶️")
+      .setCustomId("paginate-next")
+      .setStyle("SECONDARY"),
+    last: new MessageButton()
+      .setEmoji("⏭")
+      .setCustomId("paginate-last")
+      .setStyle("SECONDARY"),
   },
 };
