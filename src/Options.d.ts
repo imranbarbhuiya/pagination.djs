@@ -1,31 +1,9 @@
-import { MessageAttachment } from "discord.js";
-import { ButtonStyle } from "./ButtonStyle";
-import { EmojiOptions } from "./EmojiOptions";
+import type { MessageAttachment, MessageButton } from "discord.js";
 
 /**
  * The options to customize the pagination.
  */
-export interface Options extends EmojiOptions {
-  /**
-   * The label for the first page button.
-   * @default ""
-   */
-  firstLabel: string;
-  /**
-   * The label for the previous page button.
-   * @default ""
-   */
-  prevLabel: string;
-  /**
-   * The label for the next page button.
-   * @default ""
-   */
-  nextLabel: string;
-  /**
-   * The label for the last page button.
-   * @default ""
-   */
-  lastLabel: string;
+export interface Options {
   /**
    * The number of entries to show per page.
    * @default 5
@@ -63,13 +41,16 @@ export interface Options extends EmojiOptions {
    */
   contents: string[];
   /**
-   * The style of the paginator buttons.
-   * @default "SECONDARY"
-   */
-  buttonStyle: ButtonStyle;
-  /**
    * loop through the pages.
    * @default false
    */
   loop: boolean;
+
+  buttons: {
+    first: MessageButton;
+    prev: MessageButton;
+    next: MessageButton;
+    last: MessageButton;
+    [key: string]: MessageButton;
+  };
 }

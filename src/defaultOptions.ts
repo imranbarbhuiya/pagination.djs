@@ -1,17 +1,10 @@
-import { Options } from "../types";
+import { MessageButton } from "discord.js";
+import { Options } from "./Options";
 
 /**
  * The default options for the paginator.
  */
 export const defaultOptions: Options = {
-  firstEmoji: "⏪",
-  prevEmoji: "◀️",
-  nextEmoji: "▶️",
-  lastEmoji: "⏭",
-  firstLabel: "",
-  prevLabel: "",
-  nextLabel: "",
-  lastLabel: "",
   limit: 5,
   idle: 5 * 60 * 1000,
   ephemeral: false,
@@ -19,6 +12,11 @@ export const defaultOptions: Options = {
   postDescription: "",
   attachments: [],
   contents: [],
-  buttonStyle: "SECONDARY",
   loop: false,
+  buttons: {
+    first: new MessageButton().setEmoji("⏮").setCustomId("paginate-first"),
+    prev: new MessageButton().setEmoji("◀️").setCustomId("paginate-prev"),
+    next: new MessageButton().setEmoji("▶️").setCustomId("paginate-next"),
+    last: new MessageButton().setEmoji("⏭").setCustomId("paginate-last"),
+  },
 };

@@ -1,21 +1,14 @@
 import {
-  ButtonInteraction,
-  EmbedField,
-  InteractionReplyOptions,
+  type ButtonInteraction,
+  type EmbedField,
+  type InteractionReplyOptions,
   MessageActionRow,
-  MessageAttachment,
-  MessageButton,
+  type MessageAttachment,
   MessageEmbed,
-  MessageEmbedOptions,
+  type MessageEmbedOptions,
 } from "discord.js";
-import {
-  ButtonsOptions,
-  ButtonStyle,
-  EmojiOptions,
-  LabelOptions,
-  Options,
-} from "../types";
 import { defaultOptions } from "./defaultOptions";
+import type { Options } from "./Options";
 
 type Embed = MessageEmbed | MessageEmbedOptions;
 
@@ -25,33 +18,11 @@ type Embed = MessageEmbed | MessageEmbedOptions;
 export class PaginationEmbed extends MessageEmbed {
   //#region public fields
 
-  /**
-   * Pagination button infos.
-   * @readonly
-   * @default {
-   *  first: {
-   *    emoji: "⏮",
-   *    label: "",
-   *    style: "SECONDARY",
-   *  },
-   *  prev: {
-   *    emoji: "◀️",
-   *    label: "",
-   *    style: "SECONDARY",
-   *  },
-   *  next: {
-   *    emoji: "▶️",
-   *    label: "",
-   *    style: "SECONDARY",
-   *  },
-   *  last: {
-   *    emoji: "⏭",
-   *    label: "",
-   *    style: "SECONDARY",
-   *  },
-   * }
-   */
-  public readonly buttonInfo: ButtonsOptions;
+  // /**
+  //  * Pagination buttons
+  //  * @readonly
+  //  */
+  public buttons!: Options["buttons"];
 
   /**
    * The images to paginate through.
@@ -173,17 +144,6 @@ export class PaginationEmbed extends MessageEmbed {
   private rawFields: EmbedField[];
 
   /**
-   * The pagination buttons.
-   * @private
-   */
-  private buttons!: {
-    first: MessageButton;
-    prev: MessageButton;
-    next: MessageButton;
-    last: MessageButton;
-  };
-
-  /**
    * The extra action rows to add, if any.
    * @private
    * @default []
@@ -206,17 +166,12 @@ export class PaginationEmbed extends MessageEmbed {
    * @example
    * ```javascript
    * const pagination = new PaginationEmbed({
-   *  firstEmoji: "⏮",
-   *  prevEmoji: "◀️",
-   *  nextEmoji: "▶️",
-   *  lastEmoji: "⏭",
    *  limit: 5,
    *  idle: 5 * 60 * 1000,
    *  ephemeral: false,
    *  prevDescription: "",
    *  postDescription: "",
    *  attachments: [],
-   *  buttonStyle: "SECONDARY",
    *  loop: false,
    * });
    * ```
@@ -225,28 +180,6 @@ export class PaginationEmbed extends MessageEmbed {
   constructor(options: Partial<Options> = {}) {
     super();
     const mergedOptions = Object.assign({}, defaultOptions, options);
-    this.buttonInfo = {
-      first: {
-        emoji: mergedOptions.firstEmoji,
-        label: mergedOptions.firstLabel,
-        style: mergedOptions.buttonStyle,
-      },
-      prev: {
-        emoji: mergedOptions.prevEmoji,
-        label: mergedOptions.prevLabel,
-        style: mergedOptions.buttonStyle,
-      },
-      next: {
-        emoji: mergedOptions.nextEmoji,
-        label: mergedOptions.nextLabel,
-        style: mergedOptions.buttonStyle,
-      },
-      last: {
-        emoji: mergedOptions.lastEmoji,
-        label: mergedOptions.lastLabel,
-        style: mergedOptions.buttonStyle,
-      },
-    };
     this.images = [];
     this.descriptions = [];
     this.embeds = [];
@@ -287,19 +220,6 @@ export class PaginationEmbed extends MessageEmbed {
    *
    */
   setOptions(options: Partial<Options>): this {
-    this.setEmojis({
-      firstEmoji: options.firstEmoji,
-      prevEmoji: options.prevEmoji,
-      nextEmoji: options.nextEmoji,
-      lastEmoji: options.lastEmoji,
-    });
-    if (options.buttonStyle) this.setStyle(options.buttonStyle);
-    this.setLabels({
-      firstLabel: options.firstLabel,
-      prevLabel: options.prevLabel,
-      nextLabel: options.nextLabel,
-      lastLabel: options.lastLabel,
-    });
     this.limit = options.limit ?? this.limit;
     this.idle = options.idle ?? this.idle;
     this.ephemeral = options.ephemeral ?? this.ephemeral;
@@ -314,8 +234,33 @@ export class PaginationEmbed extends MessageEmbed {
         : this.postDescription;
     this.attachments = options.attachments ?? this.attachments;
     this.contents = options.contents ?? this.contents;
+    if (options.buttons) this.setButtons(options.buttons);
     return this;
   }
+
+  // #region buttons related
+
+  /**
+   * Sets the pagination buttons.
+   * @param buttons
+   * @returns
+   * @example
+   * ```javascript
+   * const pagination = new Pagination(interaction)
+   * .setButtons({
+   * first: new MessageButton().setEmoji("⏮").setCustomId("first"),
+   * prev: new MessageButton().setEmoji("◀️").setCustomId("prev"),
+   * next: new MessageButton().setEmoji("▶️").setCustomId("next"),
+   * last: new MessageButton().setEmoji("⏭").setCustomId("last"),
+   * });
+   */
+
+  public setButtons(buttons: Options["buttons"]) {
+    this.buttons = buttons;
+    return this;
+  }
+
+  // #region end buttons related
 
   //#region images related
 
@@ -608,121 +553,6 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
-  //#region buttons related
-
-  /**
-   * Sets the emojis for the buttons.
-   * @param emojiOptions
-   * @returns
-   * @example
-   * ```javascript
-   * const pagination = new Pagination(interaction)
-   *  .setEmojis({
-   *    firstEmoji: ":first_emoji:",
-   *    prevEmoji: ":prev_emoji:",
-   *    nextEmoji: ":next_emoji:",
-   *    lastEmoji: ":last_emoji:"
-   *  });
-   * ```
-   *
-   */
-  setEmojis(emojiOptions: Partial<EmojiOptions>): this {
-    this.buttonInfo.first.emoji =
-      emojiOptions.firstEmoji ?? this.buttonInfo.first.emoji;
-    this.buttonInfo.prev.emoji =
-      emojiOptions.prevEmoji ?? this.buttonInfo.prev.emoji;
-    this.buttonInfo.next.emoji =
-      emojiOptions.nextEmoji ?? this.buttonInfo.next.emoji;
-    this.buttonInfo.last.emoji =
-      emojiOptions.lastEmoji ?? this.buttonInfo.last.emoji;
-    return this;
-  }
-
-  /**
-   * Sets the labels for the buttons.
-   * @param labelOptions
-   * @returns
-   * @example
-   * ```javascript
-   * const pagination = new Pagination(interaction)
-   *  .setLabels({
-   *    firstLabel: "first",
-   *    prevLabel: "prev",
-   *    nextLabel: "next",
-   *    lastLabel: "last"
-   *  });
-   * ```
-   *
-   */
-  setLabels(labelOptions: Partial<LabelOptions>): this {
-    this.buttonInfo.first.label =
-      labelOptions.firstLabel ?? this.buttonInfo.first.label;
-    this.buttonInfo.prev.label =
-      labelOptions.prevLabel ?? this.buttonInfo.prev.label;
-    this.buttonInfo.next.label =
-      labelOptions.nextLabel ?? this.buttonInfo.next.label;
-    this.buttonInfo.last.label =
-      labelOptions.lastLabel ?? this.buttonInfo.last.label;
-    return this;
-  }
-
-  /**
-   * Sets the buttons' style.
-   * @param style
-   * @returns
-   * @example
-   * ```javascript
-   * const pagination = new Pagination(interaction)
-   *  .setStyle("SECONDARY");
-   * ```
-   *
-   */
-  setStyle(style: ButtonStyle): this {
-    this.buttonInfo.first.style = style;
-    this.buttonInfo.prev.style = style;
-    this.buttonInfo.next.style = style;
-    this.buttonInfo.last.style = style;
-
-    return this;
-  }
-
-  /**
-   * Customizes the styles of each button.
-   * @param buttonOptions
-   * @returns
-   * @example
-   * ```javascript
-   * const pagination = new Pagination(interaction)
-   *  .setButtonAppearance({
-   *    first: {
-   *      label: "First",
-   *      emoji: ":first_emoji:",
-   *      style: "SECONDARY"
-   *    }
-   *  });
-   * ```
-   *
-   */
-  setButtonAppearance(options: ButtonsOptions): this {
-    const { first, prev, next, last } = options;
-    this.buttonInfo.first.label = first?.label ?? this.buttonInfo.first.label;
-    this.buttonInfo.prev.label = prev?.label ?? this.buttonInfo.prev.label;
-    this.buttonInfo.next.label = next?.label ?? this.buttonInfo.next.label;
-    this.buttonInfo.last.label = last?.label ?? this.buttonInfo.last.label;
-
-    this.buttonInfo.first.emoji = first?.emoji ?? this.buttonInfo.first.emoji;
-    this.buttonInfo.prev.emoji = prev?.emoji ?? this.buttonInfo.prev.emoji;
-    this.buttonInfo.next.emoji = next?.emoji ?? this.buttonInfo.next.emoji;
-    this.buttonInfo.last.emoji = last?.emoji ?? this.buttonInfo.last.emoji;
-
-    this.buttonInfo.first.style = first?.style ?? this.buttonInfo.first.style;
-    this.buttonInfo.prev.style = prev?.style ?? this.buttonInfo.prev.style;
-    this.buttonInfo.next.style = next?.style ?? this.buttonInfo.next.style;
-    this.buttonInfo.last.style = last?.style ?? this.buttonInfo.last.style;
-
-    return this;
-  }
-
   //#end region
 
   /**
@@ -825,43 +655,16 @@ export class PaginationEmbed extends MessageEmbed {
    * @private
    */
   private _readyActionRows(): this {
-    this.buttons = {
-      first: new MessageButton()
-        .setCustomId("paginate-first")
-        .setEmoji(this.buttonInfo.first.emoji)
-        .setLabel(this.buttonInfo.first.label)
-        .setStyle(this.buttonInfo.first.style),
-      prev: new MessageButton()
-        .setCustomId("paginate-prev")
-        .setEmoji(this.buttonInfo.prev.emoji)
-        .setLabel(this.buttonInfo.prev.label)
-        .setStyle(this.buttonInfo.prev.style),
-      next: new MessageButton()
-        .setCustomId("paginate-next")
-        .setEmoji(this.buttonInfo.next.emoji)
-        .setLabel(this.buttonInfo.next.label)
-        .setStyle(this.buttonInfo.next.style),
-      last: new MessageButton()
-        .setCustomId("paginate-last")
-        .setEmoji(this.buttonInfo.last.emoji)
-        .setLabel(this.buttonInfo.last.label)
-        .setStyle(this.buttonInfo.last.style),
-    };
     if (this.totalEntry <= this.limit) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
-      this.buttons.last.setDisabled(true);
-      this.buttons.next.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
+      this.buttons.next?.setDisabled(true);
+      this.buttons.last?.setDisabled(true);
     } else if (!this.loop) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
     }
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
+    this.mainActionRow.setComponents(...this.buttons);
     this.actionRows = [this.mainActionRow];
     if (this.extraRows.length > 0) {
       this.extraRows.forEach((row) => {
@@ -968,11 +771,11 @@ export class PaginationEmbed extends MessageEmbed {
   protected goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
     if (!this.loop) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
     }
-    this.buttons.next.setDisabled(false);
-    this.buttons.last.setDisabled(false);
+    this.buttons.next?.setDisabled(false);
+    this.buttons.last?.setDisabled(false);
 
     this.goToPage(1);
 
