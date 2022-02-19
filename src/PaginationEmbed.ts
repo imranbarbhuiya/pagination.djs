@@ -860,14 +860,17 @@ export class PaginationEmbed extends MessageEmbed {
         .setLabel(this.buttonInfo.last.label)
         .setStyle(this.buttonInfo.last.style);
     }
-    Object.values(this.buttons).forEach((button) => button.setDisabled());
+    this.buttons.first?.setDisabled();
+    this.buttons.prev?.setDisabled();
+    this.buttons.next?.setDisabled();
+    this.buttons.last?.setDisabled();
     if (this.totalEntry > this.limit) {
       this.buttons.last?.setDisabled(false);
       this.buttons.next?.setDisabled(false);
     }
     if (this.loop) {
-      this.buttons.first?.setDisabled(true);
-      this.buttons.prev?.setDisabled(true);
+      this.buttons.first?.setDisabled(false);
+      this.buttons.prev?.setDisabled(false);
     }
     this.mainActionRow.setComponents(Object.values(this.buttons));
     this.actionRows = [this.mainActionRow];
