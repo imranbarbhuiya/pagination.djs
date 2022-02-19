@@ -855,7 +855,7 @@ export class PaginationEmbed extends MessageEmbed {
       this.buttons.first?.setDisabled(true);
       this.buttons.prev?.setDisabled(true);
     }
-    this.mainActionRow.setComponents(...this.buttons);
+    this.mainActionRow.setComponents(Object.values(this.buttons));
     this.actionRows = [this.mainActionRow];
     if (this.extraRows.length > 0) {
       this.extraRows.forEach((row) => {
