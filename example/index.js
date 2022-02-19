@@ -20,5 +20,5 @@ client.on("interactionCreate", (interaction) => {
   }
 });
 
-// change TOKEN by your own token from <https://discord.com/developers/applications>
-client.login("TOKEN");
+// set your discord token in env with name `DISCORD_TOKEN`. See <https://discord.com/developers/applications> to get the token.
+client.login(process.env.DISCORD_TOKEN);

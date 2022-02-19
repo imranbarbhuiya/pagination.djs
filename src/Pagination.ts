@@ -147,11 +147,13 @@ export class Pagination extends PaginationEmbed {
    */
   paginate(message: Message): this {
     const collector = message.createMessageComponentCollector({
-      filter: ({ customId }) => customId.startsWith("paginate-"),
+      filter: ({ customId }) =>
+        Object.values(this.buttons).some((b) => b.customId === customId),
       idle: this.idle,
     });
 
     collector.on("collect", async (i) => {
+      // here filter isn't used just to avoid the `interaction failed` error
       if (
         this.authorizedUsers.length &&
         !this.authorizedUsers.includes(i.user.id)
@@ -159,19 +161,18 @@ export class Pagination extends PaginationEmbed {
         return i.deferUpdate();
       }
 
-      // here filter isn't used just to avoid the `interaction failed` error
       if (!i.isButton()) return;
 
-      if (i.customId === "paginate-first") {
+      if (i.customId === this.buttons.first?.customId) {
         this.goFirst(i);
       }
-      if (i.customId === "paginate-prev") {
+      if (i.customId === this.buttons.prev?.customId) {
         this.goPrev(i);
       }
-      if (i.customId === "paginate-next") {
+      if (i.customId === this.buttons.next?.customId) {
         this.goNext(i);
       }
-      if (i.customId === "paginate-last") {
+      if (i.customId === this.buttons.last?.customId) {
         this.goLast(i);
       }
     });

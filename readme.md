@@ -264,6 +264,22 @@ Change all the button style
 pagination.setButtonStyle("SECONDARY");
 ```
 
+#### Add or remove buttons
+
+`Pagination` class have a property `buttons` which stores all the buttons with keys `first`, `prev`, `next` and `last`. If you want to add one more you can add it with any key.
+
+```js
+pagination.buttons = { ...pagination.buttons, extra: new MessageButton() };
+```
+
+If you want to remove some button then you can set the buttons to only these buttons.
+
+```js
+pagination.buttons = { prev: new MessageButton(), next: new MessageButton() };
+```
+
+If you are adding an extra button then make sure it's key isn't `first`, `prev`, `next`, or `last` or it'll be used as to paginate between different pages.
+
 #### Add Action row
 
 Add some action rows above or below the pagination button row
@@ -343,11 +359,6 @@ pagination.paginate(message);
 
 If you are migrating from other lib where you use to set multiple embeds at the same time,
 then we also have a similar method called [Pagination#setEmbeds](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds), where you can pass your embeds and use [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) method and pagination will take care of the rest.
-
-## Note
-
-- If you have a global Button Interaction handler then you can ignore the interactions with customId starting with `paginate-`.
-- When adding an additional action row or button, don't set the custom id to any of the following: `paginate-first`, `paginate-prev`, `paginate-next`, `paginate-last`.
 
 ## License
 

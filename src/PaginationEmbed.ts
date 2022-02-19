@@ -174,13 +174,12 @@ export class PaginationEmbed extends MessageEmbed {
 
   /**
    * The pagination buttons.
-   * @private
    */
-  private buttons!: {
-    first: MessageButton;
-    prev: MessageButton;
-    next: MessageButton;
-    last: MessageButton;
+  public buttons!: {
+    first?: MessageButton;
+    prev?: MessageButton;
+    next?: MessageButton;
+    last?: MessageButton;
   };
 
   /**
@@ -848,20 +847,15 @@ export class PaginationEmbed extends MessageEmbed {
         .setStyle(this.buttonInfo.last.style),
     };
     if (this.totalEntry <= this.limit) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
-      this.buttons.last.setDisabled(true);
-      this.buttons.next.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
+      this.buttons.last?.setDisabled(true);
+      this.buttons.next?.setDisabled(true);
     } else if (!this.loop) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
     }
-    this.mainActionRow.setComponents(
-      this.buttons.first,
-      this.buttons.prev,
-      this.buttons.next,
-      this.buttons.last
-    );
+    this.mainActionRow.setComponents(...this.buttons);
     this.actionRows = [this.mainActionRow];
     if (this.extraRows.length > 0) {
       this.extraRows.forEach((row) => {
@@ -968,11 +962,11 @@ export class PaginationEmbed extends MessageEmbed {
   protected goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
     if (!this.loop) {
-      this.buttons.first.setDisabled(true);
-      this.buttons.prev.setDisabled(true);
+      this.buttons.first?.setDisabled(true);
+      this.buttons.prev?.setDisabled(true);
     }
-    this.buttons.next.setDisabled(false);
-    this.buttons.last.setDisabled(false);
+    this.buttons.next?.setDisabled(false);
+    this.buttons.last?.setDisabled(false);
 
     this.goToPage(1);
 
@@ -996,11 +990,11 @@ export class PaginationEmbed extends MessageEmbed {
   protected goPrev(i: ButtonInteraction): ButtonInteraction {
     this.currentPage--;
     if (!this.loop) {
-      this.buttons.first.setDisabled(this.currentPage === 1);
-      this.buttons.prev.setDisabled(this.currentPage === 1);
+      this.buttons.first?.setDisabled(this.currentPage === 1);
+      this.buttons.prev?.setDisabled(this.currentPage === 1);
     }
-    this.buttons.next.setDisabled(false);
-    this.buttons.last.setDisabled(false);
+    this.buttons.next?.setDisabled(false);
+    this.buttons.last?.setDisabled(false);
     this.goToPage(this.currentPage);
     i.update(this.payload);
     return i;
@@ -1021,13 +1015,13 @@ export class PaginationEmbed extends MessageEmbed {
    */
   protected goNext(i: ButtonInteraction): ButtonInteraction {
     this.currentPage++;
-    this.buttons.prev.setDisabled(false);
-    this.buttons.first.setDisabled(false);
+    this.buttons.prev?.setDisabled(false);
+    this.buttons.first?.setDisabled(false);
     if (!this.loop) {
-      this.buttons.next.setDisabled(
+      this.buttons.next?.setDisabled(
         this.currentPage === Math.ceil(this.totalEntry / this.limit)
       );
-      this.buttons.last.setDisabled(
+      this.buttons.last?.setDisabled(
         this.currentPage === Math.ceil(this.totalEntry / this.limit)
       );
     }
@@ -1051,11 +1045,11 @@ export class PaginationEmbed extends MessageEmbed {
    */
   protected goLast(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = Math.ceil(this.totalEntry / this.limit);
-    this.buttons.prev.setDisabled(false);
-    this.buttons.first.setDisabled(false);
+    this.buttons.prev?.setDisabled(false);
+    this.buttons.first?.setDisabled(false);
     if (!this.loop) {
-      this.buttons.next.setDisabled(true);
-      this.buttons.last.setDisabled(true);
+      this.buttons.next?.setDisabled(true);
+      this.buttons.last?.setDisabled(true);
     }
     this.goToPage(this.currentPage);
     i.update(this.payload);
