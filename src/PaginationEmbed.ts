@@ -193,7 +193,11 @@ export class PaginationEmbed extends MessageEmbed {
    */
   private rawFooter!: string;
 
-  private changedButtons!: boolean;
+  /**
+   * Changed default buttons
+   * @private
+   */
+  private changedButtons?: boolean;
 
   //#end region
 
