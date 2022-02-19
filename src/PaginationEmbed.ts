@@ -175,12 +175,7 @@ export class PaginationEmbed extends MessageEmbed {
   /**
    * The pagination buttons.
    */
-  public buttons!: {
-    first?: MessageButton;
-    prev?: MessageButton;
-    next?: MessageButton;
-    last?: MessageButton;
-  };
+  public buttons!: Record<string, MessageButton>;
 
   /**
    * The extra action rows to add, if any.
@@ -824,7 +819,7 @@ export class PaginationEmbed extends MessageEmbed {
    * @private
    */
   private _readyActionRows(): this {
-    this.buttons = {
+    this.buttons ??= {
       first: new MessageButton()
         .setCustomId("paginate-first")
         .setEmoji(this.buttonInfo.first.emoji)
