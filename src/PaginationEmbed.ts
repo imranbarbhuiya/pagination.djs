@@ -193,6 +193,8 @@ export class PaginationEmbed extends MessageEmbed {
    */
   private rawFooter!: string;
 
+  private changedButtons!: boolean;
+
   //#end region
 
   /**
@@ -308,6 +310,7 @@ export class PaginationEmbed extends MessageEmbed {
         : this.postDescription;
     this.attachments = options.attachments ?? this.attachments;
     this.contents = options.contents ?? this.contents;
+    this.setButtons();
     return this;
   }
 
@@ -717,6 +720,22 @@ export class PaginationEmbed extends MessageEmbed {
     return this;
   }
 
+  /**
+   * Set pagination buttons
+   * @param buttons
+   */
+
+  setButtons(buttons?: Record<string, MessageButton>) {
+    if (buttons) this.changedButtons = true;
+    this.buttons = buttons ?? {
+      first: new MessageButton().setCustomId("paginate-first"),
+      prev: new MessageButton().setCustomId("paginate-prev"),
+      next: new MessageButton().setCustomId("paginate-next"),
+      last: new MessageButton().setCustomId("paginate-last"),
+    };
+    return this;
+  }
+
   //#end region
 
   /**
@@ -819,36 +838,33 @@ export class PaginationEmbed extends MessageEmbed {
    * @private
    */
   private _readyActionRows(): this {
-    this.buttons ??= {
-      first: new MessageButton()
-        .setCustomId("paginate-first")
-        .setEmoji(this.buttonInfo.first.emoji)
+    if (!this.changedButtons) {
+      this.buttons.first
+        ?.setEmoji(this.buttonInfo.first.emoji)
         .setLabel(this.buttonInfo.first.label)
-        .setStyle(this.buttonInfo.first.style),
-      prev: new MessageButton()
-        .setCustomId("paginate-prev")
-        .setEmoji(this.buttonInfo.prev.emoji)
+        .setStyle(this.buttonInfo.first.style);
+      this.buttons.prev
+        ?.setEmoji(this.buttonInfo.prev.emoji)
         .setLabel(this.buttonInfo.prev.label)
-        .setStyle(this.buttonInfo.prev.style),
-      next: new MessageButton()
-        .setCustomId("paginate-next")
-        .setEmoji(this.buttonInfo.next.emoji)
+        .setStyle(this.buttonInfo.prev.style);
+      this.buttons.next
+        ?.setEmoji(this.buttonInfo.next.emoji)
         .setLabel(this.buttonInfo.next.label)
-        .setStyle(this.buttonInfo.next.style),
-      last: new MessageButton()
-        .setCustomId("paginate-last")
-        .setEmoji(this.buttonInfo.last.emoji)
+        .setStyle(this.buttonInfo.next.style);
+      this.buttons.last
+        ?.setEmoji(this.buttonInfo.last.emoji)
         .setLabel(this.buttonInfo.last.label)
-        .setStyle(this.buttonInfo.last.style),
-    };
+        .setStyle(this.buttonInfo.last.style);
+    }
+
     if (this.totalEntry <= this.limit) {
-      this.buttons.first?.setDisabled(true);
-      this.buttons.prev?.setDisabled(true);
-      this.buttons.last?.setDisabled(true);
-      this.buttons.next?.setDisabled(true);
+      this.buttons.first?.setDisabled();
+      this.buttons.prev?.setDisabled();
+      this.buttons.last?.setDisabled();
+      this.buttons.next?.setDisabled();
     } else if (!this.loop) {
-      this.buttons.first?.setDisabled(true);
-      this.buttons.prev?.setDisabled(true);
+      this.buttons.first?.setDisabled();
+      this.buttons.prev?.setDisabled();
     }
     this.mainActionRow.setComponents(Object.values(this.buttons));
     this.actionRows = [this.mainActionRow];
@@ -957,8 +973,8 @@ export class PaginationEmbed extends MessageEmbed {
   protected goFirst(i: ButtonInteraction): ButtonInteraction {
     this.currentPage = 1;
     if (!this.loop) {
-      this.buttons.first?.setDisabled(true);
-      this.buttons.prev?.setDisabled(true);
+      this.buttons.first?.setDisabled();
+      this.buttons.prev?.setDisabled();
     }
     this.buttons.next?.setDisabled(false);
     this.buttons.last?.setDisabled(false);
@@ -1043,8 +1059,8 @@ export class PaginationEmbed extends MessageEmbed {
     this.buttons.prev?.setDisabled(false);
     this.buttons.first?.setDisabled(false);
     if (!this.loop) {
-      this.buttons.next?.setDisabled(true);
-      this.buttons.last?.setDisabled(true);
+      this.buttons.next?.setDisabled();
+      this.buttons.last?.setDisabled();
     }
     this.goToPage(this.currentPage);
     i.update(this.payload);
