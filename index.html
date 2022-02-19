@@ -119,6 +119,17 @@ It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 <pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">setButtonStyle</span><span class="hl-0">(</span><span class="hl-4">&quot;SECONDARY&quot;</span><span class="hl-0">);</span>
 </code></pre>
 
+<a href="#add-or-remove-buttons" id="add-or-remove-buttons" style="color: inherit; text-decoration: none;">
+  <h4>Add or remove buttons</h4>
+</a>
+<p><code>Pagination</code> class have a property <code>buttons</code> which stores all the buttons with keys <code>first</code>, <code>prev</code>, <code>next</code> and <code>last</code>. If you want to add one more you can add it with any key.</p>
+<pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-5">buttons</span><span class="hl-0"> = { ...</span><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-5">buttons</span><span class="hl-0">, </span><span class="hl-5">extra:</span><span class="hl-0"> </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">MessageButton</span><span class="hl-0">() };</span>
+</code></pre>
+<p>If you want to remove some button then you can set the buttons to only these buttons.</p>
+<pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-5">buttons</span><span class="hl-0"> = { </span><span class="hl-5">prev:</span><span class="hl-0"> </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">MessageButton</span><span class="hl-0">(), </span><span class="hl-5">next:</span><span class="hl-0"> </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">MessageButton</span><span class="hl-0">() };</span>
+</code></pre>
+<p>If you are adding an extra button then make sure it&#39;s key isn&#39;t <code>first</code>, <code>prev</code>, <code>next</code>, or <code>last</code> or it&#39;ll be used as to paginate between different pages.</p>
+
 <a href="#add-action-row" id="add-action-row" style="color: inherit; text-decoration: none;">
   <h4>Add Action row</h4>
 </a>
@@ -185,14 +196,6 @@ You can pass attachments in the <code>setOptions</code> or using <code>setAttach
 </a>
 <p>If you are migrating from other lib where you use to set multiple embeds at the same time,
 then we also have a similar method called <a href="https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds">Pagination#setEmbeds</a>, where you can pass your embeds and use <a href="https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render">render()</a> method and pagination will take care of the rest.</p>
-
-<a href="#note" id="note" style="color: inherit; text-decoration: none;">
-  <h2>Note</h2>
-</a>
-<ul>
-<li>If you have a global Button Interaction handler then you can ignore the interactions with customId starting with <code>paginate-</code>.</li>
-<li>When adding an additional action row or button, don&#39;t set the custom id to any of the following: <code>paginate-first</code>, <code>paginate-prev</code>, <code>paginate-next</code>, <code>paginate-last</code>.</li>
-</ul>
 
 <a href="#license" id="license" style="color: inherit; text-decoration: none;">
   <h2>License</h2>
