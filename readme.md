@@ -11,6 +11,18 @@ It's a simple and lightweight module to paginate discord embeds.
 
 Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
+## Preview
+
+<p align="center">
+  <a href="#image1">
+    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
+  </a>
+  <a href="#image2">
+    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
+  <a href="#image3">
+    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
+</P>
+
 ## Installation
 
 ### Using npm
@@ -278,7 +290,7 @@ If you want to remove some button then you can set the buttons to only these but
 pagination.buttons = { prev: new MessageButton(), next: new MessageButton() };
 ```
 
-If you are adding an extra button then make sure it's key isn't `first`, `prev`, `next`, or `last` or it'll be used as to paginate between different pages.
+If you are adding an extra button then make sure it's key isn't `first`, `prev`, `next`, or `last` or it'll be used to paginate between different pages.
 
 #### Add Action row
 
@@ -304,6 +316,9 @@ pagination.render();
 ```
 
 #### Add multiple authorized users
+
+By default `interaction.user` or `member.author` is the only authorized user. But you can set multiple authorized users with `setAuthorizedUsers()` method.
+Note: If you pass an empty array in `setAuthorizedUsers()` then `everyone` can use the buttons.
 
 ```js
 pagination.setAuthorizedUsers(["user1", "user2"]);
@@ -342,18 +357,6 @@ const payloads = pagination.ready();
 const message = await interaction.reply(payloads);
 pagination.paginate(message);
 ```
-
-### Preview
-
-<p align="center">
-  <a href="#image1">
-    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
-  </a>
-  <a href="#image2">
-    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
-  <a href="#image3">
-    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
-</P>
 
 ## Migration guide
 
