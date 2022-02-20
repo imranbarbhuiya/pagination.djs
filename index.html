@@ -11,6 +11,20 @@
 It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 <p>Read docs here: <a href="https://pagination-djs.js.org/">pagination.djs</a></p>
 
+<a href="#preview" id="preview" style="color: inherit; text-decoration: none;">
+  <h2>Preview</h2>
+</a>
+<p align="center">
+  <a href="#image1">
+    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
+  </a>
+  <a href="#image2">
+    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
+  <a href="#image3">
+    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
+</P>
+
+
 <a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
   <h2>Installation</h2>
 </a>
@@ -128,7 +142,7 @@ It&#39;s a simple and lightweight module to paginate discord embeds.</p>
 <p>If you want to remove some button then you can set the buttons to only these buttons.</p>
 <pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-5">buttons</span><span class="hl-0"> = { </span><span class="hl-5">prev:</span><span class="hl-0"> </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">MessageButton</span><span class="hl-0">(), </span><span class="hl-5">next:</span><span class="hl-0"> </span><span class="hl-1">new</span><span class="hl-0"> </span><span class="hl-3">MessageButton</span><span class="hl-0">() };</span>
 </code></pre>
-<p>If you are adding an extra button then make sure it&#39;s key isn&#39;t <code>first</code>, <code>prev</code>, <code>next</code>, or <code>last</code> or it&#39;ll be used as to paginate between different pages.</p>
+<p>If you are adding an extra button then make sure it&#39;s key isn&#39;t <code>first</code>, <code>prev</code>, <code>next</code>, or <code>last</code> or it&#39;ll be used to paginate between different pages.</p>
 
 <a href="#add-action-row" id="add-action-row" style="color: inherit; text-decoration: none;">
   <h4>Add Action row</h4>
@@ -148,6 +162,8 @@ This can only be used when pagination through descriptions else it&#39;ll be ign
 <a href="#add-multiple-authorized-users" id="add-multiple-authorized-users" style="color: inherit; text-decoration: none;">
   <h4>Add multiple authorized users</h4>
 </a>
+<p>By default <code>interaction.user</code> or <code>member.author</code> is the only authorized user. But you can set multiple authorized users with <code>setAuthorizedUsers()</code> method.
+Note: If you pass an empty array in <code>setAuthorizedUsers()</code> then <code>everyone</code> can use the buttons.</p>
 <pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">setAuthorizedUsers</span><span class="hl-0">([</span><span class="hl-4">&quot;user1&quot;</span><span class="hl-0">, </span><span class="hl-4">&quot;user2&quot;</span><span class="hl-0">]);</span>
 </code></pre>
 <pre><code class="language-js"><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">addAuthorizedUser</span><span class="hl-0">(</span><span class="hl-4">&quot;user1&quot;</span><span class="hl-0">);</span>
@@ -176,20 +192,6 @@ You can pass attachments in the <code>setOptions</code> or using <code>setAttach
 <p>If you want to send it by yourself or send in a different channel then you can follow these steps:</p>
 <pre><code class="language-js"><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">payloads</span><span class="hl-0"> = </span><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">ready</span><span class="hl-0">();</span><br/><span class="hl-1">const</span><span class="hl-0"> </span><span class="hl-2">message</span><span class="hl-0"> = </span><span class="hl-6">await</span><span class="hl-0"> </span><span class="hl-5">interaction</span><span class="hl-0">.</span><span class="hl-3">reply</span><span class="hl-0">(</span><span class="hl-5">payloads</span><span class="hl-0">);</span><br/><span class="hl-5">pagination</span><span class="hl-0">.</span><span class="hl-3">paginate</span><span class="hl-0">(</span><span class="hl-5">message</span><span class="hl-0">);</span>
 </code></pre>
-
-<a href="#preview" id="preview" style="color: inherit; text-decoration: none;">
-  <h3>Preview</h3>
-</a>
-<p align="center">
-  <a href="#image1">
-    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
-  </a>
-  <a href="#image2">
-    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
-  <a href="#image3">
-    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
-</P>
-
 
 <a href="#migration-guide" id="migration-guide" style="color: inherit; text-decoration: none;">
   <h2>Migration guide</h2>
