@@ -20,7 +20,13 @@
   "keywords": [
     "pagination",
     "discord",
-    "discord.js"
+    "discord.js",
+    "pagination.djs",
+    "pagination-discord",
+    "pagination-discord.js",
+    "pagination-djs",
+    "discord-pagination",
+    "discord-button-pagination"
   ],
   "author": "imranbarbhuiya",
   "license": "MIT",
