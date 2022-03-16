@@ -868,7 +868,7 @@ export class PaginationEmbed extends MessageEmbed {
       this.buttons.last?.setDisabled(false);
       this.buttons.next?.setDisabled(false);
     }
-    if (this.loop) {
+    if (this.loop && this.totalEntry > this.limit) {
       this.buttons.first?.setDisabled(false);
       this.buttons.prev?.setDisabled(false);
     }
