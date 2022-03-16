@@ -54,7 +54,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  constructor(
+  public constructor(
     interaction:
       | CommandInteraction<'cached'>
       | ContextMenuInteraction<'cached'>
@@ -94,7 +94,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  setAuthorizedUsers(authorizedUsers: Snowflake[]): this {
+  public setAuthorizedUsers(authorizedUsers: Snowflake[]): this {
     this.authorizedUsers = authorizedUsers;
     return this;
   }
@@ -110,7 +110,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  addAuthorizedUser(authorizedUser: Snowflake): this {
+  public addAuthorizedUser(authorizedUser: Snowflake): this {
     this.authorizedUsers.push(authorizedUser);
     return this;
   }
@@ -126,7 +126,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  addAuthorizedUsers(authorizedUsers: Snowflake[]): this {
+  public addAuthorizedUsers(authorizedUsers: Snowflake[]): this {
     this.authorizedUsers.push(...authorizedUsers);
     return this;
   }
@@ -145,7 +145,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  paginate(message: Message): this {
+  public paginate(message: Message): this {
     const collector = message.createMessageComponentCollector({
       filter: ({ customId, user }) =>
         Object.values(this.buttons).some((b) => b.customId === customId) &&
@@ -192,7 +192,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async render(): Promise<Message> {
+  public async render(): Promise<Message> {
     if (
       this.interaction instanceof Interaction &&
       (this.interaction.replied || this.interaction.deferred)
@@ -213,7 +213,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async reply(): Promise<Message> {
+  public async reply(): Promise<Message> {
     const payloads = this.ready();
     //TODO: remove assertions
     const message = await (
@@ -237,7 +237,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async followUp(): Promise<Message> {
+  public async followUp(): Promise<Message> {
     const payloads = this.ready();
     if (!(this.interaction instanceof Interaction))
       throw new Error('The interaction is not an instance of Interaction');
@@ -257,7 +257,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async editReply(): Promise<Message> {
+  public async editReply(): Promise<Message> {
     const payloads = this.ready();
     if (!(this.interaction instanceof Interaction))
       throw new Error('The interaction is not an instance of Interaction');
@@ -277,7 +277,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async update(): Promise<Message> {
+  public async update(): Promise<Message> {
     const payloads = this.ready();
     if (!(this.interaction instanceof MessageComponentInteraction))
       throw new Error(
@@ -299,7 +299,7 @@ export class Pagination extends PaginationEmbed {
    * ```
    *
    */
-  async send(): Promise<Message> {
+  public async send(): Promise<Message> {
     const payloads = this.ready();
     if (!this.interaction.channel)
       throw new Error("The interaction or message don't have a channel");

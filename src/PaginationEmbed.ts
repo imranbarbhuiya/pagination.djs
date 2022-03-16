@@ -222,7 +222,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  constructor(options: Partial<Options> = {}) {
+  public constructor(options: Partial<Options> = {}) {
     super();
     const mergedOptions = Object.assign({}, defaultOptions, options);
     this.buttonInfo = {
@@ -286,7 +286,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setOptions(options: Partial<Options>): this {
+  public setOptions(options: Partial<Options>): this {
     this.setEmojis({
       firstEmoji: options.firstEmoji,
       prevEmoji: options.prevEmoji,
@@ -331,7 +331,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setImages(images: string[]): this {
+  public setImages(images: string[]): this {
     this.images = images;
     return this;
   }
@@ -348,7 +348,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addImage(image: string): this {
+  public addImage(image: string): this {
     this.images.push(image);
     return this;
   }
@@ -365,7 +365,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addImages(images: string[]): this {
+  public addImages(images: string[]): this {
     this.images.push(...images);
     return this;
   }
@@ -385,7 +385,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setDescriptions(descriptions: string[]): this {
+  public setDescriptions(descriptions: string[]): this {
     this.descriptions = descriptions;
     return this;
   }
@@ -402,7 +402,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addDescription(description: string): this {
+  public addDescription(description: string): this {
     this.descriptions.push(description);
     return this;
   }
@@ -419,7 +419,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addDescriptions(descriptions: string[]): this {
+  public addDescriptions(descriptions: string[]): this {
     this.descriptions.push(...descriptions);
     return this;
   }
@@ -442,7 +442,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setEmbeds(
+  public setEmbeds(
     embeds: Embed[],
     template?: (embed: MessageEmbed) => MessageEmbed
   ): this {
@@ -468,7 +468,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addEmbed(embed: Embed): this {
+  public addEmbed(embed: Embed): this {
     this.embeds.push(embed);
     return this;
   }
@@ -486,7 +486,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addEmbeds(
+  public addEmbeds(
     embeds: Embed[],
     template?: (embed: MessageEmbed) => MessageEmbed
   ): this {
@@ -522,7 +522,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  paginateFields(paginate = true): this {
+  public paginateFields(paginate = true): this {
     this.fieldPaginate = paginate;
     return this;
   }
@@ -538,7 +538,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setIdle(idle: number): this {
+  public setIdle(idle: number): this {
     this.idle = idle;
     return this;
   }
@@ -554,7 +554,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setEphemeral(ephemeral: boolean): this {
+  public setEphemeral(ephemeral: boolean): this {
     this.ephemeral = ephemeral;
     return this;
   }
@@ -570,7 +570,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setLimit(limit: number): this {
+  public setLimit(limit: number): this {
     this.limit = limit;
     return this;
   }
@@ -587,7 +587,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setPrevDescription(prevDescription: string): this {
+  public setPrevDescription(prevDescription: string): this {
     this.prevDescription = prevDescription;
     return this;
   }
@@ -604,7 +604,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setPostDescription(postDescription: string): this {
+  public setPostDescription(postDescription: string): this {
     this.postDescription = postDescription;
     return this;
   }
@@ -627,7 +627,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setEmojis(emojiOptions: Partial<EmojiOptions>): this {
+  public setEmojis(emojiOptions: Partial<EmojiOptions>): this {
     this.buttonInfo.first.emoji =
       emojiOptions.firstEmoji ?? this.buttonInfo.first.emoji;
     this.buttonInfo.prev.emoji =
@@ -655,7 +655,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setLabels(labelOptions: Partial<LabelOptions>): this {
+  public setLabels(labelOptions: Partial<LabelOptions>): this {
     this.buttonInfo.first.label =
       labelOptions.firstLabel ?? this.buttonInfo.first.label;
     this.buttonInfo.prev.label =
@@ -678,7 +678,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setStyle(style: ButtonStyle): this {
+  public setStyle(style: ButtonStyle): this {
     this.buttonInfo.first.style = style;
     this.buttonInfo.prev.style = style;
     this.buttonInfo.next.style = style;
@@ -704,7 +704,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  setButtonAppearance(options: ButtonsOptions): this {
+  public setButtonAppearance(options: ButtonsOptions): this {
     const { first, prev, next, last } = options;
     this.buttonInfo.first.label = first?.label ?? this.buttonInfo.first.label;
     this.buttonInfo.prev.label = prev?.label ?? this.buttonInfo.prev.label;
@@ -729,7 +729,7 @@ export class PaginationEmbed extends MessageEmbed {
    * @param buttons
    */
 
-  setButtons(buttons?: Record<string, MessageButton>) {
+  public setButtons(buttons?: Record<string, MessageButton>) {
     if (buttons) this.changedButtons = true;
     this.buttons = buttons ?? {
       first: new MessageButton().setCustomId('paginate-first'),
@@ -754,7 +754,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addActionRows(
+  public addActionRows(
     actionRows: MessageActionRow[],
     position: 'below' | 'above' = 'below'
   ): this {
@@ -777,7 +777,7 @@ export class PaginationEmbed extends MessageEmbed {
    *  .setAttachments([new MessageAttachment()]);
    * ```
    */
-  setAttachments(attachments: MessageAttachment[]): this {
+  public setAttachments(attachments: MessageAttachment[]): this {
     this.attachments = attachments;
     return this;
   }
@@ -794,7 +794,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addAttachment(attachment: MessageAttachment): this {
+  public addAttachment(attachment: MessageAttachment): this {
     this.attachments.push(attachment);
     return this;
   }
@@ -811,7 +811,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  addAttachments(attachments: MessageAttachment[]): this {
+  public addAttachments(attachments: MessageAttachment[]): this {
     this.attachments.push(...attachments);
     return this;
   }
@@ -829,7 +829,7 @@ export class PaginationEmbed extends MessageEmbed {
    *  .setContents(["this is the first page", "this is the second page"]);
    * ```
    */
-  setContents(contents: (string | null)[] | string | null): this {
+  public setContents(contents: (string | null)[] | string | null): this {
     this.contents = contents;
     return this;
   }
@@ -914,7 +914,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  goToPage(pageNumber: number): this {
+  public goToPage(pageNumber: number): this {
     if (pageNumber < 1) pageNumber = this.totalPages;
     if (pageNumber > this.totalPages) pageNumber = 1;
     this.currentPage = pageNumber;
@@ -1084,7 +1084,7 @@ export class PaginationEmbed extends MessageEmbed {
    * ```
    *
    */
-  ready(): InteractionReplyOptions & { fetchReply: true } {
+  public ready(): InteractionReplyOptions & { fetchReply: true } {
     if (this.fieldPaginate) {
       this.rawFields = [];
       this.rawFields.push(...this.fields);

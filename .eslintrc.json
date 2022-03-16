@@ -26,6 +26,7 @@
     "no-async-promise-executor": "off",
     "no-unused-vars": "off",
     "node/no-missing-require": "off",
-    "no-console": "warn"
+    "no-console": "warn",
+    "@typescript-eslint/explicit-member-accessibility": ["error"]
   }
 }
