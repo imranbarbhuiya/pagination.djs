@@ -3,6 +3,13 @@
   "version": "3.4.5",
   "description": "A discord.js compatible pagination module",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
     "docs": "typedoc",
     "build": "tsup && tsc -b src",
@@ -17,7 +24,6 @@
   ],
   "author": "imranbarbhuiya",
   "license": "MIT",
-  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "!dist/*.tsbuildinfo"
