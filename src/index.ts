@@ -1,9 +1,3 @@
-export type {
-  ButtonOptions,
-  ButtonsOptions,
-  ButtonStyle,
-  EmojiOptions,
-  LabelOptions,
-  Options,
-} from "../types";
-export * from "./Pagination";
+export * from './Pagination';
+export { Embed } from './PaginationEmbed';
+export * from './types';

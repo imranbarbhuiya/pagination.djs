@@ -1,5 +1,5 @@
-import { EmojiIdentifierResolvable } from "discord.js";
-import { ButtonStyle } from "./ButtonStyle";
+import { EmojiIdentifierResolvable } from 'discord.js';
+import { ButtonStyle } from './ButtonStyle';
 
 /**
  * Pagination Button Options

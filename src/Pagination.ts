@@ -5,9 +5,9 @@ import {
   Message,
   MessageComponentInteraction,
   Snowflake,
-} from "discord.js";
-import { Options } from "../types";
-import { PaginationEmbed } from "./PaginationEmbed";
+} from 'discord.js';
+import { Options } from './types';
+import { PaginationEmbed } from './PaginationEmbed';
 
 /**
  * The pagination class.
@@ -20,9 +20,9 @@ export class Pagination extends PaginationEmbed {
    * @readonly
    */
   public readonly interaction:
-    | CommandInteraction<"cached">
-    | ContextMenuInteraction<"cached">
-    | MessageComponentInteraction<"cached">
+    | CommandInteraction<'cached'>
+    | ContextMenuInteraction<'cached'>
+    | MessageComponentInteraction<'cached'>
     | Message;
 
   /**
@@ -56,9 +56,9 @@ export class Pagination extends PaginationEmbed {
    */
   constructor(
     interaction:
-      | CommandInteraction<"cached">
-      | ContextMenuInteraction<"cached">
-      | MessageComponentInteraction<"cached">
+      | CommandInteraction<'cached'>
+      | ContextMenuInteraction<'cached'>
+      | MessageComponentInteraction<'cached'>
       | Message,
     options: Partial<Options> = {}
   ) {
@@ -68,7 +68,7 @@ export class Pagination extends PaginationEmbed {
       !(interaction instanceof Message)
     ) {
       throw new Error(
-        "The interaction must be an instance of Interaction or Message"
+        'The interaction must be an instance of Interaction or Message'
       );
     }
     this.interaction = interaction;
@@ -155,7 +155,7 @@ export class Pagination extends PaginationEmbed {
       idle: this.idle,
     });
 
-    collector.on("collect", async (i) => {
+    collector.on('collect', async (i) => {
       if (!i.isButton()) return;
 
       if (i.customId === this.buttons.first?.customId) {
@@ -218,9 +218,9 @@ export class Pagination extends PaginationEmbed {
     //TODO: remove assertions
     const message = await (
       this.interaction as
-        | CommandInteraction<"cached">
-        | MessageComponentInteraction<"cached">
-        | ContextMenuInteraction<"cached">
+        | CommandInteraction<'cached'>
+        | MessageComponentInteraction<'cached'>
+        | ContextMenuInteraction<'cached'>
     ).reply(payloads);
     this.paginate(message);
     return message;
@@ -240,7 +240,7 @@ export class Pagination extends PaginationEmbed {
   async followUp(): Promise<Message> {
     const payloads = this.ready();
     if (!(this.interaction instanceof Interaction))
-      throw new Error("The interaction is not an instance of Interaction");
+      throw new Error('The interaction is not an instance of Interaction');
     const message = await this.interaction.followUp(payloads);
     this.paginate(message);
     return message;
@@ -260,7 +260,7 @@ export class Pagination extends PaginationEmbed {
   async editReply(): Promise<Message> {
     const payloads = this.ready();
     if (!(this.interaction instanceof Interaction))
-      throw new Error("The interaction is not an instance of Interaction");
+      throw new Error('The interaction is not an instance of Interaction');
     const message = await this.interaction.editReply(payloads);
     this.paginate(message);
     return message;
@@ -281,7 +281,7 @@ export class Pagination extends PaginationEmbed {
     const payloads = this.ready();
     if (!(this.interaction instanceof MessageComponentInteraction))
       throw new Error(
-        "The interaction is not an instance of MessageComponentInteraction"
+        'The interaction is not an instance of MessageComponentInteraction'
       );
     const message = await this.interaction.update(payloads);
     this.paginate(message);

@@ -1,6 +1,6 @@
-import { MessageAttachment } from "discord.js";
-import { ButtonStyle } from "./ButtonStyle";
-import { EmojiOptions } from "./EmojiOptions";
+import { MessageAttachment } from 'discord.js';
+import { ButtonStyle } from './ButtonStyle';
+import { EmojiOptions } from './EmojiOptions';
 
 /**
  * The options to customize the pagination.

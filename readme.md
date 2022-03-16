@@ -54,12 +54,12 @@ Example shows how to use it with any application command but it's valid for mess
 #### Paginate through descriptions
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
 const descriptions = [
-  "This is a description.",
-  "This is a second description.",
+  'This is a description.',
+  'This is a second description.',
 ];
 pagination.setDescriptions(descriptions);
 pagination.render();
@@ -68,10 +68,10 @@ pagination.render();
 #### Paginate through images
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
-const images = ["1st image link", "2nd image link"];
+const images = ['1st image link', '2nd image link'];
 pagination.setImages(images);
 pagination.render();
 ```
@@ -79,21 +79,21 @@ pagination.render();
 #### Paginate through Fields
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
 pagination.setFields([
   {
-    name: "First",
-    value: "First",
+    name: 'First',
+    value: 'First',
   },
   {
-    name: "Second",
-    value: "Second",
+    name: 'Second',
+    value: 'Second',
   },
   {
-    name: "Third",
-    value: "Third",
+    name: 'Third',
+    value: 'Third',
   },
 ]);
 pagination.paginateFields();
@@ -107,28 +107,28 @@ Note: You need to add `paginateFields()` in order to paginate through fields
 You can paginate through descriptions, images, fields all at the same time
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 
 const descriptions = [
-  "This is a description.",
-  "This is a second description.",
+  'This is a description.',
+  'This is a second description.',
 ];
-const images = ["1st image link", "2nd image link"];
+const images = ['1st image link', '2nd image link'];
 const pagination = new Pagination(interaction)
   .setDescriptions(descriptions)
   .setImages(images)
   .setFields([
     {
-      name: "First",
-      value: "First",
+      name: 'First',
+      value: 'First',
     },
     {
-      name: "Second",
-      value: "Second",
+      name: 'Second',
+      value: 'Second',
     },
     {
-      name: "Third",
-      value: "Third",
+      name: 'Third',
+      value: 'Third',
     },
   ])
   .paginateFields(true);
@@ -142,8 +142,8 @@ Note: If you use this then all the embed methods (`setTitle()`, ...) and other p
 Paginate through multiple embeds
 
 ```js
-const { Pagination } = require("pagination.djs");
-const { MessageEmbed } = require("discord.js");
+const { Pagination } = require('pagination.djs');
+const { MessageEmbed } = require('discord.js');
 const pagination = new Pagination(interaction);
 
 const embeds = [];
@@ -162,28 +162,28 @@ pagination.render();
 The pagination class extends the [discord.js MessageEmbed](https://discord.js.org/#/docs/main/stable/class/MessageEmbed) class. So you can directly use the embed methods.
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
-pagination.setTitle("Pagination");
-pagination.setDescription("This is a description.");
+pagination.setTitle('Pagination');
+pagination.setDescription('This is a description.');
 
-pagination.setColor("#00ff00");
-pagination.setFooter("Pagination");
+pagination.setColor('#00ff00');
+pagination.setFooter('Pagination');
 pagination.setTimestamp();
 
 pagination.addFields([
   {
-    name: "First",
-    value: "First",
+    name: 'First',
+    value: 'First',
   },
   {
-    name: "Second",
-    value: "Second",
+    name: 'Second',
+    value: 'Second',
   },
   {
-    name: "Third",
-    value: "Third",
+    name: 'Third',
+    value: 'Third',
   },
 ]);
 pagination.paginateFields(true);
@@ -195,19 +195,19 @@ pagination.render();
 You can customize the behavior of the pagination by passing the following options:
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction, {
-  firstEmoji: "⏮", // First button emoji
-  prevEmoji: "◀️", // Previous button emoji
-  nextEmoji: "▶️", // Next button emoji
-  lastEmoji: "⏭", // Last button emoji
+  firstEmoji: '⏮', // First button emoji
+  prevEmoji: '◀️', // Previous button emoji
+  nextEmoji: '▶️', // Next button emoji
+  lastEmoji: '⏭', // Last button emoji
   limit: 5, // number of entries per page
   idle: 30000, // idle time in ms before the pagination closes
   ephemeral: false, // ephemeral reply
-  prevDescription: "",
-  postDescription: "",
+  prevDescription: '',
+  postDescription: '',
   attachments: [new MessageAttachment()], // attachments you want to pass with the embed
-  buttonStyle: "SECONDARY",
+  buttonStyle: 'SECONDARY',
   loop: false, // loop through the pages
 });
 ```
@@ -232,10 +232,10 @@ set button emojis with `setEmojis()` method. You can set any custom or default e
 
 ```js
 pagination.setEmojis({
-  firstEmoji: "⏮",
-  prevEmoji: "◀️",
-  nextEmoji: "▶️",
-  lastEmoji: "⏭",
+  firstEmoji: '⏮',
+  prevEmoji: '◀️',
+  nextEmoji: '▶️',
+  lastEmoji: '⏭',
 });
 ```
 
@@ -246,24 +246,24 @@ Customize label, emoji or style of button using `setButtonAppearance()` method
 ```js
 pagination.setButtonAppearance({
   first: {
-    label: "First",
-    emoji: "⏮",
-    style: "PRIMARY",
+    label: 'First',
+    emoji: '⏮',
+    style: 'PRIMARY',
   },
   prev: {
-    label: "Prev",
-    emoji: "◀️",
-    style: "SECONDARY",
+    label: 'Prev',
+    emoji: '◀️',
+    style: 'SECONDARY',
   },
   next: {
-    label: "Next",
-    emoji: "▶️",
-    style: "SUCCESS",
+    label: 'Next',
+    emoji: '▶️',
+    style: 'SUCCESS',
   },
   last: {
-    label: "Last",
-    emoji: "⏭",
-    style: "DANGER",
+    label: 'Last',
+    emoji: '⏭',
+    style: 'DANGER',
   },
 });
 ```
@@ -273,7 +273,7 @@ pagination.setButtonAppearance({
 Change all the button style
 
 ```js
-pagination.setButtonStyle("SECONDARY");
+pagination.setButtonStyle('SECONDARY');
 ```
 
 #### Add or remove buttons
@@ -297,7 +297,7 @@ If you are adding an extra button then make sure it's key isn't `first`, `prev`,
 Add some action rows above or below the pagination button row
 
 ```js
-pagination.addActionRow(new MessageActionRow(), "above");
+pagination.addActionRow(new MessageActionRow(), 'above');
 ```
 
 #### prevDescription and postDescription
@@ -306,11 +306,11 @@ Add a fixed prev descriptions or a post descriptions
 This can only be used when pagination through descriptions else it'll be ignored
 
 ```js
-const { Pagination } = require("pagination.djs");
+const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction)
-  .setPrevDescription("Previous")
-  .setPostDescription("Post")
-  .descriptions(["Array of descriptions"]);
+  .setPrevDescription('Previous')
+  .setPostDescription('Post')
+  .descriptions(['Array of descriptions']);
 
 pagination.render();
 ```
@@ -321,15 +321,15 @@ By default `interaction.user` or `member.author` is the only authorized user. Bu
 Note: If you pass an empty array in `setAuthorizedUsers()` then `everyone` can use the buttons.
 
 ```js
-pagination.setAuthorizedUsers(["user1", "user2"]);
+pagination.setAuthorizedUsers(['user1', 'user2']);
 ```
 
 ```js
-pagination.addAuthorizedUser("user1");
+pagination.addAuthorizedUser('user1');
 ```
 
 ```js
-pagination.addAuthorizedUsers(["user3", "user4"]);
+pagination.addAuthorizedUsers(['user3', 'user4']);
 ```
 
 #### Send attachments

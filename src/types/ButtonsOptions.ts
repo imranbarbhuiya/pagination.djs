@@ -1,4 +1,4 @@
-import { ButtonOptions } from "./ButtonOptions";
+import { ButtonOptions } from './ButtonOptions';
 
 /**
  * Pagination Buttons Options

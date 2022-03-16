@@ -1,24 +1,24 @@
-import { Options } from "../types";
+import { Options } from './types';
 
 /**
  * The default options for the paginator.
  */
 export const defaultOptions: Options = {
-  firstEmoji: "⏪",
-  prevEmoji: "◀️",
-  nextEmoji: "▶️",
-  lastEmoji: "⏭",
-  firstLabel: "",
-  prevLabel: "",
-  nextLabel: "",
-  lastLabel: "",
+  firstEmoji: '⏪',
+  prevEmoji: '◀️',
+  nextEmoji: '▶️',
+  lastEmoji: '⏭',
+  firstLabel: '',
+  prevLabel: '',
+  nextLabel: '',
+  lastLabel: '',
   limit: 5,
   idle: 5 * 60 * 1000,
   ephemeral: false,
-  prevDescription: "",
-  postDescription: "",
+  prevDescription: '',
+  postDescription: '',
   attachments: [],
   contents: [],
-  buttonStyle: "SECONDARY",
+  buttonStyle: 'SECONDARY',
   loop: false,
 };

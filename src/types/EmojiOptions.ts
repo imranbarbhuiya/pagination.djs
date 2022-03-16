@@ -1,4 +1,4 @@
-import { EmojiIdentifierResolvable } from "discord.js";
+import { EmojiIdentifierResolvable } from 'discord.js';
 
 /**
  * Emojis of the pagination buttons

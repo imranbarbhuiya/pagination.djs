@@ -7,17 +7,17 @@ import {
   MessageButton,
   MessageEmbed,
   MessageEmbedOptions,
-} from "discord.js";
+} from 'discord.js';
 import {
   ButtonsOptions,
   ButtonStyle,
   EmojiOptions,
   LabelOptions,
   Options,
-} from "../types";
-import { defaultOptions } from "./defaultOptions";
+} from './types';
+import { defaultOptions } from './defaultOptions';
 
-type Embed = MessageEmbed | MessageEmbedOptions;
+export type Embed = MessageEmbed | MessageEmbedOptions;
 
 /**
  * The PaginationEmbed class.
@@ -184,7 +184,7 @@ export class PaginationEmbed extends MessageEmbed {
    */
   private extraRows: {
     rows: MessageActionRow[];
-    position: "above" | "below";
+    position: 'above' | 'below';
   }[];
 
   /**
@@ -305,11 +305,11 @@ export class PaginationEmbed extends MessageEmbed {
     this.ephemeral = options.ephemeral ?? this.ephemeral;
     this.loop = options.loop ?? this.loop;
     this.prevDescription =
-      typeof options.prevDescription === "string"
+      typeof options.prevDescription === 'string'
         ? options.prevDescription
         : this.prevDescription;
     this.postDescription =
-      typeof options.postDescription === "string"
+      typeof options.postDescription === 'string'
         ? options.postDescription
         : this.postDescription;
     this.attachments = options.attachments ?? this.attachments;
@@ -732,10 +732,10 @@ export class PaginationEmbed extends MessageEmbed {
   setButtons(buttons?: Record<string, MessageButton>) {
     if (buttons) this.changedButtons = true;
     this.buttons = buttons ?? {
-      first: new MessageButton().setCustomId("paginate-first"),
-      prev: new MessageButton().setCustomId("paginate-prev"),
-      next: new MessageButton().setCustomId("paginate-next"),
-      last: new MessageButton().setCustomId("paginate-last"),
+      first: new MessageButton().setCustomId('paginate-first'),
+      prev: new MessageButton().setCustomId('paginate-prev'),
+      next: new MessageButton().setCustomId('paginate-next'),
+      last: new MessageButton().setCustomId('paginate-last'),
     };
     return this;
   }
@@ -756,7 +756,7 @@ export class PaginationEmbed extends MessageEmbed {
    */
   addActionRows(
     actionRows: MessageActionRow[],
-    position: "below" | "above" = "below"
+    position: 'below' | 'above' = 'below'
   ): this {
     this.extraRows.push({
       rows: actionRows,
@@ -876,7 +876,7 @@ export class PaginationEmbed extends MessageEmbed {
     this.actionRows = [this.mainActionRow];
     if (this.extraRows.length > 0) {
       this.extraRows.forEach((row) => {
-        row.position === "above"
+        row.position === 'above'
           ? this.actionRows.unshift(...row.rows)
           : this.actionRows.push(...row.rows);
       });
@@ -924,7 +924,7 @@ export class PaginationEmbed extends MessageEmbed {
     }
     if (!this.footer) {
       this.customFooter = false;
-      this.rawFooter = "Pages: {pageNumber}/{totalPages}";
+      this.rawFooter = 'Pages: {pageNumber}/{totalPages}';
     } else if (this.customFooter && !this.rawFooter) {
       this.rawFooter = this.footer.text;
     }
@@ -948,7 +948,7 @@ export class PaginationEmbed extends MessageEmbed {
               pageNumber * this.limit - this.limit,
               pageNumber * this.limit
             )
-            .join("\n")}\n${this.postDescription}`
+            .join('\n')}\n${this.postDescription}`
       );
     }
 
