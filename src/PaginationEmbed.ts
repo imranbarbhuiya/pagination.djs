@@ -1,14 +1,12 @@
-import {
+import type {
   ButtonInteraction,
   EmbedField,
   InteractionReplyOptions,
-  MessageActionRow,
   MessageAttachment,
-  MessageButton,
-  MessageEmbed,
   MessageEmbedOptions,
 } from 'discord.js';
-import {
+import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import type {
   ButtonsOptions,
   ButtonStyle,
   EmojiOptions,

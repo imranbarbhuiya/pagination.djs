@@ -1,4 +1,29 @@
-import { ButtonOptions } from './ButtonOptions';
+import type { EmojiIdentifierResolvable } from 'discord.js';
+
+/**
+ * The style of the paginator buttons.
+ */
+export type ButtonStyle = 'PRIMARY' | 'SECONDARY' | 'DANGER' | 'SUCCESS';
+
+/**
+ * Pagination Button Options
+ */
+export interface ButtonOptions {
+  /**
+   * The emoji to use for the button.
+   */
+  emoji: EmojiIdentifierResolvable;
+  /**
+   * The text to show on the button.
+   * @default ""
+   */
+  label: string;
+  /**
+   * The style of the button.
+   * @default "SECONDARY"
+   */
+  style: ButtonStyle;
+}
 
 /**
  * Pagination Buttons Options

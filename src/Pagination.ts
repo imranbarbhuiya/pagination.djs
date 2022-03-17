@@ -1,12 +1,12 @@
-import {
+import { Interaction, Message, MessageComponentInteraction } from 'discord.js';
+import type {
   CommandInteraction,
-  ContextMenuInteraction,
-  Interaction,
-  Message,
-  MessageComponentInteraction,
   Snowflake,
+  InteractionCollector,
+  ButtonInteraction,
+  ContextMenuInteraction,
 } from 'discord.js';
-import { Options } from './types';
+import type { Options } from './types';
 import { PaginationEmbed } from './PaginationEmbed';
 
 /**
@@ -29,6 +29,11 @@ export class Pagination extends PaginationEmbed {
    * All the authorized users who can use the pagination buttons
    */
   public authorizedUsers: Snowflake[];
+
+  /**
+   * The collector of the pagination.
+   */
+  public collector?: InteractionCollector<ButtonInteraction>;
 
   //#end region
 
@@ -146,18 +151,17 @@ export class Pagination extends PaginationEmbed {
    *
    */
   public paginate(message: Message): this {
-    const collector = message.createMessageComponentCollector({
+    this.collector = message.createMessageComponentCollector({
       filter: ({ customId, user }) =>
         Object.values(this.buttons).some((b) => b.customId === customId) &&
         (this.authorizedUsers.length
           ? this.authorizedUsers.includes(user.id)
           : true),
       idle: this.idle,
+      componentType: 'BUTTON',
     });
 
-    collector.on('collect', async (i) => {
-      if (!i.isButton()) return;
-
+    this.collector.on('collect', async (i) => {
       if (i.customId === this.buttons.first?.customId) {
         this.goFirst(i);
         return;
