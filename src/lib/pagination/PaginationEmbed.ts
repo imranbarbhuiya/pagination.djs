@@ -1,6 +1,6 @@
-import type { ButtonInteraction, EmbedField, InteractionReplyOptions, MessageAttachment, MessageEmbedOptions } from 'discord.js';
+import type { ButtonInteraction, EmbedField, MessageAttachment, MessageEmbedOptions } from 'discord.js';
 import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
-import type { ButtonsOptions, ButtonStyle, EmojiOptions, LabelOptions, Options } from '../types';
+import type { ButtonsOptions, ButtonStyle, EmojiOptions, LabelOptions, Options, Payload } from '../types';
 import { defaultOptions } from './defaultOptions';
 
 export type Embed = MessageEmbed | MessageEmbedOptions;
@@ -137,7 +137,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @readonly
 	 * @private
 	 */
-	private readonly payload: InteractionReplyOptions & { fetchReply: true };
+	private readonly payload: Payload;
 
 	/**
 	 * Whether the footer is a custom footer or not.
@@ -824,7 +824,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public ready(): InteractionReplyOptions & { fetchReply: true } {
+	public ready(): Payload {
 		if (this.fieldPaginate) {
 			this.rawFields = [];
 			this.rawFields.push(...this.fields);
@@ -978,7 +978,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @returns
 	 * @private
 	 */
-	private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
+	private _readyPayloads(): Payload {
 		this._readyActionRows();
 		this.payload.components = this.actionRows;
 		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
