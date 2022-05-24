@@ -1,0 +1,3 @@
+name: pagination.djs
+packagePath: .
+commitMessageTemplate: 'chore(release): release {{new-version}}'

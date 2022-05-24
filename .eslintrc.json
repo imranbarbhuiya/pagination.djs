@@ -1,34 +1,17 @@
 {
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "rules": {
-    "quotes": ["error", "single", { "avoidEscape": true }],
-    "semi": ["error", "always"],
-    "eol-last": ["error", "always"],
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "never"
-      }
-    ],
-    "arrow-parens": ["error", "always"],
-    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
-    "prefer-const": "warn",
-    "accessor-pairs": "off",
-    "no-async-promise-executor": "off",
-    "no-unused-vars": "off",
-    "node/no-missing-require": "off",
-    "no-console": "warn",
-    "@typescript-eslint/explicit-member-accessibility": ["error"],
-    "@typescript-eslint/consistent-type-imports": "error",
-    "@typescript-eslint/no-shadow": "warn"
-  }
+	"root": true,
+	"extends": "@sapphire",
+	"ignorePatterns": ["**/dist/*"],
+	"parser": "@typescript-eslint/parser",
+	"rules": {
+		"@typescript-eslint/no-base-to-string": "off",
+		"@typescript-eslint/await-thenable": "error",
+		"@typescript-eslint/no-unsafe-member-access": "error",
+		"@typescript-eslint/no-unsafe-argument": "error",
+		"@typescript-eslint/no-unsafe-assignment": "error",
+		// enabling this rule needs a major bump
+		"@typescript-eslint/no-floating-promises": "off",
+		"@typescript-eslint/no-unnecessary-type-assertion": "error",
+		"no-console": "error"
+	}
 }

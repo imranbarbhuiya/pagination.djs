@@ -11,39 +11,17 @@ It's a simple and lightweight module to paginate discord embeds.
 
 Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
-## Preview
-
-<p align="center">
-  <a href="#image1">
-    <img alt="image1" id="image1" src="https://user-images.githubusercontent.com/74945038/146672128-dcd1251f-194b-48b6-9091-9dffb4a39399.png">
-  </a>
-  <a href="#image2">
-    <img alt="image2" id="image2" src="https://user-images.githubusercontent.com/74945038/146672133-faf40f4b-5c0c-4988-8044-fbf174231fb6.png"> </a>
-  <a href="#image3">
-    <img alt="image3" id="image3" src="https://user-images.githubusercontent.com/74945038/146672134-69c492b4-0c25-4d06-b3a0-326c0b2ee743.png"> </a>
-</P>
-
 ## Installation
 
-### Using npm
+`pagination.djs` depends on the following packages. Be sure to install these along with this package!
+
+- [discord.js](https://www.npmjs.com/package/discord.js)
+
+You can use the following command to install this package, or replace npm install with your package manager of choice.
 
 ```bash
-npm install pagination.djs
+npm install pagination.djs discord.js
 ```
-
-### Using yarn
-
-```bash
-yarn add pagination.djs
-```
-
-### Using pnpm
-
-```bash
-pnpm add pagination.djs
-```
-
-This package needs [discord.js](https://discord.js.org) version 13.5.0 or above.
 
 ## Uses
 

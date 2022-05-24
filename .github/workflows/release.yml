@@ -24,6 +24,9 @@ jobs:
         run: yarn --immutable
 
       - name: Publish to npm
-        run: npm publish
+        run: |
+          yarn config set npmAuthToken ${NODE_AUTH_TOKEN}
+          yarn config set npmPublishRegistry "https://registry.yarnpkg.com"
+          yarn npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
