@@ -20,8 +20,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install Dependencies
         run: yarn --immutable
-      - name: Build Dependencies
-        run: yarn turbo run build --filter=tagscript --no-deps
       - name: Deprecate versions
         run: yarn npm-deprecate --name "*pr-${PR_NUMBER}*" -d -v
         env:
