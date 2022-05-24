@@ -604,13 +604,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2":
-  version: 2.6.1
-  resolution: "@types/prettier@npm:2.6.1"
-  checksum: b25ec46d18129fa40c1a1f42feb7406e8f19901ba5261ba3c71600ad14996ae07b4f4b727a9b83da673948011e59d870fc519166f05b5d49e9ad39db1aea8c93
-  languageName: node
-  linkType: hard
-
 "@types/ws@npm:^8.2.2":
   version: 8.5.3
   resolution: "@types/ws@npm:8.5.3"
@@ -4122,7 +4115,6 @@ __metadata:
     "@favware/rollup-type-bundler": ^1.0.7
     "@sapphire/eslint-config": ^4.3.5
     "@sapphire/prettier-config": ^1.4.3
-    "@types/prettier": ^2
     "@typescript-eslint/eslint-plugin": ^5.15.0
     "@typescript-eslint/parser": ^5.15.0
     cz-conventional-changelog: ^3.3.0
