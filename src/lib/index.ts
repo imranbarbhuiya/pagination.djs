@@ -1,3 +1,3 @@
-export * from './Pagination';
-export * from './PaginationEmbed';
+export * from './pagination';
 export * from './types';
+export * from './utils';

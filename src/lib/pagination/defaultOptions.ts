@@ -1,4 +1,4 @@
-import type { Options } from './types';
+import type { Options } from '../types';
 
 /**
  * The default options for the paginator.

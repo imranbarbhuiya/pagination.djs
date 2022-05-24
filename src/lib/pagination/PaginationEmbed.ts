@@ -1,6 +1,6 @@
 import type { ButtonInteraction, EmbedField, InteractionReplyOptions, MessageAttachment, MessageEmbedOptions } from 'discord.js';
 import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
-import type { ButtonsOptions, ButtonStyle, EmojiOptions, LabelOptions, Options } from './types';
+import type { ButtonsOptions, ButtonStyle, EmojiOptions, LabelOptions, Options } from '../types';
 import { defaultOptions } from './defaultOptions';
 
 export type Embed = MessageEmbed | MessageEmbedOptions;
@@ -9,8 +9,6 @@ export type Embed = MessageEmbed | MessageEmbedOptions;
  * The PaginationEmbed class.
  */
 export abstract class PaginationEmbed extends MessageEmbed {
-	// #region public fields
-
 	/**
 	 * Pagination button infos.
 	 * @readonly
@@ -118,20 +116,21 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	public attachments!: MessageAttachment[];
 
 	/**
-	 * Contents if changing contents per page.
-	 * @default []
-	 */
-	private contents!: (string | null)[] | string | null;
-
-	/**
 	 * Whether if paginating through embed's fields.
 	 * @default false
 	 */
 	public fieldPaginate!: boolean;
 
-	// #end region
+	/**
+	 * The pagination buttons.
+	 */
+	public buttons!: Record<string, MessageButton>;
 
-	// #region private fields
+	/**
+	 * Contents if changing contents per page.
+	 * @default []
+	 */
+	private contents!: (string | null)[] | string | null;
 
 	/**
 	 * The payload of the final message.
@@ -159,11 +158,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	private rawFields: EmbedField[];
 
 	/**
-	 * The pagination buttons.
-	 */
-	public buttons!: Record<string, MessageButton>;
-
-	/**
 	 * The extra action rows to add, if any.
 	 * @private
 	 * @default []
@@ -184,8 +178,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @private
 	 */
 	private changedButtons?: boolean;
-
-	// #end region
 
 	/**
 	 * @param options
@@ -298,8 +290,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		return this;
 	}
 
-	// #region images related
-
 	/**
 	 * Sets the pagination images.
 	 * @param images
@@ -350,10 +340,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		return this;
 	}
 
-	// #end region
-
-	// #region descriptions related
-
 	/**
 	 * Sets the pagination descriptions.
 	 * @param descriptions
@@ -403,10 +389,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.descriptions.push(...descriptions);
 		return this;
 	}
-
-	// #end region
-
-	// #region embeds related
 
 	/**
 	 * Sets the pagination embeds.
@@ -468,8 +450,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.embeds.push(...embeds);
 		return this;
 	}
-
-	// #end region
 
 	/**
 	 * Paginates through fields.
@@ -578,8 +558,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.postDescription = postDescription;
 		return this;
 	}
-
-	// #region buttons related
 
 	/**
 	 * Sets the emojis for the buttons.
@@ -702,8 +680,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		return this;
 	}
 
-	// #end region
-
 	/**
 	 * Adds a custom action row below or above the pagination button action row.
 	 * @param actionRows
@@ -723,8 +699,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		});
 		return this;
 	}
-
-	// #region attachments related
 
 	/**
 	 * Sends an attachment along with the embed.
@@ -773,74 +747,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	public addAttachments(attachments: MessageAttachment[]): this {
 		this.attachments.push(...attachments);
 		return this;
-	}
-	// #end region
-
-	// #region contents related
-
-	/**
-	 * Sends contents along with the embed.
-	 * @param contents The contents to send.
-	 * @returns
-	 * @example
-	 * ```javascript
-	 * const pagination = new Pagination(interaction)
-	 *  .setContents(["this is the first page", "this is the second page"]);
-	 * ```
-	 */
-	public setContents(contents: (string | null)[] | string | null): this {
-		this.contents = contents;
-		return this;
-	}
-
-	// #end region
-
-	/**
-	 * Prepare the message's action rows for pagination.
-	 * @returns
-	 * @private
-	 */
-	private _readyActionRows(): this {
-		if (!this.changedButtons) {
-			this.buttons.first.setEmoji(this.buttonInfo.first.emoji).setLabel(this.buttonInfo.first.label).setStyle(this.buttonInfo.first.style);
-			this.buttons.prev.setEmoji(this.buttonInfo.prev.emoji).setLabel(this.buttonInfo.prev.label).setStyle(this.buttonInfo.prev.style);
-			this.buttons.next.setEmoji(this.buttonInfo.next.emoji).setLabel(this.buttonInfo.next.label).setStyle(this.buttonInfo.next.style);
-			this.buttons.last.setEmoji(this.buttonInfo.last.emoji).setLabel(this.buttonInfo.last.label).setStyle(this.buttonInfo.last.style);
-		}
-		this.buttons.first.setDisabled();
-		this.buttons.prev.setDisabled();
-		this.buttons.next.setDisabled();
-		this.buttons.last.setDisabled();
-		if (this.totalEntry > this.limit) {
-			this.buttons.last.setDisabled(false);
-			this.buttons.next.setDisabled(false);
-		}
-		if (this.loop && this.totalEntry > this.limit) {
-			this.buttons.first.setDisabled(false);
-			this.buttons.prev.setDisabled(false);
-		}
-		this.mainActionRow.setComponents(Object.values(this.buttons));
-		this.actionRows = [this.mainActionRow];
-		if (this.extraRows.length > 0) {
-			this.extraRows.forEach((row) => {
-				row.position === 'above' ? this.actionRows.unshift(...row.rows) : this.actionRows.push(...row.rows);
-			});
-		}
-		return this;
-	}
-
-	/**
-	 * Prepare the message's payload.
-	 * @returns
-	 * @private
-	 */
-	private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
-		this._readyActionRows();
-		this.payload.components = this.actionRows;
-		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
-		this.payload.embeds = [this.embeds.length ? this.embeds[0] : this];
-		this.payload.files = this.attachments;
-		return this.payload;
 	}
 
 	/**
@@ -893,8 +799,46 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	}
 
 	/**
+	 * Sends contents along with the embed.
+	 * @param contents The contents to send.
+	 * @returns
+	 * @example
+	 * ```javascript
+	 * const pagination = new Pagination(interaction)
+	 *  .setContents(["this is the first page", "this is the second page"]);
+	 * ```
+	 */
+	public setContents(contents: (string | null)[] | string | null): this {
+		this.contents = contents;
+		return this;
+	}
+
+	/**
+	 * Prepares the pagination.
+	 * @returns
+	 * @example
+	 * ```javascript
+	 * const pagination = new Pagination(interaction);
+	 * ...
+	 * pagination.ready();
+	 * ```
+	 *
+	 */
+	public ready(): InteractionReplyOptions & { fetchReply: true } {
+		if (this.fieldPaginate) {
+			this.rawFields = [];
+			this.rawFields.push(...this.fields);
+		}
+		this.totalEntry =
+			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
+		this.totalPages = Math.ceil(this.totalEntry / this.limit);
+		const payloads = this._readyPayloads();
+		this.goToPage(this.currentPage);
+		return payloads;
+	}
+
+	/**
 	 * Goes to the first page.
-	 * @protected
 	 * @param i
 	 * @returns
 	 * @example
@@ -922,7 +866,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 
 	/**
 	 * Goes to the previous page.
-	 * @protected
 	 * @param i
 	 * @returns
 	 * @example
@@ -948,7 +891,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 
 	/**
 	 * Goes to the next page.
-	 * @protected
 	 * @param i
 	 * @returns
 	 * @example
@@ -974,7 +916,6 @@ export abstract class PaginationEmbed extends MessageEmbed {
 
 	/**
 	 * Goes to the last page.
-	 * @protected
 	 * @param i
 	 * @returns
 	 * @example
@@ -999,26 +940,50 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	}
 
 	/**
-	 * Prepares the pagination.
+	 * Prepare the message's action rows for pagination.
 	 * @returns
-	 * @example
-	 * ```javascript
-	 * const pagination = new Pagination(interaction);
-	 * ...
-	 * pagination.ready();
-	 * ```
-	 *
+	 * @private
 	 */
-	public ready(): InteractionReplyOptions & { fetchReply: true } {
-		if (this.fieldPaginate) {
-			this.rawFields = [];
-			this.rawFields.push(...this.fields);
+	private _readyActionRows(): this {
+		if (!this.changedButtons) {
+			this.buttons.first.setEmoji(this.buttonInfo.first.emoji).setLabel(this.buttonInfo.first.label).setStyle(this.buttonInfo.first.style);
+			this.buttons.prev.setEmoji(this.buttonInfo.prev.emoji).setLabel(this.buttonInfo.prev.label).setStyle(this.buttonInfo.prev.style);
+			this.buttons.next.setEmoji(this.buttonInfo.next.emoji).setLabel(this.buttonInfo.next.label).setStyle(this.buttonInfo.next.style);
+			this.buttons.last.setEmoji(this.buttonInfo.last.emoji).setLabel(this.buttonInfo.last.label).setStyle(this.buttonInfo.last.style);
 		}
-		this.totalEntry =
-			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
-		this.totalPages = Math.ceil(this.totalEntry / this.limit);
-		const payloads = this._readyPayloads();
-		this.goToPage(this.currentPage);
-		return payloads;
+		this.buttons.first.setDisabled();
+		this.buttons.prev.setDisabled();
+		this.buttons.next.setDisabled();
+		this.buttons.last.setDisabled();
+		if (this.totalEntry > this.limit) {
+			this.buttons.last.setDisabled(false);
+			this.buttons.next.setDisabled(false);
+		}
+		if (this.loop && this.totalEntry > this.limit) {
+			this.buttons.first.setDisabled(false);
+			this.buttons.prev.setDisabled(false);
+		}
+		this.mainActionRow.setComponents(Object.values(this.buttons));
+		this.actionRows = [this.mainActionRow];
+		if (this.extraRows.length > 0) {
+			this.extraRows.forEach((row) => {
+				row.position === 'above' ? this.actionRows.unshift(...row.rows) : this.actionRows.push(...row.rows);
+			});
+		}
+		return this;
+	}
+
+	/**
+	 * Prepare the message's payload.
+	 * @returns
+	 * @private
+	 */
+	private _readyPayloads(): InteractionReplyOptions & { fetchReply: true } {
+		this._readyActionRows();
+		this.payload.components = this.actionRows;
+		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
+		this.payload.embeds = [this.embeds.length ? this.embeds[0] : this];
+		this.payload.files = this.attachments;
+		return this.payload;
 	}
 }

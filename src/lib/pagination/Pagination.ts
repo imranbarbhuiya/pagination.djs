@@ -1,7 +1,8 @@
 import { Interaction, Message, MessageComponentInteraction } from 'discord.js';
 import type { CommandInteraction, Snowflake, InteractionCollector, ButtonInteraction, ContextMenuInteraction } from 'discord.js';
-import type { Options } from './types';
+import type { Options } from '../types';
 import { PaginationEmbed } from './PaginationEmbed';
+import { authorOrUser } from '../utils';
 
 /**
  * The pagination class.
@@ -28,7 +29,7 @@ export class Pagination extends PaginationEmbed {
 	// #end region
 
 	/**
-	 * @param interaction
+	 * @param messageOrInteraction
 	 * @param options
 	 * @example
 	 * ```javascript
@@ -50,15 +51,15 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public constructor(
-		interaction: CommandInteraction<'cached'> | ContextMenuInteraction<'cached'> | MessageComponentInteraction<'cached'> | Message,
+		messageOrInteraction: CommandInteraction<'cached'> | ContextMenuInteraction<'cached'> | MessageComponentInteraction<'cached'> | Message,
 		options: Partial<Options> = {}
 	) {
 		super(options);
-		if (!(interaction instanceof Interaction) && !(interaction instanceof Message)) {
+		if (!(messageOrInteraction instanceof Interaction) && !(messageOrInteraction instanceof Message)) {
 			throw new Error('The interaction must be an instance of Interaction or Message');
 		}
-		this.interaction = interaction;
-		this.authorizedUsers = [((interaction as CommandInteraction).user ?? (interaction as Message).author).id];
+		this.interaction = messageOrInteraction;
+		this.authorizedUsers = [authorOrUser(messageOrInteraction).id];
 	}
 
 	// #region authorized users related
@@ -135,7 +136,7 @@ export class Pagination extends PaginationEmbed {
 			componentType: 'BUTTON'
 		});
 
-		this.collector.on('collect', async (i) => {
+		this.collector.on('collect', (i) => {
 			if (i.customId === this.buttons.first.customId) {
 				this.goFirst(i);
 				return;

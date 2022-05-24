@@ -9,7 +9,8 @@
 		"@typescript-eslint/no-unsafe-member-access": "error",
 		"@typescript-eslint/no-unsafe-argument": "error",
 		"@typescript-eslint/no-unsafe-assignment": "error",
-		"@typescript-eslint/no-unnecessary-condition": "error",
+		// enabling this rule needs a major bump
+		"@typescript-eslint/no-floating-promises": "off",
 		"@typescript-eslint/no-unnecessary-type-assertion": "error",
 		"no-console": "error"
 	}
