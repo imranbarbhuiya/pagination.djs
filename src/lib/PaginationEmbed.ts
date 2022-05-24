@@ -20,7 +20,7 @@ export type Embed = MessageEmbed | MessageEmbedOptions;
 /**
  * The PaginationEmbed class.
  */
-export class PaginationEmbed extends MessageEmbed {
+export abstract class PaginationEmbed extends MessageEmbed {
   //#region public fields
 
   /**
