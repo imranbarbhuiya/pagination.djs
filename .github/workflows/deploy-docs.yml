@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3.0.2
         with:
           fetch-depth: 0
-          repository: 'imranbarbhuiya/tagscript'
+          repository: 'imranbarbhuiya/pagination.djs'
           ref: 'main'
       - name: Add TypeScript problem matcher
         run: echo "::add-matcher::.github/problemMatchers/tsc.json"
