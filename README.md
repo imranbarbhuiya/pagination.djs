@@ -11,11 +11,18 @@ It's a simple and lightweight module to paginate discord embeds.
 
 Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
+## Features
+
+-   Written In Typescript
+-   Offers CJS and ESM builds
+-   Full TypeScript & JavaScript support
+-   Simple and easy to use
+
 ## Installation
 
 `pagination.djs` depends on the following packages. Be sure to install these along with this package!
 
-- [discord.js](https://www.npmjs.com/package/discord.js)
+-   [discord.js](https://www.npmjs.com/package/discord.js)
 
 You can use the following command to install this package, or replace npm install with your package manager of choice.
 
@@ -35,10 +42,7 @@ Example shows how to use it with any application command but it's valid for mess
 const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
-const descriptions = [
-  'This is a description.',
-  'This is a second description.',
-];
+const descriptions = ['This is a description.', 'This is a second description.'];
 pagination.setDescriptions(descriptions);
 pagination.render();
 ```
@@ -61,18 +65,18 @@ const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction);
 
 pagination.setFields([
-  {
-    name: 'First',
-    value: 'First',
-  },
-  {
-    name: 'Second',
-    value: 'Second',
-  },
-  {
-    name: 'Third',
-    value: 'Third',
-  },
+	{
+		name: 'First',
+		value: 'First'
+	},
+	{
+		name: 'Second',
+		value: 'Second'
+	},
+	{
+		name: 'Third',
+		value: 'Third'
+	}
 ]);
 pagination.paginateFields();
 pagination.render();
@@ -87,29 +91,26 @@ You can paginate through descriptions, images, fields all at the same time
 ```js
 const { Pagination } = require('pagination.djs');
 
-const descriptions = [
-  'This is a description.',
-  'This is a second description.',
-];
+const descriptions = ['This is a description.', 'This is a second description.'];
 const images = ['1st image link', '2nd image link'];
 const pagination = new Pagination(interaction)
-  .setDescriptions(descriptions)
-  .setImages(images)
-  .setFields([
-    {
-      name: 'First',
-      value: 'First',
-    },
-    {
-      name: 'Second',
-      value: 'Second',
-    },
-    {
-      name: 'Third',
-      value: 'Third',
-    },
-  ])
-  .paginateFields(true);
+	.setDescriptions(descriptions)
+	.setImages(images)
+	.setFields([
+		{
+			name: 'First',
+			value: 'First'
+		},
+		{
+			name: 'Second',
+			value: 'Second'
+		},
+		{
+			name: 'Third',
+			value: 'Third'
+		}
+	])
+	.paginateFields(true);
 pagination.render();
 ```
 
@@ -127,8 +128,8 @@ const pagination = new Pagination(interaction);
 const embeds = [];
 
 for (let i = 0; i <= 5; i++) {
-  const newEmbed = new MessageEmbed().setTitle(`Embed ${i + 1}`);
-  embeds.push(newEmbed);
+	const newEmbed = new MessageEmbed().setTitle(`Embed ${i + 1}`);
+	embeds.push(newEmbed);
 }
 
 pagination.setEmbeds(embeds);
@@ -151,18 +152,18 @@ pagination.setFooter('Pagination');
 pagination.setTimestamp();
 
 pagination.addFields([
-  {
-    name: 'First',
-    value: 'First',
-  },
-  {
-    name: 'Second',
-    value: 'Second',
-  },
-  {
-    name: 'Third',
-    value: 'Third',
-  },
+	{
+		name: 'First',
+		value: 'First'
+	},
+	{
+		name: 'Second',
+		value: 'Second'
+	},
+	{
+		name: 'Third',
+		value: 'Third'
+	}
 ]);
 pagination.paginateFields(true);
 pagination.render();
@@ -175,18 +176,18 @@ You can customize the behavior of the pagination by passing the following option
 ```js
 const { Pagination } = require('pagination.djs');
 const pagination = new Pagination(interaction, {
-  firstEmoji: '⏮', // First button emoji
-  prevEmoji: '◀️', // Previous button emoji
-  nextEmoji: '▶️', // Next button emoji
-  lastEmoji: '⏭', // Last button emoji
-  limit: 5, // number of entries per page
-  idle: 30000, // idle time in ms before the pagination closes
-  ephemeral: false, // ephemeral reply
-  prevDescription: '',
-  postDescription: '',
-  attachments: [new MessageAttachment()], // attachments you want to pass with the embed
-  buttonStyle: 'SECONDARY',
-  loop: false, // loop through the pages
+	firstEmoji: '⏮', // First button emoji
+	prevEmoji: '◀️', // Previous button emoji
+	nextEmoji: '▶️', // Next button emoji
+	lastEmoji: '⏭', // Last button emoji
+	limit: 5, // number of entries per page
+	idle: 30000, // idle time in ms before the pagination closes
+	ephemeral: false, // ephemeral reply
+	prevDescription: '',
+	postDescription: '',
+	attachments: [new MessageAttachment()], // attachments you want to pass with the embed
+	buttonStyle: 'SECONDARY',
+	loop: false // loop through the pages
 });
 ```
 
@@ -210,10 +211,10 @@ set button emojis with `setEmojis()` method. You can set any custom or default e
 
 ```js
 pagination.setEmojis({
-  firstEmoji: '⏮',
-  prevEmoji: '◀️',
-  nextEmoji: '▶️',
-  lastEmoji: '⏭',
+	firstEmoji: '⏮',
+	prevEmoji: '◀️',
+	nextEmoji: '▶️',
+	lastEmoji: '⏭'
 });
 ```
 
@@ -223,26 +224,26 @@ Customize label, emoji or style of button using `setButtonAppearance()` method
 
 ```js
 pagination.setButtonAppearance({
-  first: {
-    label: 'First',
-    emoji: '⏮',
-    style: 'PRIMARY',
-  },
-  prev: {
-    label: 'Prev',
-    emoji: '◀️',
-    style: 'SECONDARY',
-  },
-  next: {
-    label: 'Next',
-    emoji: '▶️',
-    style: 'SUCCESS',
-  },
-  last: {
-    label: 'Last',
-    emoji: '⏭',
-    style: 'DANGER',
-  },
+	first: {
+		label: 'First',
+		emoji: '⏮',
+		style: 'PRIMARY'
+	},
+	prev: {
+		label: 'Prev',
+		emoji: '◀️',
+		style: 'SECONDARY'
+	},
+	next: {
+		label: 'Next',
+		emoji: '▶️',
+		style: 'SUCCESS'
+	},
+	last: {
+		label: 'Last',
+		emoji: '⏭',
+		style: 'DANGER'
+	}
 });
 ```
 
@@ -285,10 +286,7 @@ This can only be used when pagination through descriptions else it'll be ignored
 
 ```js
 const { Pagination } = require('pagination.djs');
-const pagination = new Pagination(interaction)
-  .setPrevDescription('Previous')
-  .setPostDescription('Post')
-  .descriptions(['Array of descriptions']);
+const pagination = new Pagination(interaction).setPrevDescription('Previous').setPostDescription('Post').descriptions(['Array of descriptions']);
 
 pagination.render();
 ```
@@ -323,10 +321,10 @@ pagination.setAttachments([new MessageAttachment()]);
 
 By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) to the interaction. But if the interaction is already replied or deferred then it'll [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) instead. You can change the behavior farther more with the other send methods available. Available built-in methods are:
 
-- [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
-- [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
-- [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) edit interaction reply
-- [send()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#send) send message in the interaction channel
+-   [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
+-   [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
+-   [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) edit interaction reply
+-   [send()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#send) send message in the interaction channel
 
 If you want to send it by yourself or send in a different channel then you can follow these steps:
 
@@ -341,10 +339,25 @@ pagination.paginate(message);
 If you are migrating from other lib where you use to set multiple embeds at the same time,
 then we also have a similar method called [Pagination#setEmbeds](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#setEmbeds), where you can pass your embeds and use [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) method and pagination will take care of the rest.
 
-## License
+## Contributors ✨
 
-MIT
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
-## Author
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/imranbarbhuiya"><img src="https://avatars.githubusercontent.com/u/74945038?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Parbez</b></sub></a><br /><a href="https://github.com/imranbarbhuiya/Pagination.djs/commits?author=imranbarbhuiya" title="Code">💻</a> <a href="#maintenance-imranbarbhuiya" title="Maintenance">🚧</a> <a href="#ideas-imranbarbhuiya" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://renovate.whitesourcesoftware.com"><img src="https://avatars.githubusercontent.com/u/25180681?v=4?s=100" width="100px;" alt=""/><br /><sub><b>WhiteSource Renovate</b></sub></a><br /><a href="#maintenance-renovate-bot" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://tinaeldevresse.eu/"><img src="https://avatars.githubusercontent.com/u/32441291?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tinaël Devresse</b></sub></a><br /><a href="https://github.com/imranbarbhuiya/Pagination.djs/commits?author=HunteRoi" title="Documentation">📖</a> <a href="#maintenance-HunteRoi" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://newtt.me/"><img src="https://avatars.githubusercontent.com/u/19301186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>newt :D</b></sub></a><br /><a href="https://github.com/imranbarbhuiya/Pagination.djs/commits?author=newtykins" title="Code">💻</a></td>
+  </tr>
+</table>
 
-[@imranbarbhuiya](https://github.com/imranbarbhuiya)
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
