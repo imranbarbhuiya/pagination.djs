@@ -35,8 +35,9 @@
 	"author": "imranbarbhuiya",
 	"license": "MIT",
 	"files": [
-		"dist",
-		"!dist/*.tsbuildinfo"
+		"dist/**/*.js*",
+		"dist/**/*.mjs*",
+		"dist/**/*.d*"
 	],
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",

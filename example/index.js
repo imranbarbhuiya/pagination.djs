@@ -1,23 +1,23 @@
-import { Client, Intents } from "discord.js";
-import { Pagination } from "../dist";
+/* eslint-disable */
+import { Client, Intents } from 'discord.js';
+import { Pagination } from 'pagination.djs';
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILD_MESSAGES],
+	intents: [Intents.FLAGS.GUILD_MESSAGES]
 });
 
-client.on("ready", () => console.log("Connected"));
+client.on('ready', () => {
+	// client is ready
+});
 
-client.on("interactionCreate", (interaction) => {
-  if (interaction.isCommand() && interaction.commandName === "pagination") {
-    const descriptions = [
-      "This is a description.",
-      "This is a second description.",
-    ];
+client.on('interactionCreate', async (interaction) => {
+	if (interaction.isCommand() && interaction.commandName === 'pagination') {
+		const descriptions = ['This is a description.', 'This is a second description.'];
 
-    const pagination = new Pagination(interaction);
+		const pagination = new Pagination(interaction);
 
-    pagination.setDescriptions(descriptions).render();
-  }
+		await pagination.setDescriptions(descriptions).render();
+	}
 });
 
 // set your discord token in env with name `DISCORD_TOKEN`. See <https://discord.com/developers/applications> to get the token.
