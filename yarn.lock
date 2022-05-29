@@ -32,22 +32,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/cli@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@commitlint/cli@npm:17.0.0"
+"@commitlint/cli@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@commitlint/cli@npm:17.0.1"
   dependencies:
     "@commitlint/format": ^17.0.0
     "@commitlint/lint": ^17.0.0
     "@commitlint/load": ^17.0.0
     "@commitlint/read": ^17.0.0
     "@commitlint/types": ^17.0.0
+    execa: ^5.0.0
     lodash: ^4.17.19
     resolve-from: 5.0.0
     resolve-global: 1.0.0
     yargs: ^17.0.0
   bin:
     commitlint: cli.js
-  checksum: ac7159458ee6d6271898795dd30fb74efb84e549934aabba189dcc495cf49c48b71ab3ef444175636895526300b914db9c72d59161591e26517fc1cab9f83461
+  checksum: 7a69ce6eeb1a8c2b573d73d92790cea8e36392edf76687e409d890ab6f67176566dc21b4ea2cd26d32adad3b25bf6c1ac7827030354af1ed57e809f866feb4df
   languageName: node
   linkType: hard
 
@@ -3138,9 +3139,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.4.1":
-  version: 12.4.1
-  resolution: "lint-staged@npm:12.4.1"
+"lint-staged@npm:^12.4.2":
+  version: 12.4.2
+  resolution: "lint-staged@npm:12.4.2"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -3158,7 +3159,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: b57183b537064cda6caef6679918bf271903145f7c28d09567e918b8b13094048b579f8df808ea590dbd7ea2ec332327c5e372cf3d77e85b7b0254f6541ce4c3
+  checksum: cd2c1d5e79ad6cdcfc3f56dad1c7b72fbb6fb566dfeefa83643717236adc8b92f5a9b8356d545a9377f656107aad159b59cec9fd929f605b41408b8937443a9d
   languageName: node
   linkType: hard
 
@@ -3922,7 +3923,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pagination.djs@workspace:."
   dependencies:
-    "@commitlint/cli": ^17.0.0
+    "@commitlint/cli": ^17.0.1
     "@commitlint/config-conventional": ^17.0.0
     "@favware/cliff-jumper": ^1.8.0
     "@favware/npm-deprecate": ^1.0.4
@@ -3937,13 +3938,13 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.0.0
     husky: ^8.0.1
-    lint-staged: ^12.4.1
+    lint-staged: ^12.4.2
     pinst: ^3.0.0
     prettier: ^2.6.2
     pretty-quick: ^3.1.3
-    tsup: ^5.12.8
+    tsup: ^5.12.9
     typedoc: ^0.22.15
-    typescript: ^4.6.4
+    typescript: ^4.7.2
   peerDependencies:
     discord.js: ">=13.5.0"
   languageName: unknown
@@ -4351,7 +4352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.60.0, rollup@npm:^2.63.0":
+"rollup@npm:^2.63.0":
   version: 2.70.1
   resolution: "rollup@npm:2.70.1"
   dependencies:
@@ -4362,6 +4363,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: 06c62933e6e81a1c8c684d7d576e507081aabdb63cc0c91bca86b7348b66df03b77827068e4990b8b6c738bd3ef66dcc8c7ed7e0ea40b736068e7618f693133e
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.74.1":
+  version: 2.75.1
+  resolution: "rollup@npm:2.75.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: a48d2df765cc87c2d351e9df2ce3483cdc406e583cee271af2c38fe9371ccbae8484f0c50af4ac9293667c3eded082297008934712079d53798ec2841eef0339
   languageName: node
   linkType: hard
 
@@ -4995,9 +5010,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^5.12.8":
-  version: 5.12.8
-  resolution: "tsup@npm:5.12.8"
+"tsup@npm:^5.12.9":
+  version: 5.12.9
+  resolution: "tsup@npm:5.12.9"
   dependencies:
     bundle-require: ^3.0.2
     cac: ^6.7.12
@@ -5009,19 +5024,25 @@ __metadata:
     joycon: ^3.0.1
     postcss-load-config: ^3.0.1
     resolve-from: ^5.0.0
-    rollup: ^2.60.0
+    rollup: ^2.74.1
     source-map: 0.8.0-beta.0
     sucrase: ^3.20.3
     tree-kill: ^1.2.2
   peerDependencies:
+    "@swc/core": ^1
+    postcss: ^8.4.12
     typescript: ^4.1.0
   peerDependenciesMeta:
+    "@swc/core":
+      optional: true
+    postcss:
+      optional: true
     typescript:
       optional: true
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: 52629d44e3804a51e2136b37d9cc725d736007aaf19ef4795b1c3f8ede5a786386e6e4f4dcfb5e8e00496b014ed767352d1b77a2d48dd8f72a064b94617934e5
+  checksum: 872b7d1b523cb2feb6cdfaf9d0d45c1dee835b4b0a38d4f18dfd619ee5abc312421cf201edc8957cac8ba0d1061e697dd6ad1ccb2b45dc200a78ef7d0dd2569d
   languageName: node
   linkType: hard
 
@@ -5124,6 +5145,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "typescript@npm:4.7.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 5163585e6b56410f77d5483b698d9489bbee8902c99029eb70cf6d21525a186530ce19a00951af84eefd4a131cc51d0959f5118e25e70ab61f45ac4057dbd1ef
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>":
   version: 4.6.2
   resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=bda367"
@@ -5141,6 +5172,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.7.2#~builtin<compat/typescript>":
+  version: 4.7.2
+  resolution: "typescript@patch:typescript@npm%3A4.7.2#~builtin<compat/typescript>::version=4.7.2&hash=bda367"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 09d93fc0983d38eadd9b0427f790b49b4437f45002a87d447be3fbe53120880e87a91dd03e1d900498f99205d6e0b7c9784fe41fca11d56f4bbce371f74bb160
   languageName: node
   linkType: hard
 
