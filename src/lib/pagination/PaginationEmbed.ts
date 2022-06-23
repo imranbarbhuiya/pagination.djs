@@ -404,9 +404,11 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public setEmbeds(embeds: Embed[], template?: (embed: MessageEmbed) => MessageEmbed): this {
+	public setEmbeds(embeds: Embed[], template?: (embed: MessageEmbed, index: number, array: Embed[]) => MessageEmbed): this {
 		if (template) {
-			embeds = embeds.map((e) => (e instanceof MessageEmbed ? template(e) : template(new MessageEmbed(e))));
+			embeds = embeds.map((e, index, array) =>
+				e instanceof MessageEmbed ? template(e, index, array) : template(new MessageEmbed(e), index, array)
+			);
 		}
 		this.embeds = embeds;
 		this.limit = 1;
