@@ -1,13 +1,13 @@
-![npm](https://img.shields.io/npm/v/pagination.djs?label=Npm&logo=npm&style=for-the-badge)
-![npm](https://img.shields.io/npm/dw/pagination.djs?label=Downloads&logo=npm&style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs?style=for-the-badge)
-![Lint Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Lint/main?label=Lint&logo=eslint&style=for-the-badge)
-![Build Status](https://img.shields.io/github/workflow/status/imranbarbhuiya/duration/Build/main?label=Build&style=for-the-badge&logo=TypeScript)
+<div align="center">
 
-# Pagination.djs
+# pagination.djs
 
-A discord.js compatible pagination module.
-It's a simple and lightweight module to paginate discord embeds.
+A simple and lightweight module to paginate discord embeds.
+
+[![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs)](https://github.com/imranbarbhuiya/pagination.djs/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/pagination.djs?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/pagination.djs)
+
+</div>
 
 Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
@@ -82,7 +82,8 @@ pagination.paginateFields();
 pagination.render();
 ```
 
-Note: You need to add `paginateFields()` in order to paginate through fields
+> **Warning**
+> You need to add `paginateFields()` in order to paginate through fields
 
 #### Paginate through all
 
@@ -116,7 +117,8 @@ pagination.render();
 
 #### Paginate through multiple embeds
 
-Note: If you use this then all the embed methods (`setTitle()`, ...) and other pagination methods (`setImages()`, ...) will be ignored
+> **Warning**
+> If you use this then all the embed methods (`setTitle()`, ...) and other pagination methods (`setImages()`, ...) will be ignored
 
 Paginate through multiple embeds
 
@@ -133,6 +135,10 @@ for (let i = 0; i <= 5; i++) {
 }
 
 pagination.setEmbeds(embeds);
+// or if you want to set a common change in all embeds, you can do it by adding a cb.
+pagination.setEmbeds(embeds, (embed, index, array) => {
+	return embed.setFooter({ text: `Page: ${index + 1}/${array.length}` });
+});
 pagination.render();
 ```
 
@@ -191,7 +197,8 @@ const pagination = new Pagination(interaction, {
 });
 ```
 
-Note: All the options are optional
+> **Note:**
+> All the options are optional. If you don't pass any option, the default values will be used.
 
 You can set the options with `setOptions()` method also
 
@@ -294,7 +301,9 @@ pagination.render();
 #### Add multiple authorized users
 
 By default `interaction.user` or `member.author` is the only authorized user. But you can set multiple authorized users with `setAuthorizedUsers()` method.
-Note: If you pass an empty array in `setAuthorizedUsers()` then `everyone` can use the buttons.
+
+> **Note**
+> If you pass an empty array in `setAuthorizedUsers()` then `everyone` can use the buttons.
 
 ```js
 pagination.setAuthorizedUsers(['user1', 'user2']);
