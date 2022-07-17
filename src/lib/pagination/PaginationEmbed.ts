@@ -781,6 +781,9 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		if (this.fieldPaginate) {
 			super.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
 		}
+
+		this.payload.embeds = [this];
+
 		return this;
 	}
 
@@ -817,9 +820,9 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		this.totalEntry =
 			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
 		this.totalPages = Math.ceil(this.totalEntry / this.limit);
-		const payloads = this._readyPayloads();
+		this._readyPayloads();
 		this.goToPage(this.currentPage);
-		return payloads;
+		return this.payload;
 	}
 
 	/**
