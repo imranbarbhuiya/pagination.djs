@@ -12,13 +12,13 @@
 	},
 	"scripts": {
 		"docs": "typedoc",
-		"build": "tsup && tsc -b src",
+		"build": "tsup",
 		"format": "prettier --write \"{src,tests,scripts}/**/*.{mjs,ts,js}\"",
 		"lint": "eslint . --ext mjs,js,ts --fix",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky install .github/husky",
-		"prepack": "rollup-type-bundler && pinst --disable",
+		"prepack": " pinst --disable",
 		"postpack": "pinst --enable"
 	},
 	"keywords": [
@@ -44,7 +44,6 @@
 		"@commitlint/config-conventional": "^17.0.3",
 		"@favware/cliff-jumper": "^1.8.5",
 		"@favware/npm-deprecate": "^1.0.4",
-		"@favware/rollup-type-bundler": "^1.0.9",
 		"@sapphire/eslint-config": "^4.3.7",
 		"@sapphire/prettier-config": "^1.4.3",
 		"@typescript-eslint/eslint-plugin": "^5.30.6",
