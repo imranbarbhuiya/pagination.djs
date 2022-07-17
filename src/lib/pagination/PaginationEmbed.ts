@@ -1,14 +1,34 @@
-import type { ButtonInteraction, EmbedField, MessageAttachment, MessageEmbedOptions } from 'discord.js';
-import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
-import type { ButtonsOptions, ButtonStyle, EmojiOptions, LabelOptions, Options, Payload } from '../types';
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	EmbedBuilder,
+	normalizeArray,
+	type APIEmbed,
+	type APIEmbedField,
+	type ButtonInteraction,
+	type ComponentEmojiResolvable,
+	type JSONEncodable,
+	type MessageActionRowComponentBuilder,
+	type RestOrArray
+} from 'discord.js';
+import {
+	ExtraRowPosition,
+	type ButtonsOptions,
+	type EmojiOptions,
+	type LabelOptions,
+	type Options,
+	type PAttachments,
+	type Payload,
+	type PButtonBuilder,
+	type PButtonStyle,
+	type PEmbeds
+} from '../types';
 import { defaultOptions } from './defaultOptions';
-
-export type Embed = MessageEmbed | MessageEmbedOptions;
 
 /**
  * The PaginationEmbed class.
  */
-export abstract class PaginationEmbed extends MessageEmbed {
+export abstract class PaginationEmbed extends EmbedBuilder {
 	/**
 	 * Pagination button infos.
 	 * @readonly
@@ -16,22 +36,22 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 *  first: {
 	 *    emoji: "⏮",
 	 *    label: "",
-	 *    style: "SECONDARY",
+	 *    style: ButtonStyle.Secondary,
 	 *  },
 	 *  prev: {
 	 *    emoji: "◀️",
 	 *    label: "",
-	 *    style: "SECONDARY",
+	 *    style: ButtonStyle.Secondary,
 	 *  },
 	 *  next: {
 	 *    emoji: "▶️",
 	 *    label: "",
-	 *    style: "SECONDARY",
+	 *    style: ButtonStyle.Secondary,
 	 *  },
 	 *  last: {
 	 *    emoji: "⏭",
 	 *    label: "",
-	 *    style: "SECONDARY",
+	 *    style: ButtonStyle.Secondary,
 	 *  },
 	 * }
 	 */
@@ -50,7 +70,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	/**
 	 * The action rows of the final message.
 	 */
-	public actionRows: MessageActionRow[];
+	public actionRows: ActionRowBuilder<MessageActionRowComponentBuilder>[];
 
 	/**
 	 * The total number of entries.
@@ -107,13 +127,13 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * The embeds if paginating through embeds.
 	 * @default []
 	 */
-	public embeds: Embed[];
+	public embeds: PEmbeds;
 
 	/**
 	 * The attachments to show with the paginated messages.
 	 * @default []
 	 */
-	public attachments!: MessageAttachment[];
+	public attachments!: PAttachments;
 
 	/**
 	 * Whether if paginating through embed's fields.
@@ -124,7 +144,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	/**
 	 * The pagination buttons.
 	 */
-	public buttons!: Record<string, MessageButton>;
+	public buttons!: Record<string, PButtonBuilder>;
 
 	/**
 	 * Contents if changing contents per page.
@@ -150,12 +170,12 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @readonly
 	 * @private
 	 */
-	private readonly mainActionRow: MessageActionRow;
+	private readonly mainActionRow: ActionRowBuilder<MessageActionRowComponentBuilder>;
 
 	/**
 	 * All the fields if paginating through fields.
 	 */
-	private rawFields: EmbedField[];
+	private rawFields: APIEmbedField[];
 
 	/**
 	 * The extra action rows to add, if any.
@@ -163,8 +183,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @default []
 	 */
 	private extraRows: {
-		rows: MessageActionRow[];
-		position: 'above' | 'below';
+		rows: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+		position: ExtraRowPosition;
 	}[];
 
 	/**
@@ -194,7 +214,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 *  prevDescription: "",
 	 *  postDescription: "",
 	 *  attachments: [],
-	 *  buttonStyle: "SECONDARY",
+	 *  buttonStyle: ButtonStyle.Secondary,
 	 *  loop: false,
 	 * });
 	 * ```
@@ -229,15 +249,31 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.descriptions = [];
 		this.embeds = [];
 		this.actionRows = [];
-		this.payload = { fetchReply: true };
+		this.payload = {};
 		this.totalEntry = 0;
 		this.totalPages = 0;
 		this.currentPage = 1;
 		this.customFooter = true;
 		this.rawFields = [];
-		this.mainActionRow = new MessageActionRow();
+		this.mainActionRow = new ActionRowBuilder();
 		this.extraRows = [];
 		this.setOptions(mergedOptions);
+	}
+
+	public override addFields(...fields: RestOrArray<APIEmbedField>): this {
+		this.rawFields.push(...normalizeArray(fields));
+		return this;
+	}
+
+	public spliceFields(index: number, deleteCount: number, ...fields: APIEmbedField[]): this {
+		if (this.data.fields) this.data.fields.splice(index, deleteCount, ...fields);
+		else this.data.fields = fields;
+		return this;
+	}
+
+	public override setFields(...fields: RestOrArray<APIEmbedField>): this {
+		this.rawFields = normalizeArray(fields);
+		return this;
 	}
 
 	/**
@@ -258,7 +294,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 *    prevDescription: "",
 	 *    postDescription: "",
 	 *    attachments: [],
-	 *    buttonStyle: "SECONDARY",
+	 *    buttonStyle: ButtonStyle.Secondary,
 	 *    loop: false,
 	 *  });
 	 * ```
@@ -301,25 +337,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public setImages(images: string[]): this {
-		this.images = images;
-		return this;
-	}
-
-	/**
-	 * Adds a pagination image.
-	 * @param image
-	 * @returns
-	 * @example
-	 * ```javascript
-	 * const pagination = new Pagination(interaction)
-	 *  .setImages(["1st image", "2nd image", "3rd image"])
-	 *  .addImage("4st image");
-	 * ```
-	 *
-	 */
-	public addImage(image: string): this {
-		this.images.push(image);
+	public setImages(...images: RestOrArray<string>): this {
+		this.images = normalizeArray(images);
 		return this;
 	}
 
@@ -335,8 +354,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public addImages(images: string[]): this {
-		this.images.push(...images);
+	public addImages(...images: RestOrArray<string>): this {
+		this.images.push(...normalizeArray(images));
 		return this;
 	}
 
@@ -351,25 +370,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public setDescriptions(descriptions: string[]): this {
-		this.descriptions = descriptions;
-		return this;
-	}
-
-	/**
-	 * Adds a pagination description.
-	 * @param description
-	 * @returns
-	 * @example
-	 * ```javascript
-	 * const pagination = new Pagination(interaction)
-	 *  .setDescriptions(["1st description", "2nd description", "3rd description"])
-	 *  .addDescription("4st description");
-	 * ```
-	 *
-	 */
-	public addDescription(description: string): this {
-		this.descriptions.push(description);
+	public setDescriptions(...descriptions: RestOrArray<string>): this {
+		this.descriptions = normalizeArray(descriptions);
 		return this;
 	}
 
@@ -385,8 +387,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public addDescriptions(descriptions: string[]): this {
-		this.descriptions.push(...descriptions);
+	public addDescriptions(...descriptions: RestOrArray<string>): this {
+		this.descriptions.push(...normalizeArray(descriptions));
 		return this;
 	}
 
@@ -394,21 +396,19 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * Sets the pagination embeds.
 	 * Note: if you set this then all other pagination methods and embed methods will be ignored
 	 * i.e., descriptions, images, fields, also the embed properties like title, footer and all
-	 * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedField}
+	 * @param embeds
 	 * @param template A template function that will be called for each embed.
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
+	 *  .setEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()]);
 	 * ```
 	 *
 	 */
-	public setEmbeds(embeds: Embed[], template?: (embed: MessageEmbed, index: number, array: Embed[]) => MessageEmbed): this {
+	public setEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder, i: number, array: PEmbeds) => JSONEncodable<APIEmbed>): this {
 		if (template) {
-			embeds = embeds.map((e, index, array) =>
-				e instanceof MessageEmbed ? template(e, index, array) : template(new MessageEmbed(e), index, array)
-			);
+			embeds = embeds.map((e, index, array) => template(EmbedBuilder.from(e), index, array));
 		}
 		this.embeds = embeds;
 		this.limit = 1;
@@ -416,38 +416,21 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	}
 
 	/**
-	 * Adds a pagination embed.
-	 * @param embed A {@link MessageEmbed} or {@link MessageEmbedField}
-	 * @returns
-	 * @example
-	 * ```javascript
-	 * const pagination = new Pagination(interaction)
-	 *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
-	 *  .addEmbed(new MessageEmbed);
-	 * ```
-	 *
-	 */
-	public addEmbed(embed: Embed): this {
-		this.embeds.push(embed);
-		return this;
-	}
-
-	/**
 	 * Adds multiple pagination embeds.
-	 * @param embeds An array of {@link MessageEmbed} or {@link MessageEmbedOptions}
+	 * @param embeds An array of {@link EmbedBuilder} or {@link EmbedBuilderOptions}
 	 * @param template A template function that will be called for each embed.
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()])
-	 *  .addEmbeds([new MessageEmbed(), new MessageEmbed(), new MessageEmbed()]);
+	 *  .setEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()])
+	 *  .addEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()]);
 	 * ```
 	 *
 	 */
-	public addEmbeds(embeds: Embed[], template?: (embed: MessageEmbed) => MessageEmbed): this {
+	public addEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder) => JSONEncodable<APIEmbed>): this {
 		if (template) {
-			embeds = embeds.map((e) => (e instanceof MessageEmbed ? template(e) : template(new MessageEmbed(e))));
+			embeds = embeds.map((e) => template(EmbedBuilder.from(e)));
 		}
 		this.embeds.push(...embeds);
 		return this;
@@ -506,7 +489,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	public setEphemeral(ephemeral: boolean): this {
+	public setEphemeral(ephemeral = true): this {
 		this.ephemeral = ephemeral;
 		return this;
 	}
@@ -616,11 +599,11 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setStyle("SECONDARY");
+	 *  .setStyle(ButtonStyle.Secondary);
 	 * ```
 	 *
 	 */
-	public setStyle(style: ButtonStyle): this {
+	public setStyle(style: PButtonStyle): this {
 		this.buttonInfo.first.style = style;
 		this.buttonInfo.prev.style = style;
 		this.buttonInfo.next.style = style;
@@ -631,7 +614,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 
 	/**
 	 * Customizes the styles of each button.
-	 * @param buttonOptions
+	 * @param options
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -640,7 +623,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 *    first: {
 	 *      label: "First",
 	 *      emoji: ":first_emoji:",
-	 *      style: "SECONDARY"
+	 *      style: ButtonStyle.Secondary
 	 *    }
 	 *  });
 	 * ```
@@ -671,14 +654,14 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @param buttons
 	 */
 
-	public setButtons(buttons?: Record<string, MessageButton>) {
+	public setButtons(buttons?: Record<string, ButtonBuilder>) {
 		if (buttons) this.changedButtons = true;
-		this.buttons = buttons ?? {
-			first: new MessageButton().setCustomId('paginate-first'),
-			prev: new MessageButton().setCustomId('paginate-prev'),
-			next: new MessageButton().setCustomId('paginate-next'),
-			last: new MessageButton().setCustomId('paginate-last')
-		};
+		this.buttons = (buttons ?? {
+			first: new ButtonBuilder().setCustomId('paginate-first'),
+			prev: new ButtonBuilder().setCustomId('paginate-prev'),
+			next: new ButtonBuilder().setCustomId('paginate-next'),
+			last: new ButtonBuilder().setCustomId('paginate-last')
+		}) as Record<string, PButtonBuilder>;
 		return this;
 	}
 
@@ -690,11 +673,11 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .addActionRows([new MessageActionRow()], "above");
+	 *  .addActionRows([new ActionRowBuilder()], ExtraRowPosition.Below);
 	 * ```
 	 *
 	 */
-	public addActionRows(actionRows: MessageActionRow[], position: 'below' | 'above' = 'below'): this {
+	public addActionRows(actionRows: ActionRowBuilder<MessageActionRowComponentBuilder>[], position = ExtraRowPosition.Below): this {
 		this.extraRows.push({
 			rows: actionRows,
 			position
@@ -709,10 +692,10 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setAttachments([new MessageAttachment()]);
+	 *  .setAttachments([new AttachmentBuilder()]);
 	 * ```
 	 */
-	public setAttachments(attachments: MessageAttachment[]): this {
+	public setAttachments(attachments: PAttachments): this {
 		this.attachments = attachments;
 		return this;
 	}
@@ -724,12 +707,12 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setAttachments([new MessageAttachment()])
-	 *  .addAttachment(new MessageAttachment());
+	 *  .setAttachments([new AttachmentBuilder()])
+	 *  .addAttachment(new AttachmentBuilder());
 	 * ```
 	 *
 	 */
-	public addAttachment(attachment: MessageAttachment): this {
+	public addAttachment(attachment: PAttachments[number]): this {
 		this.attachments.push(attachment);
 		return this;
 	}
@@ -741,12 +724,12 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
-	 *  .setAttachments([new MessageAttachment()])
-	 *  .addAttachments([new MessageAttachment(), new MessageAttachment()]);
+	 *  .setAttachments([new AttachmentBuilder()])
+	 *  .addAttachments([new AttachmentBuilder(), new AttachmentBuilder()]);
 	 * ```
 	 *
 	 */
-	public addAttachments(attachments: MessageAttachment[]): this {
+	public addAttachments(attachments: PAttachments): this {
 		this.attachments.push(...attachments);
 		return this;
 	}
@@ -770,18 +753,19 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		if (pageNumber > this.totalPages) pageNumber = 1;
 		this.currentPage = pageNumber;
 		if (this.embeds.length) {
-			this.payload.embeds = [this.embeds[this.currentPage - 1]];
+			const embed = this.embeds[this.currentPage - 1];
+			this.payload.embeds = [EmbedBuilder.from(embed)];
 			return this;
 		}
-		if (!this.footer) {
+		if (!this.data.footer) {
 			this.customFooter = false;
 			this.rawFooter = 'Pages: {pageNumber}/{totalPages}';
 		} else if (this.customFooter && !this.rawFooter) {
-			this.rawFooter = this.footer.text;
+			this.rawFooter = this.data.footer.text;
 		}
 		this.setFooter({
 			text: this.rawFooter.replace(/{pageNumber}/g, `${pageNumber}`).replace(/{totalPages}/g, `${this.totalPages}`),
-			iconURL: this.footer?.iconURL
+			iconURL: this.data.footer?.icon_url
 		});
 		if (this.images.length) {
 			this.setImage(this.images[pageNumber - 1]);
@@ -795,7 +779,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		}
 
 		if (this.fieldPaginate) {
-			this.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
+			super.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
 		}
 		return this;
 	}
@@ -827,9 +811,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 *
 	 */
 	public ready(): Payload {
-		if (this.fieldPaginate) {
-			this.rawFields = [];
-			this.rawFields.push(...this.fields);
+		if (!this.fieldPaginate) {
+			this.setFields(this.rawFields);
 		}
 		this.totalEntry =
 			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
@@ -851,7 +834,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	protected goFirst(i: ButtonInteraction): ButtonInteraction {
+	protected async goFirst(i: ButtonInteraction) {
 		this.currentPage = 1;
 		if (!this.loop) {
 			this.buttons.first.setDisabled();
@@ -862,8 +845,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 
 		this.goToPage(1);
 
-		i.update(this.payload);
-		return i;
+		await i.update(this.payload);
 	}
 
 	/**
@@ -878,7 +860,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	protected goPrev(i: ButtonInteraction): ButtonInteraction {
+	protected async goPrev(i: ButtonInteraction) {
 		this.currentPage--;
 		if (!this.loop) {
 			this.buttons.first.setDisabled(this.currentPage === 1);
@@ -887,8 +869,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.buttons.next.setDisabled(false);
 		this.buttons.last.setDisabled(false);
 		this.goToPage(this.currentPage);
-		i.update(this.payload);
-		return i;
+		await i.update(this.payload);
 	}
 
 	/**
@@ -903,7 +884,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	protected goNext(i: ButtonInteraction): ButtonInteraction {
+	protected async goNext(i: ButtonInteraction) {
 		this.currentPage++;
 		this.buttons.prev.setDisabled(false);
 		this.buttons.first.setDisabled(false);
@@ -912,8 +893,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 			this.buttons.last.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
 		}
 		this.goToPage(this.currentPage);
-		i.update(this.payload);
-		return i;
+		await i.update(this.payload);
 	}
 
 	/**
@@ -928,7 +908,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 * ```
 	 *
 	 */
-	protected goLast(i: ButtonInteraction): ButtonInteraction {
+	protected async goLast(i: ButtonInteraction) {
 		this.currentPage = Math.ceil(this.totalEntry / this.limit);
 		this.buttons.prev.setDisabled(false);
 		this.buttons.first.setDisabled(false);
@@ -937,8 +917,14 @@ export abstract class PaginationEmbed extends MessageEmbed {
 			this.buttons.last.setDisabled();
 		}
 		this.goToPage(this.currentPage);
-		i.update(this.payload);
-		return i;
+		await i.update(this.payload);
+	}
+
+	private _readyButton(button: ButtonBuilder, label: string, emoji: ComponentEmojiResolvable, style: PButtonStyle): this {
+		if (label) button.setLabel(label);
+		if (emoji) button.setEmoji(emoji);
+		button.setStyle(style);
+		return this;
 	}
 
 	/**
@@ -948,10 +934,10 @@ export abstract class PaginationEmbed extends MessageEmbed {
 	 */
 	private _readyActionRows(): this {
 		if (!this.changedButtons) {
-			this.buttons.first.setEmoji(this.buttonInfo.first.emoji).setLabel(this.buttonInfo.first.label).setStyle(this.buttonInfo.first.style);
-			this.buttons.prev.setEmoji(this.buttonInfo.prev.emoji).setLabel(this.buttonInfo.prev.label).setStyle(this.buttonInfo.prev.style);
-			this.buttons.next.setEmoji(this.buttonInfo.next.emoji).setLabel(this.buttonInfo.next.label).setStyle(this.buttonInfo.next.style);
-			this.buttons.last.setEmoji(this.buttonInfo.last.emoji).setLabel(this.buttonInfo.last.label).setStyle(this.buttonInfo.last.style);
+			this._readyButton(this.buttons.first, this.buttonInfo.first.label, this.buttonInfo.first.emoji, this.buttonInfo.first.style);
+			this._readyButton(this.buttons.prev, this.buttonInfo.prev.label, this.buttonInfo.prev.emoji, this.buttonInfo.prev.style);
+			this._readyButton(this.buttons.next, this.buttonInfo.next.label, this.buttonInfo.next.emoji, this.buttonInfo.next.style);
+			this._readyButton(this.buttons.last, this.buttonInfo.last.label, this.buttonInfo.last.emoji, this.buttonInfo.last.style);
 		}
 		this.buttons.first.setDisabled();
 		this.buttons.prev.setDisabled();
@@ -969,7 +955,7 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this.actionRows = [this.mainActionRow];
 		if (this.extraRows.length > 0) {
 			this.extraRows.forEach((row) => {
-				row.position === 'above' ? this.actionRows.unshift(...row.rows) : this.actionRows.push(...row.rows);
+				row.position === ExtraRowPosition.Above ? this.actionRows.unshift(...row.rows) : this.actionRows.push(...row.rows);
 			});
 		}
 		return this;
@@ -984,7 +970,8 @@ export abstract class PaginationEmbed extends MessageEmbed {
 		this._readyActionRows();
 		this.payload.components = this.actionRows;
 		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
-		this.payload.embeds = [this.embeds.length ? this.embeds[0] : this];
+		const embed = this.embeds.length ? this.embeds[0] : this;
+		this.payload.embeds = [EmbedBuilder.from(embed)];
 		this.payload.files = this.attachments;
 		return this.payload;
 	}

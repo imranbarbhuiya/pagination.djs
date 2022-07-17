@@ -1,3 +1,4 @@
+import { ButtonStyle } from 'discord.js';
 import type { Options } from '../types';
 
 /**
@@ -19,6 +20,6 @@ export const defaultOptions: Options = {
 	postDescription: '',
 	attachments: [],
 	contents: [],
-	buttonStyle: 'SECONDARY',
+	buttonStyle: ButtonStyle.Secondary,
 	loop: false
 };

@@ -1,9 +1,9 @@
-import type { EmojiIdentifierResolvable } from 'discord.js';
+import { ButtonBuilder, type APIButtonComponentWithCustomId, type ButtonStyle, type ComponentEmojiResolvable } from 'discord.js';
 
 /**
  * The style of the paginator buttons.
  */
-export type ButtonStyle = 'PRIMARY' | 'SECONDARY' | 'DANGER' | 'SUCCESS';
+export type PButtonStyle = Exclude<ButtonStyle, ButtonStyle.Link>;
 
 /**
  * Pagination Button Options
@@ -12,7 +12,7 @@ export interface ButtonOptions {
 	/**
 	 * The emoji to use for the button.
 	 */
-	emoji: EmojiIdentifierResolvable;
+	emoji: ComponentEmojiResolvable;
 	/**
 	 * The text to show on the button.
 	 * @default ""
@@ -20,9 +20,9 @@ export interface ButtonOptions {
 	label: string;
 	/**
 	 * The style of the button.
-	 * @default "SECONDARY"
+	 * @default {PButtonStyle.Secondary}
 	 */
-	style: ButtonStyle;
+	style: PButtonStyle;
 }
 
 /**
@@ -46,3 +46,7 @@ export interface ButtonsOptions {
 	 */
 	last: ButtonOptions;
 }
+
+export type PButtonBuilder = Omit<ButtonBuilder, 'data'> & {
+	data: APIButtonComponentWithCustomId;
+};

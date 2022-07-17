@@ -1,8 +1,19 @@
-import { Interaction, Message, MessageComponentInteraction } from 'discord.js';
-import type { CommandInteraction, Snowflake, InteractionCollector, ButtonInteraction, ContextMenuInteraction } from 'discord.js';
+import {
+	BaseInteraction,
+	ComponentType,
+	Interaction,
+	InteractionResponse,
+	Message,
+	MessageComponentInteraction,
+	type ButtonInteraction,
+	type CommandInteraction,
+	type InteractionCollector,
+	type InteractionType,
+	type Snowflake
+} from 'discord.js';
 import type { Options } from '../types';
-import { PaginationEmbed } from './PaginationEmbed';
 import { authorOrUser } from '../utils';
+import { PaginationEmbed } from './PaginationEmbed';
 
 /**
  * The pagination class.
@@ -14,7 +25,7 @@ export class Pagination extends PaginationEmbed {
 	 * The interaction that the paginator is for.
 	 * @readonly
 	 */
-	public readonly interaction: CommandInteraction<'cached'> | ContextMenuInteraction<'cached'> | MessageComponentInteraction<'cached'> | Message;
+	public readonly interaction: Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }> | Message;
 
 	/**
 	 * All the authorized users who can use the pagination buttons
@@ -24,7 +35,7 @@ export class Pagination extends PaginationEmbed {
 	/**
 	 * The collector of the pagination.
 	 */
-	public collector?: InteractionCollector<ButtonInteraction>;
+	public collector?: InteractionCollector<ButtonInteraction> | InteractionCollector<ButtonInteraction<'cached'>>;
 
 	// #end region
 
@@ -51,11 +62,11 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public constructor(
-		messageOrInteraction: CommandInteraction<'cached'> | ContextMenuInteraction<'cached'> | MessageComponentInteraction<'cached'> | Message,
+		messageOrInteraction: Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }> | Message,
 		options: Partial<Options> = {}
 	) {
 		super(options);
-		if (!(messageOrInteraction instanceof Interaction) && !(messageOrInteraction instanceof Message)) {
+		if (!(messageOrInteraction instanceof BaseInteraction) && !(messageOrInteraction instanceof Message)) {
 			throw new Error('The interaction must be an instance of Interaction or Message');
 		}
 		this.interaction = messageOrInteraction;
@@ -127,31 +138,26 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 *
 	 */
-	public paginate(message: Message): this {
+	public paginate(message: InteractionResponse<true> | Message): this {
 		this.collector = message.createMessageComponentCollector({
 			filter: ({ customId, user }) =>
-				Object.values(this.buttons).some((b) => b.customId === customId) &&
+				Object.values(this.buttons).some((b) => b.data.custom_id === customId) &&
 				(this.authorizedUsers.length ? this.authorizedUsers.includes(user.id) : true),
 			idle: this.idle,
-			componentType: 'BUTTON'
+			componentType: ComponentType.Button
 		});
 
 		this.collector.on('collect', (i) => {
-			if (i.customId === this.buttons.first.customId) {
-				this.goFirst(i);
-				return;
+			if (i.customId === this.buttons.first.data.custom_id) {
+				return this.goFirst(i);
 			}
-			if (i.customId === this.buttons.prev.customId) {
-				this.goPrev(i);
-				return;
+			if (i.customId === this.buttons.prev.data.custom_id) {
+				return this.goPrev(i);
 			}
-			if (i.customId === this.buttons.next.customId) {
-				this.goNext(i);
-				return;
+			if (i.customId === this.buttons.next.data.custom_id) {
+				return this.goNext(i);
 			}
-			if (i.customId === this.buttons.last.customId) {
-				this.goLast(i);
-			}
+			return this.goLast(i);
 		});
 		return this;
 	}
@@ -170,8 +176,8 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 *
 	 */
-	public async render(): Promise<Message> {
-		if (this.interaction instanceof Interaction && (this.interaction.replied || this.interaction.deferred)) {
+	public async render(): Promise<Message | InteractionResponse<true>> {
+		if (this.interaction instanceof BaseInteraction && (this.interaction.replied || this.interaction.deferred)) {
 			return this.editReply();
 		}
 		return this.reply();
@@ -188,12 +194,9 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 *
 	 */
-	public async reply(): Promise<Message> {
+	public async reply(): Promise<InteractionResponse<true> | Message> {
 		const payloads = this.ready();
-		// TODO: remove assertions
-		const message = await (
-			this.interaction as CommandInteraction<'cached'> | MessageComponentInteraction<'cached'> | ContextMenuInteraction<'cached'>
-		).reply(payloads);
+		const message = await (this.interaction as unknown as CommandInteraction<'cached'>).reply(payloads);
 		this.paginate(message);
 		return message;
 	}
@@ -211,7 +214,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async followUp(): Promise<Message> {
 		const payloads = this.ready();
-		if (!(this.interaction instanceof Interaction)) throw new Error('The interaction is not an instance of Interaction');
+		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
 		const message = await this.interaction.followUp(payloads);
 		this.paginate(message);
 		return message;
@@ -230,7 +233,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async editReply(): Promise<Message> {
 		const payloads = this.ready();
-		if (!(this.interaction instanceof Interaction)) throw new Error('The interaction is not an instance of Interaction');
+		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
 		const message = await this.interaction.editReply(payloads);
 		this.paginate(message);
 		return message;
@@ -247,7 +250,7 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 *
 	 */
-	public async update(): Promise<Message> {
+	public async update(): Promise<Message | InteractionResponse<true>> {
 		const payloads = this.ready();
 		if (!(this.interaction instanceof MessageComponentInteraction))
 			throw new Error('The interaction is not an instance of MessageComponentInteraction');
