@@ -13,8 +13,8 @@
 	"scripts": {
 		"docs": "typedoc",
 		"build": "tsup",
-		"format": "prettier --write \"{src,tests,scripts}/**/*.{mjs,ts,js}\"",
-		"lint": "eslint . --ext mjs,js,ts --fix",
+		"format": "prettier --write \"{src,example}/**/*.{mjs,ts,js}\" --cache",
+		"lint": "eslint src --fix --cache",
 		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
