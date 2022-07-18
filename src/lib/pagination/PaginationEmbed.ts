@@ -782,8 +782,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			super.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
 		}
 
-		this.payload.embeds = [this];
-
 		return this;
 	}
 
@@ -973,8 +971,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		this._readyActionRows();
 		this.payload.components = this.actionRows;
 		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
-		const embed = this.embeds.length ? this.embeds[0] : this;
-		this.payload.embeds = [EmbedBuilder.from(embed)];
+		const embed = this.embeds.length ? EmbedBuilder.from(this.embeds[0]) : this;
+		this.payload.embeds = [embed];
 		this.payload.files = this.attachments;
 		return this.payload;
 	}
