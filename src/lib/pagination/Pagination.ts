@@ -157,7 +157,11 @@ export class Pagination extends PaginationEmbed {
 			if (i.customId === this.buttons.next.data.custom_id) {
 				return this.goNext(i);
 			}
-			return this.goLast(i);
+			if (i.customId === this.buttons.last.data.custom_id) {
+				return this.goLast(i);
+			}
+			// eslint-disable-next-line no-useless-return
+			return;
 		});
 		return this;
 	}
