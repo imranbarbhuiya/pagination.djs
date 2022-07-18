@@ -408,7 +408,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 */
 	public setEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder, i: number, array: PEmbeds) => JSONEncodable<APIEmbed>): this {
 		if (template) {
-			embeds = embeds.map((e, index, array) => template(EmbedBuilder.from(e), index, array));
+			embeds = embeds.map((e, index, array) => template(e instanceof EmbedBuilder ? e : EmbedBuilder.from(e), index, array));
 		}
 		this.embeds = embeds;
 		this.limit = 1;
