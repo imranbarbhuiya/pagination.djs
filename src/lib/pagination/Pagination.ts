@@ -141,7 +141,7 @@ export class Pagination extends PaginationEmbed {
 	public paginate(message: InteractionResponse<true> | Message): this {
 		this.collector = message.createMessageComponentCollector({
 			filter: ({ customId, user }) =>
-				Object.values(this.buttons).some((b) => b.data.custom_id === customId) &&
+				['first', 'prev', 'next', 'last'].some((k) => this.buttons[k].data.custom_id === customId) &&
 				(this.authorizedUsers.length ? this.authorizedUsers.includes(user.id) : true),
 			idle: this.idle,
 			componentType: ComponentType.Button
@@ -157,11 +157,7 @@ export class Pagination extends PaginationEmbed {
 			if (i.customId === this.buttons.next.data.custom_id) {
 				return this.goNext(i);
 			}
-			if (i.customId === this.buttons.last.data.custom_id) {
-				return this.goLast(i);
-			}
-			// eslint-disable-next-line no-useless-return
-			return;
+			return this.goLast(i);
 		});
 		return this;
 	}
