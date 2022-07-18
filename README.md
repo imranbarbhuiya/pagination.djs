@@ -283,7 +283,7 @@ If you are adding an extra button then make sure it's key isn't `first`, `prev`,
 Add some action rows above or below the pagination button row
 
 ```js
-pagination.addActionRow(new ActionRowBuilder(), 'above');
+pagination.addActionRows([new ActionRowBuilder()], ExtraRowPosition.Below);
 ```
 
 #### prevDescription and postDescription
