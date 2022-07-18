@@ -1,4 +1,4 @@
-import { Interaction, type Message } from 'discord.js';
+import type { BaseInteraction, Message, User } from 'discord.js';
 
-export const authorOrUser = (messageOrInteraction: Message | Interaction) =>
-	messageOrInteraction instanceof Interaction ? messageOrInteraction.user : messageOrInteraction.author;
+export const authorOrUser = (messageOrInteraction: Message | BaseInteraction): User =>
+	'user' in messageOrInteraction ? messageOrInteraction.user : messageOrInteraction.author;

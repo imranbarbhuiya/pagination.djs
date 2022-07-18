@@ -1,6 +1,14 @@
-import type { MessageAttachment } from 'discord.js';
-import type { ButtonStyle } from './ButtonsOptions';
+import type { MessageOptions } from 'discord.js';
+import type { PButtonStyle } from './ButtonsOptions';
 import type { EmojiOptions } from './EmojiOptions';
+
+export type PEmbeds = Required<MessageOptions>['embeds'];
+export type PAttachments = Required<MessageOptions>['files'];
+
+export enum ExtraRowPosition {
+	Above,
+	Below
+}
 
 /**
  * The options to customize the pagination.
@@ -55,7 +63,7 @@ export interface Options extends EmojiOptions {
 	 * The attachments to show with the paginated messages.
 	 * @default []
 	 */
-	attachments: MessageAttachment[];
+	attachments: PAttachments;
 
 	/**
 	 * Contents if changing contents per page.
@@ -66,7 +74,7 @@ export interface Options extends EmojiOptions {
 	 * The style of the paginator buttons.
 	 * @default "SECONDARY"
 	 */
-	buttonStyle: ButtonStyle;
+	buttonStyle: PButtonStyle;
 	/**
 	 * loop through the pages.
 	 * @default false

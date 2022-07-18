@@ -124,13 +124,13 @@ Paginate through multiple embeds
 
 ```js
 const { Pagination } = require('pagination.djs');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const pagination = new Pagination(interaction);
 
 const embeds = [];
 
 for (let i = 0; i <= 5; i++) {
-	const newEmbed = new MessageEmbed().setTitle(`Embed ${i + 1}`);
+	const newEmbed = new EmbedBuilder().setTitle(`Embed ${i + 1}`);
 	embeds.push(newEmbed);
 }
 
@@ -144,7 +144,7 @@ pagination.render();
 
 ### Customize embed
 
-The pagination class extends the [discord.js MessageEmbed](https://discord.js.org/#/docs/main/stable/class/MessageEmbed) class. So you can directly use the embed methods.
+The pagination class extends the [discord.js EmbedBuilder](https://discord.js.org/#/docs/discord.js/main/class/EmbedBuilder) class. So you can directly use the embed methods.
 
 ```js
 const { Pagination } = require('pagination.djs');
@@ -191,8 +191,8 @@ const pagination = new Pagination(interaction, {
 	ephemeral: false, // ephemeral reply
 	prevDescription: '',
 	postDescription: '',
-	attachments: [new MessageAttachment()], // attachments you want to pass with the embed
-	buttonStyle: 'SECONDARY',
+	attachments: [new AttachmentBuilder()], // attachments you want to pass with the embed
+	buttonStyle: ButtonStyle.Secondary, // button style
 	loop: false // loop through the pages
 });
 ```
@@ -234,22 +234,22 @@ pagination.setButtonAppearance({
 	first: {
 		label: 'First',
 		emoji: '⏮',
-		style: 'PRIMARY'
+		style: ButtonStyle.PRIMARY
 	},
 	prev: {
 		label: 'Prev',
 		emoji: '◀️',
-		style: 'SECONDARY'
+		style: ButtonStyle.SECONDARY
 	},
 	next: {
 		label: 'Next',
 		emoji: '▶️',
-		style: 'SUCCESS'
+		style: ButtonStyle.SUCCESS
 	},
 	last: {
 		label: 'Last',
 		emoji: '⏭',
-		style: 'DANGER'
+		style: ButtonStyle.DANGER
 	}
 });
 ```
@@ -259,7 +259,7 @@ pagination.setButtonAppearance({
 Change all the button style
 
 ```js
-pagination.setButtonStyle('SECONDARY');
+pagination.setButtonStyle(ButtonStyle.Secondary);
 ```
 
 #### Add or remove buttons
@@ -267,13 +267,13 @@ pagination.setButtonStyle('SECONDARY');
 `Pagination` class have a property `buttons` which stores all the buttons with keys `first`, `prev`, `next` and `last`. If you want to add one more you can add it with any key.
 
 ```js
-pagination.buttons = { ...pagination.buttons, extra: new MessageButton() };
+pagination.buttons = { ...pagination.buttons, extra: new ButtonBuilder() };
 ```
 
 If you want to remove some button then you can set the buttons to only these buttons.
 
 ```js
-pagination.buttons = { prev: new MessageButton(), next: new MessageButton() };
+pagination.buttons = { prev: new ButtonBuilder(), next: new ButtonBuilder() };
 ```
 
 If you are adding an extra button then make sure it's key isn't `first`, `prev`, `next`, or `last` or it'll be used to paginate between different pages.
@@ -283,7 +283,7 @@ If you are adding an extra button then make sure it's key isn't `first`, `prev`,
 Add some action rows above or below the pagination button row
 
 ```js
-pagination.addActionRow(new MessageActionRow(), 'above');
+pagination.addActionRows([new ActionRowBuilder()], ExtraRowPosition.Below);
 ```
 
 #### prevDescription and postDescription
@@ -320,10 +320,10 @@ pagination.addAuthorizedUsers(['user3', 'user4']);
 #### Send attachments
 
 Send attachments along with the message
-You can pass attachments in the `setOptions` or using `setAttachments()`, `addAttachment()` or `addAttachments()`
+You can pass attachments in the `setOptions` or using `setAttachments()`, `addAttachmentBuilder()` or `addAttachments()`
 
 ```js
-pagination.setAttachments([new MessageAttachment()]);
+pagination.setAttachments([new AttachmentBuilder()]);
 ```
 
 ### Other send options
