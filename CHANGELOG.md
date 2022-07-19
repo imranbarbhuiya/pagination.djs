@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.1](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.0...v4.0.1) - (2022-07-19)
+
+## 🐛 Bug Fixes
+
+- Pass ephemeral while replying. fixes: #45 ([2f09892](https://github.com/imranbarbhuiya/pagination.djs/commit/2f098924cee69355c533bd9b430aabe387b28a99))
+
+# [4.0.0](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.6.1...v4.0.0) - (2022-07-18)
+
+## 🚀 Features
+
+- Djs/v14 support (#23) ([9d4ade4](https://github.com/imranbarbhuiya/pagination.djs/commit/9d4ade40afe0fd3753a2d36518c5bca651932eb5))
+  - 💥 **BREAKING CHANGE:** dropped support for discord.js v13, v14 is required.
+  - 💥 **BREAKING CHANGE:** Button style is changed from `string` to discord.js [ButtonStyle](https://discord-api-types.dev/api/discord-api-types-v10/enum/ButtonStyle) enum.
+  - 💥 **BREAKING CHANGE:** When passing interaction to `Pagination`, It won't return `Message` in `render`, `reply` methods but it'll return `InteractionResponse<true> | Message<true>`
+  - 💥 **BREAKING CHANGE:** Removed singular methods `add*`.
+```diff
+- pagination.addImage(imageLink)
++ pagination.addImages(imageLink)
+```
+      - applies to other `add*` methods too.
+      - all the `add*s` and `set*s` methods accepts both rest and array.
+  - 💥 **BREAKING CHANGE:** ExtraRowPosition is an enum now.
+
+```diff
+ - pagination.addActionRow(new MessageActionRow(), 'above');
++ pagination.addActionRows([new ActionRowBuilder()], ExtraRowPosition.Above);
+```
+
+# [3.6.0](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.5.3...v3.6.0) - (2022-06-23)
+
+## 🚀 Features
+
+- Send index and array in setEmbeds ([5424e42](https://github.com/imranbarbhuiya/pagination.djs/commit/5424e424d5a131d15e352e7e8e6fbbb874d1b640))
+
+# [3.5.3](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.5.2...v3.5.3) - (2022-05-24)
+
+## 🐛 Bug Fixes
+
+- Bump djs and fix typings (#16) ([210303f](https://github.com/imranbarbhuiya/pagination.djs/commit/210303fe480cdff9816a6e1d9cba6326bec8ef0b))
+
 # [4.0.0](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.6.1...v4.0.0) - (2022-07-18)
 
 ## 🚀 Features
