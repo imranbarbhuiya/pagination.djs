@@ -20,6 +20,9 @@ Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 ## Installation
 
+> **Note**
+> V3 is for discord.js v13.x. For discord.js v14.x, Use v4.
+
 `pagination.djs` depends on the following packages. Be sure to install these along with this package!
 
 -   [discord.js](https://www.npmjs.com/package/discord.js)
@@ -27,7 +30,7 @@ Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 You can use the following command to install this package, or replace npm install with your package manager of choice.
 
 ```bash
-npm install pagination.djs discord.js
+npm install pagination.djs@v3 discord.js
 ```
 
 ## Uses
