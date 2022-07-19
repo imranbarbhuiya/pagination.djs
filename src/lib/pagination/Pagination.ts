@@ -196,7 +196,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async reply(): Promise<InteractionResponse<true> | Message> {
 		const payloads = this.ready();
-		const message = await (this.interaction as unknown as CommandInteraction<'cached'>).reply(payloads);
+		const message = await (this.interaction as unknown as CommandInteraction<'cached'>).reply({ ...payloads, ephemeral: this.ephemeral });
 		this.paginate(message);
 		return message;
 	}
