@@ -5,7 +5,6 @@
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
 	"files.eol": "\n",
-	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": true
 	}

@@ -20,6 +20,9 @@ Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 ## Installation
 
+> **Note**
+> V4 is for discord.js v14.x. For discord.js v13.x, Use [v3](https://github.com/imranbarbhuiya/pagination.djs/tree/v3).
+
 `pagination.djs` depends on the following packages. Be sure to install these along with this package!
 
 -   [discord.js](https://www.npmjs.com/package/discord.js)
