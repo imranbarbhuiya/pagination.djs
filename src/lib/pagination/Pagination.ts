@@ -195,8 +195,8 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public async reply(): Promise<InteractionResponse<true> | Message> {
-		const payloads = this.ready();
-		const message = await (this.interaction as unknown as CommandInteraction<'cached'>).reply({ ...payloads, ephemeral: this.ephemeral });
+		const payload = this.ready();
+		const message = await (this.interaction as unknown as CommandInteraction<'cached'>).reply(payload);
 		this.paginate(message);
 		return message;
 	}
@@ -213,9 +213,9 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public async followUp(): Promise<Message> {
-		const payloads = this.ready();
+		const payload = this.ready();
 		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
-		const message = await this.interaction.followUp(payloads);
+		const message = await this.interaction.followUp(payload);
 		this.paginate(message);
 		return message;
 	}
@@ -232,9 +232,9 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public async editReply(): Promise<Message> {
-		const payloads = this.ready();
+		const payload = this.ready();
 		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
-		const message = await this.interaction.editReply(payloads);
+		const message = await this.interaction.editReply(payload);
 		this.paginate(message);
 		return message;
 	}
@@ -251,10 +251,10 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public async update(): Promise<Message | InteractionResponse<true>> {
-		const payloads = this.ready();
+		const payload = this.ready();
 		if (!(this.interaction instanceof MessageComponentInteraction))
 			throw new Error('The interaction is not an instance of MessageComponentInteraction');
-		const message = await this.interaction.update(payloads);
+		const message = await this.interaction.update(payload);
 		this.paginate(message);
 		return message;
 	}
@@ -271,9 +271,9 @@ export class Pagination extends PaginationEmbed {
 	 *
 	 */
 	public async send(): Promise<Message> {
-		const payloads = this.ready();
+		const payload = this.ready();
 		if (!this.interaction.channel) throw new Error("The interaction or message don't have a channel");
-		const message = await this.interaction.channel.send(payloads);
+		const message = await this.interaction.channel.send(payload);
 		this.paginate(message);
 		return message;
 	}

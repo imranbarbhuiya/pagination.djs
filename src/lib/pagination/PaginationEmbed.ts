@@ -969,6 +969,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 */
 	private _readyPayloads(): Payload {
 		this._readyActionRows();
+		this.payload.ephemeral = this.ephemeral;
 		this.payload.components = this.actionRows;
 		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
 		const embed = this.embeds.length ? EmbedBuilder.from(this.embeds[0]) : this;
