@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.6.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.6.1...v3.6.2) - (2022-07-19)
+
+## 🐛 Bug Fixes
+
+- Fix ephemeral reply for v3 ([de6b5b3](https://github.com/imranbarbhuiya/pagination.djs/commit/de6b5b3550f5cbc505f5122508288bd053a54a49))
+
+# [3.6.0](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.5.3...v3.6.0) - (2022-06-23)
+
+## 🚀 Features
+
+- Send index and array in setEmbeds ([5424e42](https://github.com/imranbarbhuiya/pagination.djs/commit/5424e424d5a131d15e352e7e8e6fbbb874d1b640))
+
+# [3.5.3](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.5.2...v3.5.3) - (2022-05-24)
+
+## 🐛 Bug Fixes
+
+- Bump djs and fix typings (#16) ([210303f](https://github.com/imranbarbhuiya/pagination.djs/commit/210303fe480cdff9816a6e1d9cba6326bec8ef0b))
+
 # [3.6.0](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.5.3...v3.6.0) - (2022-06-23)
 
 ## 🚀 Features
