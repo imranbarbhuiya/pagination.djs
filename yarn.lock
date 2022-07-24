@@ -1788,9 +1788,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.0.1":
-  version: 14.0.1
-  resolution: "discord.js@npm:14.0.1"
+"discord.js@npm:^14.0.3":
+  version: 14.0.3
+  resolution: "discord.js@npm:14.0.3"
   dependencies:
     "@discordjs/builders": ^1.0.0
     "@discordjs/collection": ^1.0.0
@@ -1801,9 +1801,9 @@ __metadata:
     fast-deep-equal: ^3.1.3
     lodash.snakecase: ^4.1.1
     tslib: ^2.4.0
-    undici: ^5.7.0
+    undici: ^5.8.0
     ws: ^8.8.1
-  checksum: 790bf7e1e913f1a6e3b8fe15640f42c2c42af12ffe5d1a894519b6fcbbaa0bbf590fba4018d052a2f76b278bed36cc5cc6feda718a423f92b0868c4a5ec2223b
+  checksum: 63c61ab94e056d09fcb85514f9c8f729db5c942407e3fbb7d546fc559ae124be363b1cdf1d71a652d3d6f4f17594b5cd0b8768aabf5e234bbc2fd0ee71f5d704
   languageName: node
   linkType: hard
 
@@ -4093,7 +4093,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.30.7
     "@typescript-eslint/parser": ^5.30.7
     cz-conventional-changelog: ^3.3.0
-    discord.js: ^14.0.1
+    discord.js: ^14.0.3
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -4106,7 +4106,7 @@ __metadata:
     typedoc: ^0.23.8
     typescript: ^4.7.4
   peerDependencies:
-    discord.js: ^14.0.0
+    discord.js: ^14.0.3
   languageName: unknown
   linkType: soft
 
@@ -5261,6 +5261,13 @@ __metadata:
   version: 5.7.0
   resolution: "undici@npm:5.7.0"
   checksum: 3a8133697ee7124f4998c01dcb2255206a85bdf99cc75e97d2535d752bc853a9b39e149e7292479c6c170602947c7c77403081ced10ffbffcbe9fb077e40c6fb
+  languageName: node
+  linkType: hard
+
+"undici@npm:^5.8.0":
+  version: 5.8.0
+  resolution: "undici@npm:5.8.0"
+  checksum: 7b486ad064da00628d3906e140b86223023cd3494c811da8d7aa1375c2392fe6a6ac421af236c056fd3d3136bba3a91b99e0505dde071dd946070946eb0718b8
   languageName: node
   linkType: hard
 
