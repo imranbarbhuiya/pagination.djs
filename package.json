@@ -41,14 +41,14 @@
 		"dist/**/*.d*"
 	],
 	"devDependencies": {
-		"@commitlint/cli": "^17.1.1",
+		"@commitlint/cli": "^17.1.2",
 		"@commitlint/config-conventional": "^17.1.0",
 		"@favware/cliff-jumper": "^1.8.7",
 		"@favware/npm-deprecate": "^1.0.5",
 		"@sapphire/eslint-config": "^4.3.8",
 		"@sapphire/prettier-config": "^1.4.4",
-		"@typescript-eslint/eslint-plugin": "^5.35.1",
-		"@typescript-eslint/parser": "^5.35.1",
+		"@typescript-eslint/eslint-plugin": "^5.36.1",
+		"@typescript-eslint/parser": "^5.36.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.3.0",
 		"eslint": "^8.23.0",
@@ -60,7 +60,7 @@
 		"prettier": "^2.7.1",
 		"pretty-quick": "^3.1.3",
 		"tsup": "^6.2.3",
-		"typedoc": "^0.23.11",
+		"typedoc": "^0.23.14",
 		"typescript": "^4.8.2"
 	},
 	"peerDependencies": {
