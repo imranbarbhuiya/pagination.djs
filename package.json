@@ -1,6 +1,6 @@
 {
 	"name": "pagination.djs",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "A discord.js compatible pagination module",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",

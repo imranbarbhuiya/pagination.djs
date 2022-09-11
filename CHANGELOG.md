@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.1...v4.0.2) - (2022-09-11)
+
+## 🐛 Bug Fixes
+
+- Add ephemeral in the payload ([8bd0a86](https://github.com/imranbarbhuiya/pagination.djs/commit/8bd0a8604d2ed11e01e21a611a58fa931dadd9db))
+
 # [4.0.1](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.0...v4.0.1) - (2022-07-19)
 
 ## 🐛 Bug Fixes
