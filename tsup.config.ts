@@ -10,12 +10,5 @@ export default defineConfig({
 	sourcemap: true,
 	target: 'es2021',
 	keepNames: true,
-	tsconfig: 'src/tsconfig.json',
-	esbuildOptions: (options, context) => {
-		if (context.format === 'cjs') {
-			options.banner = {
-				js: '"use strict";'
-			};
-		}
-	}
+	tsconfig: 'src/tsconfig.json'
 });
