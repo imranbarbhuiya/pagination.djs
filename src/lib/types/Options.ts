@@ -1,9 +1,9 @@
-import type { MessageOptions } from 'discord.js';
+import type { BaseMessageOptions } from 'discord.js';
 import type { PButtonStyle } from './ButtonsOptions';
 import type { EmojiOptions } from './EmojiOptions';
 
-export type PEmbeds = Required<MessageOptions>['embeds'];
-export type PAttachments = Required<MessageOptions>['files'];
+export type PEmbeds = Required<BaseMessageOptions>['embeds'];
+export type PAttachments = Required<BaseMessageOptions>['files'];
 
 export enum ExtraRowPosition {
 	Above,

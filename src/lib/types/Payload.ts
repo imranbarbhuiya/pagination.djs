@@ -1,5 +1,5 @@
-import type { MessageOptions } from 'discord.js';
+import type { BaseMessageOptions } from 'discord.js';
 
-export type Payload = Pick<MessageOptions, 'content' | 'embeds' | 'files' | 'components'> & {
+export type Payload = BaseMessageOptions & {
 	ephemeral?: boolean;
 };

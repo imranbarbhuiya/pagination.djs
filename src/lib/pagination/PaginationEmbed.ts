@@ -770,7 +770,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		if (this.images.length) {
 			this.setImage(this.images[pageNumber - 1]);
 		}
-		this.payload.content = Array.isArray(this.contents) ? this.contents[this.currentPage - 1] ?? null : this.contents;
+		// TODO: remove null from content in a next major version. Djs changed the typings in a minor version.
+		this.payload.content = (Array.isArray(this.contents) ? this.contents[this.currentPage - 1] : this.contents) ?? undefined;
 		if (this.descriptions.length) {
 			this.setDescription(
 				`${this.prevDescription}\n` +
@@ -971,7 +972,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		this._readyActionRows();
 		this.payload.ephemeral = this.ephemeral;
 		this.payload.components = this.actionRows;
-		this.payload.content = Array.isArray(this.contents) ? this.contents[0] ?? null : this.contents;
+		this.payload.content = (Array.isArray(this.contents) ? this.contents[0] : this.contents) ?? undefined;
 		const embed = this.embeds.length ? EmbedBuilder.from(this.embeds[0]) : this;
 		this.payload.embeds = [embed];
 		this.payload.files = this.attachments;
