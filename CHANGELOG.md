@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.3](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.2...v4.0.3) - (2022-09-23)
+
+## 🐛 Bug Fixes
+
+- Base message options type ([1ed5617](https://github.com/imranbarbhuiya/pagination.djs/commit/1ed5617248e0d6253bbd5380f8b1df06c31d837d))
+
+# [4.0.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.1...v4.0.2) - (2022-09-11)
+
+## 🐛 Bug Fixes
+
+- Add ephemeral in the payload ([8bd0a86](https://github.com/imranbarbhuiya/pagination.djs/commit/8bd0a8604d2ed11e01e21a611a58fa931dadd9db))
+
 # [4.0.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.1...v4.0.2) - (2022-09-11)
 
 ## 🐛 Bug Fixes
