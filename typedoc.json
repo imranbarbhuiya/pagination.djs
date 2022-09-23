@@ -1,7 +1,8 @@
 {
-  "out": "./docs/",
-  "readme": "./README.md",
-  "name": "Pagination",
-  "entryPoints": ["src/index.ts"],
-  "tsconfig": "./src/tsconfig.json"
+	"out": "./docs/",
+	"readme": "./README.md",
+	"name": "Pagination",
+	"entryPoints": ["src/index.ts"],
+	"tsconfig": "./src/tsconfig.json",
+	"skipErrorChecking": true
 }

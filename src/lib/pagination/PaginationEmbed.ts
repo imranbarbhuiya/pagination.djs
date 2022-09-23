@@ -417,7 +417,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds multiple pagination embeds.
-	 * @param embeds An array of {@link EmbedBuilder} or {@link EmbedBuilderOptions}
+	 * @param embeds An array of [EmbedBuilder](https://discord.js.org/#/docs/discord.`js/main/class/EmbedBuilder)
+	 *  or [APIEmbed](https://discord-api-types.dev/api/discord-api-types-v10/interface/APIEmbed)
 	 * @param template A template function that will be called for each embed.
 	 * @returns
 	 * @example
