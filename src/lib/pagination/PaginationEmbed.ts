@@ -260,17 +260,80 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		this.setOptions(mergedOptions);
 	}
 
+	/**
+	 * Appends fields to the embed
+	 *
+	 * @remarks
+	 * This method accepts either an array of fields or a variable number of field parameters.
+	 * The maximum amount of fields that can be added is 25.
+	 * @example
+	 * Using an array
+	 * ```ts
+	 * const fields: APIEmbedField[] = ...;
+	 * const pagination = new Pagination(interaction)
+	 * 	.addFields(fields);
+	 * ```
+	 * @example
+	 * Using rest parameters (variadic)
+	 * ```ts
+	 * const pagination = new Pagination(interaction)
+	 * 	.addFields(
+	 * 		{ name: 'Field 1', value: 'Value 1' },
+	 * 		{ name: 'Field 2', value: 'Value 2' },
+	 * 	);
+	 * ```
+	 * @param fields - The fields to add
+	 */
 	public override addFields(...fields: RestOrArray<APIEmbedField>): this {
 		this.rawFields.push(...normalizeArray(fields));
 		return this;
 	}
 
+	/**
+	 * Removes, replaces, or inserts fields in the embed.
+	 *
+	 * @remarks
+	 * This method behaves similarly
+	 * to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice | Array.prototype.splice}.
+	 * The maximum amount of fields that can be added is 25.
+	 *
+	 * It's useful for modifying and adjusting order of the already-existing fields of an embed.
+	 * @example
+	 * Remove the first field
+	 * ```ts
+	 * pagination.spliceFields(0, 1);
+	 * ```
+	 * @example
+	 * Remove the first n fields
+	 * ```ts
+	 * const n = 4
+	 * pagination.spliceFields(0, n);
+	 * ```
+	 * @example
+	 * Remove the last field
+	 * ```ts
+	 * pagination.spliceFields(-1, 1);
+	 * ```
+	 * @param index - The index to start at
+	 * @param deleteCount - The number of fields to remove
+	 * @param fields - The replacing field objects
+	 */
 	public spliceFields(index: number, deleteCount: number, ...fields: APIEmbedField[]): this {
 		if (this.data.fields) this.data.fields.splice(index, deleteCount, ...fields);
 		else this.data.fields = fields;
 		return this;
 	}
 
+	/**
+	 * Sets the embed's fields
+	 *
+	 * @remarks
+	 * This method is an alias for {@link PaginationEmbed.spliceFields}. More specifically,
+	 * it splices the entire array of fields, replacing them with the provided fields.
+	 *
+	 * You can set a maximum of 25 fields.
+	 * @param fields - The fields to set
+	 */
 	public override setFields(...fields: RestOrArray<APIEmbedField>): this {
 		this.rawFields = normalizeArray(fields);
 		return this;
