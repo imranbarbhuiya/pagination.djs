@@ -145,7 +145,8 @@ export class Pagination extends PaginationEmbed {
 	public paginate(message: InteractionResponse<true> | Message): this {
 		this.collector = message.createMessageComponentCollector({
 			filter: ({ customId, user }) =>
-				['first', 'prev', 'next', 'last'].some((position) => this.buttons[position].data.custom_id === customId) &&
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				['first', 'prev', 'next', 'last'].some((position) => this.buttons[position]?.data.custom_id === customId) &&
 				(this.authorizedUsers.length ? this.authorizedUsers.includes(user.id) : true),
 			idle: this.idle,
 			componentType: ComponentType.Button
