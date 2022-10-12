@@ -504,15 +504,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/prettier-config@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "@sapphire/prettier-config@npm:1.4.4"
-  dependencies:
-    prettier: ^2.7.1
-  checksum: bf0f37de120b72b054da8b90ddf08c23210c8b01e42f66c4a6833d55ac78c02e3df7f9af6d35f2574e9c9f5c8b131625730a60bcac055b211789b52101a8921e
-  languageName: node
-  linkType: hard
-
 "@sapphire/result@npm:^2.5.0":
   version: 2.5.0
   resolution: "@sapphire/result@npm:2.5.0"
@@ -4624,7 +4615,6 @@ __metadata:
     "@commitlint/config-conventional": ^17.1.0
     "@favware/cliff-jumper": ^1.8.8
     "@favware/npm-deprecate": ^1.0.5
-    "@sapphire/prettier-config": ^1.4.4
     cz-conventional-changelog: ^3.3.0
     discord.js: ^14.6.0
     eslint: ^8.25.0

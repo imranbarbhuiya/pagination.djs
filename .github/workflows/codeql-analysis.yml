@@ -1,28 +1,28 @@
 name: Code Scanning
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  schedule:
-    - cron: '30 1 * * 0'
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+    schedule:
+        - cron: '30 1 * * 0'
 
 jobs:
-  CodeQL:
-    runs-on: ubuntu-latest
+    CodeQL:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
+            - name: Initialize CodeQL
+              uses: github/codeql-action/init@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
+            - name: Autobuild
+              uses: github/codeql-action/autobuild@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@807578363a7869ca324a79039e6db9c843e0e100 # tag=v2

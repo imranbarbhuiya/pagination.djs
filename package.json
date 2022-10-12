@@ -13,7 +13,7 @@
 	"scripts": {
 		"docs": "typedoc",
 		"build": "tsup",
-		"format": "prettier --write \"{src,example}/**/*.{mjs,ts,js}\" --cache",
+		"format": "prettier --write . --cache",
 		"lint": "eslint src --fix --cache",
 		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
@@ -45,7 +45,6 @@
 		"@commitlint/config-conventional": "^17.1.0",
 		"@favware/cliff-jumper": "^1.8.8",
 		"@favware/npm-deprecate": "^1.0.5",
-		"@sapphire/prettier-config": "^1.4.4",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.6.0",
 		"eslint": "^8.25.0",
@@ -86,6 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.6"
 	},
-	"packageManager": "yarn@3.2.4",
-	"prettier": "@sapphire/prettier-config"
+	"packageManager": "yarn@3.2.4"
 }
