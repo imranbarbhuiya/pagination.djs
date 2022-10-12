@@ -1,2 +1,2 @@
-export * from './Pagination';
-export * from './PaginationEmbed';
+export * from './Pagination.js';
+export * from './PaginationEmbed.js';

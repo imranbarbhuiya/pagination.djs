@@ -5,5 +5,5 @@
 		"incremental": false,
 		"skipLibCheck": true
 	},
-	"include": ["src", "tsup.config.ts"]
+	"include": ["src", "example", "tsup.config.ts"]
 }

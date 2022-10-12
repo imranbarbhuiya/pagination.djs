@@ -11,6 +11,9 @@ import {
 	type MessageActionRowComponentBuilder,
 	type RestOrArray
 } from 'discord.js';
+
+import { defaultOptions } from './defaultOptions.js';
+
 import {
 	ExtraRowPosition,
 	type ButtonsOptions,
@@ -22,8 +25,7 @@ import {
 	type PButtonBuilder,
 	type PButtonStyle,
 	type PEmbeds
-} from '../types';
-import { defaultOptions } from './defaultOptions';
+} from '../types/index.js';
 
 /**
  * The PaginationEmbed class.
@@ -31,29 +33,9 @@ import { defaultOptions } from './defaultOptions';
 export abstract class PaginationEmbed extends EmbedBuilder {
 	/**
 	 * Pagination button infos.
+	 *
 	 * @readonly
-	 * @default {
-	 *  first: {
-	 *    emoji: "⏮",
-	 *    label: "",
-	 *    style: ButtonStyle.Secondary,
-	 *  },
-	 *  prev: {
-	 *    emoji: "◀️",
-	 *    label: "",
-	 *    style: ButtonStyle.Secondary,
-	 *  },
-	 *  next: {
-	 *    emoji: "▶️",
-	 *    label: "",
-	 *    style: ButtonStyle.Secondary,
-	 *  },
-	 *  last: {
-	 *    emoji: "⏭",
-	 *    label: "",
-	 *    style: ButtonStyle.Secondary,
-	 *  },
-	 * }
+	 * @defaultValue `defaultOptions.buttonInfo`
 	 */
 	public readonly buttonInfo: ButtonsOptions;
 
@@ -89,55 +71,64 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * The limit of entries per page.
-	 * @default 5
+	 *
+	 * @defaultValue 5
 	 */
 	public limit!: number;
 
 	/**
 	 * The idle time before closing.
-	 * @default 5 minutes
+	 *
+	 * @defaultValue 5 * 60 * 1_000
 	 */
 	public idle!: number;
 
 	/**
 	 * Whether the reply should be ephemeral or not.
-	 * @default false
+	 *
+	 * @defaultValue false
 	 */
 	public ephemeral!: boolean;
 
 	/**
 	 * The description to show before the paginated descriptions.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	public prevDescription!: string;
 
 	/**
 	 * The description to show after the paginated descriptions.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	public postDescription!: string;
 
 	/**
 	 * Whether to loop through the pages or not.
-	 * @default false
+	 *
+	 * @defaultValue false
 	 */
 	public loop!: boolean;
 
 	/**
 	 * The embeds if paginating through embeds.
-	 * @default []
+	 *
+	 * @defaultValue []
 	 */
 	public embeds: PEmbeds;
 
 	/**
 	 * The attachments to show with the paginated messages.
-	 * @default []
+	 *
+	 * @defaultValue []
 	 */
 	public attachments!: PAttachments;
 
 	/**
 	 * Whether if paginating through embed's fields.
-	 * @default false
+	 *
+	 * @defaultValue false
 	 */
 	public fieldPaginate!: boolean;
 
@@ -148,27 +139,28 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Contents if changing contents per page.
-	 * @default []
+	 *
+	 * @defaultValue []
 	 */
 	private contents!: (string | null)[] | string | null;
 
 	/**
 	 * The payload of the final message.
+	 *
 	 * @readonly
-	 * @private
 	 */
 	private readonly payload: Payload;
 
 	/**
 	 * Whether the footer is a custom footer or not.
-	 * @private
+	 *
 	 */
 	private customFooter: boolean;
 
 	/**
 	 * The main action row.
+	 *
 	 * @readonly
-	 * @private
 	 */
 	private readonly mainActionRow: ActionRowBuilder<MessageActionRowComponentBuilder>;
 
@@ -179,28 +171,28 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * The extra action rows to add, if any.
-	 * @private
-	 * @default []
+	 *
+	 * @defaultValue []
 	 */
-	private extraRows: {
-		rows: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+	private readonly extraRows: {
 		position: ExtraRowPosition;
+		rows: ActionRowBuilder<MessageActionRowComponentBuilder>[];
 	}[];
 
 	/**
 	 * The raw footer text.
-	 * @private
+	 *
 	 */
 	private rawFooter!: string;
 
 	/**
 	 * Changed default buttons
-	 * @private
+	 *
 	 */
 	private changedButtons?: boolean;
 
 	/**
-	 * @param options
+	 * @param options - The pagination options
 	 * @example
 	 * ```javascript
 	 * const pagination = new PaginationEmbed({
@@ -218,11 +210,10 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  loop: false,
 	 * });
 	 * ```
-	 *
 	 */
 	public constructor(options: Partial<Options> = {}) {
 		super();
-		const mergedOptions = Object.assign({}, defaultOptions, options);
+		const mergedOptions = { ...defaultOptions, ...options };
 		this.buttonInfo = {
 			first: {
 				emoji: mergedOptions.firstEmoji,
@@ -341,7 +332,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the pagination options.
-	 * @param options
+	 *
+	 * @param options - The pagination options
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -361,7 +353,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *    loop: false,
 	 *  });
 	 * ```
-	 *
 	 */
 	public setOptions(options: Partial<Options>): this {
 		this.setEmojis({
@@ -391,14 +382,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the pagination images.
-	 * @param images
+	 *
+	 * @param images - The images to set
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setImages(["1st image", "2nd image", "3rd image"]);
 	 * ```
-	 *
 	 */
 	public setImages(...images: RestOrArray<string>): this {
 		this.images = normalizeArray(images);
@@ -407,7 +398,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds multiple pagination images.
-	 * @param images
+	 *
+	 * @param images - The images to set
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -415,7 +407,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  .setImages(["1st image", "2nd image", "3rd image"])
 	 *  .addImages(["4st image", "5nd image", "6rd image"]);
 	 * ```
-	 *
 	 */
 	public addImages(...images: RestOrArray<string>): this {
 		this.images.push(...normalizeArray(images));
@@ -424,14 +415,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the pagination descriptions.
-	 * @param descriptions
+	 *
+	 * @param descriptions - The descriptions to set
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setDescriptions(["1st description", "2nd description", "3rd description"]);
 	 * ```
-	 *
 	 */
 	public setDescriptions(...descriptions: RestOrArray<string>): this {
 		this.descriptions = normalizeArray(descriptions);
@@ -440,7 +431,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds multiple pagination descriptions.
-	 * @param descriptions
+	 *
+	 * @param descriptions - The descriptions to set
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -448,7 +440,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  .setDescriptions(["1st description", "2nd description", "3rd description"])
 	 *  .addDescriptions(["4st description", "5nd description", "6rd description"]);
 	 * ```
-	 *
 	 */
 	public addDescriptions(...descriptions: RestOrArray<string>): this {
 		this.descriptions.push(...normalizeArray(descriptions));
@@ -459,20 +450,21 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * Sets the pagination embeds.
 	 * Note: if you set this then all other pagination methods and embed methods will be ignored
 	 * i.e., descriptions, images, fields, also the embed properties like title, footer and all
-	 * @param embeds
-	 * @param template A template function that will be called for each embed.
+	 *
+	 * @param embeds - The embeds to set
+	 * @param template - A template function that will be called for each embed.
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()]);
 	 * ```
-	 *
 	 */
 	public setEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder, i: number, array: PEmbeds) => JSONEncodable<APIEmbed>): this {
 		if (template) {
-			embeds = embeds.map((e, index, array) => template(e instanceof EmbedBuilder ? e : EmbedBuilder.from(e), index, array));
+			embeds = embeds.map((embed, index, array) => template(embed instanceof EmbedBuilder ? embed : EmbedBuilder.from(embed), index, array));
 		}
+
 		this.embeds = embeds;
 		this.limit = 1;
 		return this;
@@ -480,9 +472,10 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds multiple pagination embeds.
-	 * @param embeds An array of [EmbedBuilder](https://discord.js.org/#/docs/discord.`js/main/class/EmbedBuilder)
+	 *
+	 * @param embeds - An array of [EmbedBuilder](https://discord.js.org/#/docs/discord.js/main/class/EmbedBuilder)
 	 *  or [APIEmbed](https://discord-api-types.dev/api/discord-api-types-v10/interface/APIEmbed)
-	 * @param template A template function that will be called for each embed.
+	 * @param template - A template function that will be called for each embed.
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -490,12 +483,12 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  .setEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()])
 	 *  .addEmbeds([new EmbedBuilder(), new EmbedBuilder(), new EmbedBuilder()]);
 	 * ```
-	 *
 	 */
 	public addEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder) => JSONEncodable<APIEmbed>): this {
 		if (template) {
-			embeds = embeds.map((e) => template(EmbedBuilder.from(e)));
+			embeds = embeds.map((embed) => template(EmbedBuilder.from(embed)));
 		}
+
 		this.embeds.push(...embeds);
 		return this;
 	}
@@ -504,7 +497,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * Paginates through fields.
 	 * It will be ignored if you are not paginating through fields.
 	 *
-	 * @param paginate
+	 * @param paginate - Whether to paginate fields
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -519,7 +512,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  }])
 	 *  .paginateFields();
 	 * ```
-	 *
 	 */
 	public paginateFields(paginate = true): this {
 		this.fieldPaginate = paginate;
@@ -528,14 +520,13 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the idle time before closing for the pagination.
-	 * @param idle
-	 * @returns
+	 *
+	 * @param idle - The idle time
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setIdle(5 * 60 * 1000);
 	 * ```
-	 *
 	 */
 	public setIdle(idle: number): this {
 		this.idle = idle;
@@ -544,14 +535,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Set whether the pagination reply should be ephemeral or not.
-	 * @param ephemeral
+	 *
+	 * @param ephemeral - Whether the reply should be ephemeral
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setEphemeral(true);
 	 * ```
-	 *
 	 */
 	public setEphemeral(ephemeral = true): this {
 		this.ephemeral = ephemeral;
@@ -560,14 +551,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the limit of entries per page for pagination.
-	 * @param limit
+	 *
+	 * @param limit - Limit of entries per page
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setLimit(5);
 	 * ```
-	 *
 	 */
 	public setLimit(limit: number): this {
 		this.limit = limit;
@@ -577,14 +568,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	/**
 	 * Sets a fixed prev description which will be shown in all pages before the paginated descriptions.
 	 * It will be ignored if you are not paginating through descriptions.
-	 * @param prevDescription
+	 *
+	 * @param prevDescription - The prev description to set
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setPrevDescription("role info");
 	 * ```
-	 *
 	 */
 	public setPrevDescription(prevDescription: string): this {
 		this.prevDescription = prevDescription;
@@ -594,14 +585,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	/**
 	 * Sets a fixed post description which will be shown in all pages after the paginated descriptions.
 	 * It will be ignored if you are not paginating through descriptions.
-	 * @param postDescription
+	 *
+	 * @param postDescription - The post description to set
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setPostDescription("role id: 123456789");
 	 * ```
-	 *
 	 */
 	public setPostDescription(postDescription: string): this {
 		this.postDescription = postDescription;
@@ -610,7 +601,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the emojis for the buttons.
-	 * @param emojiOptions
+	 *
+	 * @param emojiOptions - The emoji options to set
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -622,7 +614,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *    lastEmoji: ":last_emoji:"
 	 *  });
 	 * ```
-	 *
 	 */
 	public setEmojis(emojiOptions: Partial<EmojiOptions>): this {
 		this.buttonInfo.first.emoji = emojiOptions.firstEmoji ?? this.buttonInfo.first.emoji;
@@ -634,7 +625,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the labels for the buttons.
-	 * @param labelOptions
+	 *
+	 * @param labelOptions - The label options to set
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -646,7 +638,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *    lastLabel: "last"
 	 *  });
 	 * ```
-	 *
 	 */
 	public setLabels(labelOptions: Partial<LabelOptions>): this {
 		this.buttonInfo.first.label = labelOptions.firstLabel ?? this.buttonInfo.first.label;
@@ -658,14 +649,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sets the buttons' style.
-	 * @param style
+	 *
+	 * @param style - The style of the buttons
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setStyle(ButtonStyle.Secondary);
 	 * ```
-	 *
 	 */
 	public setStyle(style: PButtonStyle): this {
 		this.buttonInfo.first.style = style;
@@ -678,7 +669,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Customizes the styles of each button.
-	 * @param options
+	 *
+	 * @param options - The styles of the buttons
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -691,7 +683,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *    }
 	 *  });
 	 * ```
-	 *
 	 */
 	public setButtonAppearance(options: ButtonsOptions): this {
 		const { first, prev, next, last } = options;
@@ -705,17 +696,20 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		this.buttonInfo.next.emoji = next.emoji ?? this.buttonInfo.next.emoji;
 		this.buttonInfo.last.emoji = last.emoji ?? this.buttonInfo.last.emoji;
 
+		/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 		this.buttonInfo.first.style = first.style ?? this.buttonInfo.first.style;
 		this.buttonInfo.prev.style = prev.style ?? this.buttonInfo.prev.style;
 		this.buttonInfo.next.style = next.style ?? this.buttonInfo.next.style;
 		this.buttonInfo.last.style = last.style ?? this.buttonInfo.last.style;
+		/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 		return this;
 	}
 
 	/**
 	 * Set pagination buttons
-	 * @param buttons
+	 *
+	 * @param buttons - The buttons to set
 	 */
 
 	public setButtons(buttons?: Record<string, ButtonBuilder>) {
@@ -731,15 +725,15 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds a custom action row below or above the pagination button action row.
-	 * @param actionRows
-	 * @param position
+	 *
+	 * @param actionRows - The action rows to add
+	 * @param position - The position where the action rows to be added
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .addActionRows([new ActionRowBuilder()], ExtraRowPosition.Below);
 	 * ```
-	 *
 	 */
 	public addActionRows(actionRows: ActionRowBuilder<MessageActionRowComponentBuilder>[], position = ExtraRowPosition.Below): this {
 		this.extraRows.push({
@@ -751,7 +745,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sends an attachment along with the embed.
-	 * @param attachments
+	 *
+	 * @param attachments - The attachments to set
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -766,7 +761,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds an attachment to the existing attachments.
-	 * @param attachment
+	 *
+	 * @param attachment - The attachment to add
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -774,7 +770,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  .setAttachments([new AttachmentBuilder()])
 	 *  .addAttachment(new AttachmentBuilder());
 	 * ```
-	 *
 	 */
 	public addAttachment(attachment: PAttachments[number]): this {
 		this.attachments.push(attachment);
@@ -783,7 +778,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Adds multiple attachments to the existing attachments.
-	 * @param attachments
+	 *
+	 * @param attachments - The attachments to add
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -791,7 +787,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 *  .setAttachments([new AttachmentBuilder()])
 	 *  .addAttachments([new AttachmentBuilder(), new AttachmentBuilder()]);
 	 * ```
-	 *
 	 */
 	public addAttachments(attachments: PAttachments): this {
 		this.attachments.push(...attachments);
@@ -800,7 +795,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Triggers the pagination to go to a specific page.
-	 * @param pageNumber
+	 *
+	 * @param pageNumber - The page number to jump to
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -810,7 +806,6 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.goToPage(2);
 	 * ```
-	 *
 	 */
 	public goToPage(pageNumber: number): this {
 		if (pageNumber < 1) pageNumber = this.totalPages;
@@ -821,12 +816,14 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this.payload.embeds = [EmbedBuilder.from(embed)];
 			return this;
 		}
+
 		if (!this.data.footer) {
 			this.customFooter = false;
 			this.rawFooter = 'Pages: {pageNumber}/{totalPages}';
 		} else if (this.customFooter && !this.rawFooter) {
 			this.rawFooter = this.data.footer.text;
 		}
+
 		this.setFooter({
 			text: this.rawFooter.replace(/{pageNumber}/g, `${pageNumber}`).replace(/{totalPages}/g, `${this.totalPages}`),
 			iconURL: this.data.footer?.icon_url
@@ -834,6 +831,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		if (this.images.length) {
 			this.setImage(this.images[pageNumber - 1]);
 		}
+
 		// TODO: remove null from content in a next major version. Djs changed the typings in a minor version.
 		this.payload.content = (Array.isArray(this.contents) ? this.contents[this.currentPage - 1] : this.contents) ?? undefined;
 		if (this.descriptions.length) {
@@ -852,7 +850,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Sends contents along with the embed.
-	 * @param contents The contents to send.
+	 *
+	 * @param contents - The contents to send.
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -867,6 +866,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Prepares the pagination.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -874,12 +874,12 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.ready();
 	 * ```
-	 *
 	 */
 	public ready(): Payload {
 		if (!this.fieldPaginate) {
 			this.setFields(this.rawFields);
 		}
+
 		this.totalEntry =
 			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
 		this.totalPages = Math.ceil(this.totalEntry / this.limit);
@@ -890,7 +890,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Goes to the first page.
-	 * @param i
+	 *
+	 * @param interaction - The interaction to reply to
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -898,25 +899,26 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.goFirst(i);
 	 * ```
-	 *
 	 */
-	protected async goFirst(i: ButtonInteraction) {
+	protected async goFirst(interaction: ButtonInteraction) {
 		this.currentPage = 1;
 		if (!this.loop) {
 			this.buttons.first.setDisabled();
 			this.buttons.prev.setDisabled();
 		}
+
 		this.buttons.next.setDisabled(false);
 		this.buttons.last.setDisabled(false);
 
 		this.goToPage(1);
 
-		await i.update(this.payload);
+		await interaction.update(this.payload);
 	}
 
 	/**
 	 * Goes to the previous page.
-	 * @param i
+	 *
+	 * @param interaction - The interaction to reply to
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -924,23 +926,24 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.goPrev(i);
 	 * ```
-	 *
 	 */
-	protected async goPrev(i: ButtonInteraction) {
+	protected async goPrev(interaction: ButtonInteraction) {
 		this.currentPage--;
 		if (!this.loop) {
 			this.buttons.first.setDisabled(this.currentPage === 1);
 			this.buttons.prev.setDisabled(this.currentPage === 1);
 		}
+
 		this.buttons.next.setDisabled(false);
 		this.buttons.last.setDisabled(false);
 		this.goToPage(this.currentPage);
-		await i.update(this.payload);
+		await interaction.update(this.payload);
 	}
 
 	/**
 	 * Goes to the next page.
-	 * @param i
+	 *
+	 * @param interaction - The interaction to reply to
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -948,9 +951,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.goNext(i);
 	 * ```
-	 *
 	 */
-	protected async goNext(i: ButtonInteraction) {
+	protected async goNext(interaction: ButtonInteraction) {
 		this.currentPage++;
 		this.buttons.prev.setDisabled(false);
 		this.buttons.first.setDisabled(false);
@@ -958,13 +960,15 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this.buttons.next.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
 			this.buttons.last.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
 		}
+
 		this.goToPage(this.currentPage);
-		await i.update(this.payload);
+		await interaction.update(this.payload);
 	}
 
 	/**
 	 * Goes to the last page.
-	 * @param i
+	 *
+	 * @param interaction - The interaction to reply to
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -972,9 +976,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ...
 	 * pagination.goLast(i);
 	 * ```
-	 *
 	 */
-	protected async goLast(i: ButtonInteraction) {
+	protected async goLast(interaction: ButtonInteraction) {
 		this.currentPage = Math.ceil(this.totalEntry / this.limit);
 		this.buttons.prev.setDisabled(false);
 		this.buttons.first.setDisabled(false);
@@ -982,11 +985,12 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this.buttons.next.setDisabled();
 			this.buttons.last.setDisabled();
 		}
+
 		this.goToPage(this.currentPage);
-		await i.update(this.payload);
+		await interaction.update(this.payload);
 	}
 
-	private _readyButton(button: ButtonBuilder, label: string, emoji: ComponentEmojiResolvable, style: PButtonStyle): this {
+	private _readyButton(button: ButtonBuilder, label: string | undefined, emoji: ComponentEmojiResolvable | undefined, style: PButtonStyle): this {
 		if (label) button.setLabel(label);
 		if (emoji) button.setEmoji(emoji);
 		button.setStyle(style);
@@ -995,8 +999,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 
 	/**
 	 * Prepare the message's action rows for pagination.
+	 *
 	 * @returns
-	 * @private
 	 */
 	private _readyActionRows(): this {
 		if (!this.changedButtons) {
@@ -1005,6 +1009,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this._readyButton(this.buttons.next, this.buttonInfo.next.label, this.buttonInfo.next.emoji, this.buttonInfo.next.style);
 			this._readyButton(this.buttons.last, this.buttonInfo.last.label, this.buttonInfo.last.emoji, this.buttonInfo.last.style);
 		}
+
 		this.buttons.first.setDisabled();
 		this.buttons.prev.setDisabled();
 		this.buttons.next.setDisabled();
@@ -1013,24 +1018,26 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this.buttons.last.setDisabled(false);
 			this.buttons.next.setDisabled(false);
 		}
+
 		if (this.loop && this.totalEntry > this.limit) {
 			this.buttons.first.setDisabled(false);
 			this.buttons.prev.setDisabled(false);
 		}
+
 		this.mainActionRow.setComponents(Object.values(this.buttons));
 		this.actionRows = [this.mainActionRow];
 		if (this.extraRows.length > 0) {
-			this.extraRows.forEach((row) => {
-				row.position === ExtraRowPosition.Above ? this.actionRows.unshift(...row.rows) : this.actionRows.push(...row.rows);
-			});
+			for (const row of this.extraRows) {
+				if (row.position === ExtraRowPosition.Above) this.actionRows.unshift(...row.rows);
+				else this.actionRows.push(...row.rows);
+			}
 		}
+
 		return this;
 	}
 
 	/**
 	 * Prepare the message's payload.
-	 * @returns
-	 * @private
 	 */
 	private _readyPayloads(): Payload {
 		this._readyActionRows();

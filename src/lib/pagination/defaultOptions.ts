@@ -1,4 +1,5 @@
 import { ButtonStyle } from 'discord.js';
+
 import type { Options } from '../types';
 
 /**
@@ -14,7 +15,7 @@ export const defaultOptions: Options = {
 	nextLabel: '',
 	lastLabel: '',
 	limit: 5,
-	idle: 5 * 60 * 1000,
+	idle: 5 * 60 * 1_000,
 	ephemeral: false,
 	prevDescription: '',
 	postDescription: '',

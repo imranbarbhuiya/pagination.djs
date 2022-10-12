@@ -4,22 +4,26 @@
 export interface LabelOptions {
 	/**
 	 * The label to use for the first button.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	firstLabel: string;
 	/**
-	 * The label to use for the previous button.
-	 * @default ""
+	 * The label to use for the last button.
+	 *
+	 * @defaultValue ""
 	 */
-	prevLabel: string;
+	lastLabel: string;
 	/**
 	 * The label to use for the next button.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	nextLabel: string;
 	/**
-	 * The label to use for the last button.
-	 * @default ""
+	 * The label to use for the previous button.
+	 *
+	 * @defaultValue ""
 	 */
-	lastLabel: string;
+	prevLabel: string;
 }

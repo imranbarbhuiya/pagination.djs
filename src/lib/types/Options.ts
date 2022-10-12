@@ -1,6 +1,6 @@
-import type { BaseMessageOptions } from 'discord.js';
 import type { PButtonStyle } from './ButtonsOptions';
 import type { EmojiOptions } from './EmojiOptions';
+import type { BaseMessageOptions } from 'discord.js';
 
 export type PEmbeds = Required<BaseMessageOptions>['embeds'];
 export type PAttachments = Required<BaseMessageOptions>['files'];
@@ -15,69 +15,82 @@ export enum ExtraRowPosition {
  */
 export interface Options extends EmojiOptions {
 	/**
+	 * The attachments to show with the paginated messages.
+	 *
+	 * @defaultValue []
+	 */
+	attachments: PAttachments;
+	/**
+	 * The style of the paginator buttons.
+	 *
+	 * @defaultValue "SECONDARY"
+	 */
+	buttonStyle: PButtonStyle;
+	/**
+	 * Contents if changing contents per page.
+	 *
+	 * @defaultValue []
+	 */
+	contents: string[];
+	/**
+	 * Whether the reply should be ephemeral.
+	 *
+	 * @defaultValue false
+	 */
+	ephemeral: boolean;
+	/**
 	 * The label for the first page button.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	firstLabel: string;
 	/**
-	 * The label for the previous page button.
-	 * @default ""
+	 * The number of seconds before the paginator will close after inactivity.
+	 *
+	 * @defaultValue 5 minutes
 	 */
-	prevLabel: string;
-	/**
-	 * The label for the next page button.
-	 * @default ""
-	 */
-	nextLabel: string;
+	idle: number;
 	/**
 	 * The label for the last page button.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	lastLabel: string;
 	/**
 	 * The number of entries to show per page.
-	 * @default 5
+	 *
+	 * @defaultValue 5
 	 */
 	limit: number;
 	/**
-	 * The number of seconds before the paginator will close after inactivity.
-	 * @default 5 minutes
+	 * loop through the pages.
+	 *
+	 * @defaultValue false
 	 */
-	idle: number;
+	loop: boolean;
 	/**
-	 * Whether the reply should be ephemeral.
-	 * @default false
+	 * The label for the next page button.
+	 *
+	 * @defaultValue ""
 	 */
-	ephemeral: boolean;
-	/**
-	 * The description to show before the paginated descriptions.
-	 * @default ""
-	 */
-	prevDescription: string;
+	nextLabel: string;
+
 	/**
 	 * The description to show after the paginated descriptions.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
 	postDescription: string;
 	/**
-	 * The attachments to show with the paginated messages.
-	 * @default []
+	 * The description to show before the paginated descriptions.
+	 *
+	 * @defaultValue ""
 	 */
-	attachments: PAttachments;
-
+	prevDescription: string;
 	/**
-	 * Contents if changing contents per page.
-	 * @default []
+	 * The label for the previous page button.
+	 *
+	 * @defaultValue ""
 	 */
-	contents: string[];
-	/**
-	 * The style of the paginator buttons.
-	 * @default "SECONDARY"
-	 */
-	buttonStyle: PButtonStyle;
-	/**
-	 * loop through the pages.
-	 * @default false
-	 */
-	loop: boolean;
+	prevLabel: string;
 }

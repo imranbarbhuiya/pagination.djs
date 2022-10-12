@@ -6,6 +6,7 @@ A simple and lightweight module to paginate discord embeds.
 
 [![GitHub](https://img.shields.io/github/license/imranbarbhuiya/pagination.djs)](https://github.com/imranbarbhuiya/pagination.djs/blob/main/LICENSE)
 [![npm](https://img.shields.io/npm/v/pagination.djs?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/pagination.djs)
+[![npm](https://img.shields.io/npm/dw/pagination.djs)](https://www.npmjs.com/package/pagination.djs)
 
 </div>
 
