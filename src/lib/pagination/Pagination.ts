@@ -222,7 +222,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async followUp(): Promise<Message> {
 		const payload = this.ready();
-		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
+		if (!(this.interaction instanceof BaseInteraction)) throw new TypeError('The interaction is not an instance of Interaction');
 		const message = await this.interaction.followUp(payload);
 		this.paginate(message);
 		return message;
@@ -241,7 +241,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async editReply(): Promise<Message> {
 		const payload = this.ready();
-		if (!(this.interaction instanceof BaseInteraction)) throw new Error('The interaction is not an instance of Interaction');
+		if (!(this.interaction instanceof BaseInteraction)) throw new TypeError('The interaction is not an instance of Interaction');
 		const message = await this.interaction.editReply(payload);
 		this.paginate(message);
 		return message;
@@ -261,7 +261,7 @@ export class Pagination extends PaginationEmbed {
 	public async update(): Promise<InteractionResponse<true> | Message> {
 		const payload = this.ready();
 		if (!(this.interaction instanceof MessageComponentInteraction))
-			throw new Error('The interaction is not an instance of MessageComponentInteraction');
+			throw new TypeError('The interaction is not an instance of MessageComponentInteraction');
 		const message = await this.interaction.update(payload);
 		this.paginate(message);
 		return message;
@@ -280,7 +280,7 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async send(): Promise<Message> {
 		const payload = this.ready();
-		if (!this.interaction.channel) throw new Error("The interaction or message don't have a channel");
+		if (!this.interaction.channel) throw new TypeError("The interaction or message don't have a channel");
 		const message = await this.interaction.channel.send(payload);
 		this.paginate(message);
 		return message;
