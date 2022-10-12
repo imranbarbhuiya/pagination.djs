@@ -6,22 +6,26 @@ import type { ComponentEmojiResolvable } from 'discord.js';
 export interface EmojiOptions {
 	/**
 	 * The emoji to use for the first button.
-	 * @default "⏮"
+	 *
+	 * @defaultValue "⏮"
 	 */
 	firstEmoji: ComponentEmojiResolvable;
 	/**
-	 * The emoji to use for the previous button.
-	 * @default "◀️"
+	 * The emoji to use for the last button.
+	 *
+	 * @defaultValue "⏭"
 	 */
-	prevEmoji: ComponentEmojiResolvable;
+	lastEmoji: ComponentEmojiResolvable;
 	/**
 	 * The emoji to use for the next button.
-	 * @default "▶️"
+	 *
+	 * @defaultValue "▶️"
 	 */
 	nextEmoji: ComponentEmojiResolvable;
 	/**
-	 * The emoji to use for the last button.
-	 * @default "⏭"
+	 * The emoji to use for the previous button.
+	 *
+	 * @defaultValue "◀️"
 	 */
-	lastEmoji: ComponentEmojiResolvable;
+	prevEmoji: ComponentEmojiResolvable;
 }

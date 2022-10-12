@@ -1,4 +1,6 @@
-import { ButtonBuilder, type APIButtonComponentWithCustomId, type ButtonStyle, type ComponentEmojiResolvable } from 'discord.js';
+import { type APIButtonComponentWithCustomId, type ButtonStyle, type ComponentEmojiResolvable } from 'discord.js';
+
+import type { ButtonBuilder } from 'discord.js';
 
 /**
  * The style of the paginator buttons.
@@ -12,15 +14,17 @@ export interface ButtonOptions {
 	/**
 	 * The emoji to use for the button.
 	 */
-	emoji: ComponentEmojiResolvable;
+	emoji?: ComponentEmojiResolvable;
 	/**
 	 * The text to show on the button.
-	 * @default ""
+	 *
+	 * @defaultValue ""
 	 */
-	label: string;
+	label?: string;
 	/**
 	 * The style of the button.
-	 * @default {PButtonStyle.Secondary}
+	 *
+	 * @defaultValue `PButtonStyle.Secondary`
 	 */
 	style: PButtonStyle;
 }
@@ -34,17 +38,17 @@ export interface ButtonsOptions {
 	 */
 	first: ButtonOptions;
 	/**
-	 * The previous button of the pagination row
+	 * The last button of the pagination row
 	 */
-	prev: ButtonOptions;
+	last: ButtonOptions;
 	/**
 	 * The next button of the pagination row
 	 */
 	next: ButtonOptions;
 	/**
-	 * The last button of the pagination row
+	 * The previous button of the pagination row
 	 */
-	last: ButtonOptions;
+	prev: ButtonOptions;
 }
 
 export type PButtonBuilder = Omit<ButtonBuilder, 'data'> & {

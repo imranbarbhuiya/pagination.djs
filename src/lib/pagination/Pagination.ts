@@ -1,19 +1,22 @@
 import {
 	BaseInteraction,
 	ComponentType,
-	Interaction,
-	InteractionResponse,
 	Message,
 	MessageComponentInteraction,
 	type ButtonInteraction,
 	type CommandInteraction,
 	type InteractionCollector,
 	type InteractionType,
-	type Snowflake
+	type Snowflake,
+	type Interaction,
+	type InteractionResponse
 } from 'discord.js';
+
+import { PaginationEmbed } from './PaginationEmbed.js';
+
+import { authorOrUser } from '../utils/index.js';
+
 import type { Options } from '../types';
-import { authorOrUser } from '../utils';
-import { PaginationEmbed } from './PaginationEmbed';
 
 /**
  * The pagination class.
@@ -23,6 +26,7 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * The interaction that the paginator is for.
+	 *
 	 * @readonly
 	 */
 	public readonly interaction: Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }> | Message;
@@ -35,13 +39,13 @@ export class Pagination extends PaginationEmbed {
 	/**
 	 * The collector of the pagination.
 	 */
-	public collector?: InteractionCollector<ButtonInteraction> | InteractionCollector<ButtonInteraction<'cached'>>;
+	public collector?: InteractionCollector<ButtonInteraction<'cached'>> | InteractionCollector<ButtonInteraction>;
 
 	// #end region
 
 	/**
-	 * @param messageOrInteraction
-	 * @param options
+	 * @param messageOrInteraction - The message or interaction to reply with the pagination message
+	 * @param options - The pagination options
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction, {
@@ -59,7 +63,6 @@ export class Pagination extends PaginationEmbed {
 	 *  loop: false,
 	 * });
 	 * ```
-	 *
 	 */
 	public constructor(
 		messageOrInteraction: Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }> | Message,
@@ -67,8 +70,9 @@ export class Pagination extends PaginationEmbed {
 	) {
 		super(options);
 		if (!(messageOrInteraction instanceof BaseInteraction) && !(messageOrInteraction instanceof Message)) {
-			throw new Error('The interaction must be an instance of Interaction or Message');
+			throw new TypeError('The interaction must be an instance of Interaction or Message');
 		}
+
 		this.interaction = messageOrInteraction;
 		this.authorizedUsers = [authorOrUser(messageOrInteraction).id];
 	}
@@ -78,14 +82,14 @@ export class Pagination extends PaginationEmbed {
 	/**
 	 * Sets authorized users who can use these pagination buttons.
 	 * Leave it a empty array to allow everyone to use the pagination.
-	 * @param authorizedUsers
+	 *
+	 * @param authorizedUsers - The users to set
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .setAuthorizedUsers([userId1, userId2, userId3]);
 	 * ```
-	 *
 	 */
 	public setAuthorizedUsers(authorizedUsers: Snowflake[]): this {
 		this.authorizedUsers = authorizedUsers;
@@ -94,14 +98,14 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Adds a authorized user who can use these pagination buttons.
-	 * @param authorizedUser
+	 *
+	 * @param authorizedUser - The user to add
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .addAuthorizedUser(userId1);
 	 * ```
-	 *
 	 */
 	public addAuthorizedUser(authorizedUser: Snowflake): this {
 		this.authorizedUsers.push(authorizedUser);
@@ -110,14 +114,14 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Adds multiple authorized users who can use these pagination buttons.
-	 * @param authorizedUsers
+	 *
+	 * @param authorizedUsers - The users to add
 	 * @returns
 	 * @example
 	 * ```javascript
 	 * const pagination = new Pagination(interaction)
 	 *  .addAuthorizedUsers([userId1, userId2, userId3]);
 	 * ```
-	 *
 	 */
 	public addAuthorizedUsers(authorizedUsers: Snowflake[]): this {
 		this.authorizedUsers.push(...authorizedUsers);
@@ -128,7 +132,8 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Makes the pagination interactive.
-	 * @param message
+	 *
+	 * @param message - The message to listen for interactions
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -136,28 +141,30 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.paginate(message);
 	 * ```
-	 *
 	 */
 	public paginate(message: InteractionResponse<true> | Message): this {
 		this.collector = message.createMessageComponentCollector({
 			filter: ({ customId, user }) =>
-				['first', 'prev', 'next', 'last'].some((k) => this.buttons[k]?.data.custom_id === customId) &&
+				['first', 'prev', 'next', 'last'].some((position) => this.buttons[position].data.custom_id === customId) &&
 				(this.authorizedUsers.length ? this.authorizedUsers.includes(user.id) : true),
 			idle: this.idle,
 			componentType: ComponentType.Button
 		});
 
-		this.collector.on('collect', (i) => {
-			if (i.customId === this.buttons.first.data.custom_id) {
-				return this.goFirst(i);
+		this.collector.on('collect', (interaction) => {
+			if (interaction.customId === this.buttons.first.data.custom_id) {
+				return this.goFirst(interaction);
 			}
-			if (i.customId === this.buttons.prev.data.custom_id) {
-				return this.goPrev(i);
+
+			if (interaction.customId === this.buttons.prev.data.custom_id) {
+				return this.goPrev(interaction);
 			}
-			if (i.customId === this.buttons.next.data.custom_id) {
-				return this.goNext(i);
+
+			if (interaction.customId === this.buttons.next.data.custom_id) {
+				return this.goNext(interaction);
 			}
-			return this.goLast(i);
+
+			return this.goLast(interaction);
 		});
 		return this;
 	}
@@ -167,6 +174,7 @@ export class Pagination extends PaginationEmbed {
 	 * By default, it will send as a reply to the message
 	 * but if the interaction is already replied or deferred then it will `editReply`.
 	 * If you want to send follow-up or update the interaction, then use {@link followUp} or {@link update} instead.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -174,17 +182,18 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.render();
 	 * ```
-	 *
 	 */
-	public async render(): Promise<Message | InteractionResponse<true>> {
+	public async render(): Promise<InteractionResponse<true> | Message> {
 		if (this.interaction instanceof BaseInteraction && (this.interaction.replied || this.interaction.deferred)) {
 			return this.editReply();
 		}
+
 		return this.reply();
 	}
 
 	/**
 	 * Replies the final message.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -192,7 +201,6 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.reply();
 	 * ```
-	 *
 	 */
 	public async reply(): Promise<InteractionResponse<true> | Message> {
 		const payload = this.ready();
@@ -203,6 +211,7 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Sends the reply as a `followUp`.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -210,7 +219,6 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.followUp();
 	 * ```
-	 *
 	 */
 	public async followUp(): Promise<Message> {
 		const payload = this.ready();
@@ -222,6 +230,7 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Edits the original reply with the final message.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -229,7 +238,6 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.editReply();
 	 * ```
-	 *
 	 */
 	public async editReply(): Promise<Message> {
 		const payload = this.ready();
@@ -241,6 +249,7 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Updates the interaction's pagination.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -248,9 +257,8 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.update();
 	 * ```
-	 *
 	 */
-	public async update(): Promise<Message | InteractionResponse<true>> {
+	public async update(): Promise<InteractionResponse<true> | Message> {
 		const payload = this.ready();
 		if (!(this.interaction instanceof MessageComponentInteraction))
 			throw new Error('The interaction is not an instance of MessageComponentInteraction');
@@ -261,6 +269,7 @@ export class Pagination extends PaginationEmbed {
 
 	/**
 	 * Sends the final message in the interaction's channel.
+	 *
 	 * @returns
 	 * @example
 	 * ```javascript
@@ -268,7 +277,6 @@ export class Pagination extends PaginationEmbed {
 	 * ...
 	 * pagination.send();
 	 * ```
-	 *
 	 */
 	public async send(): Promise<Message> {
 		const payload = this.ready();

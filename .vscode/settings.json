@@ -6,6 +6,7 @@
 	"editor.detectIndentation": false,
 	"files.eol": "\n",
 	"editor.codeActionsOnSave": {
-		"source.organizeImports": true
+		"source.organizeImports": false,
+		"source.fixAll": true
 	}
 }
