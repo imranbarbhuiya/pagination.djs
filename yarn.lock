@@ -1192,14 +1192,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bundle-require@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "bundle-require@npm:3.1.0"
+"bundle-require@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "bundle-require@npm:3.1.2"
   dependencies:
     load-tsconfig: ^0.2.0
   peerDependencies:
     esbuild: ">=0.13"
-  checksum: e433dd18ad2ccaf9d210040c5ce300a8c60f4caf0472856fd5162ec407f7b5b3e0559e540aa92b7381a18a6ff2b45bbe9270dc2fd7ace17e445e72a9cbc7fa95
+  checksum: 71f8cb81bcde97825317b0e516b7e479ec70bd2370f55a8f02795c0df6d541e6562c4b9ec0427cc7b5b835103a8dcf306da04e3846fa468146358471490fcf81
   languageName: node
   linkType: hard
 
@@ -4701,8 +4701,8 @@ __metadata:
     lint-staged: ^13.0.3
     pinst: ^3.0.0
     prettier: ^2.7.1
-    tsup: ^6.3.0
-    typedoc: ^0.23.19
+    tsup: ^6.4.0
+    typedoc: ^0.23.20
     typescript: ^4.8.4
   peerDependencies:
     discord.js: ^14.1.2
@@ -5179,9 +5179,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.74.1":
-  version: 2.77.0
-  resolution: "rollup@npm:2.77.0"
+"rollup@npm:^3.2.5":
+  version: 3.2.5
+  resolution: "rollup@npm:3.2.5"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -5189,7 +5189,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 74ccc98429709984a89af636250833e7502d87f1d9c6d96ebfe4b52030ebf94b9f6b84b8ab476670329a61d54b681d35eecdc601bac5b5396b099b1ea69970ef
+  checksum: 1779b778fe4b14f80a995a641d3a89a76e3651170536192022dce1821f1241ee49496353655aa812dc8f8334c89a302ad957b757d4370cf57e41ca270bb394fd
   languageName: node
   linkType: hard
 
@@ -5850,11 +5850,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.3.0":
-  version: 6.3.0
-  resolution: "tsup@npm:6.3.0"
+"tsup@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "tsup@npm:6.4.0"
   dependencies:
-    bundle-require: ^3.1.0
+    bundle-require: ^3.1.2
     cac: ^6.7.12
     chokidar: ^3.5.1
     debug: ^4.3.1
@@ -5864,7 +5864,7 @@ __metadata:
     joycon: ^3.0.1
     postcss-load-config: ^3.0.1
     resolve-from: ^5.0.0
-    rollup: ^2.74.1
+    rollup: ^3.2.5
     source-map: 0.8.0-beta.0
     sucrase: ^3.20.3
     tree-kill: ^1.2.2
@@ -5882,7 +5882,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: f1fccd555a77ff82b3b3d4ce28188f5703695af5e9d593a4edcfc3807cbebb5b04e619ad9ae0b0c92830cbbcbf6d76356365a8986ebe82d7389151a4f66a6c49
+  checksum: a8bcb05265783c38e7c3a5c1d849736dda6122fc15ff78f4b76245cfe2bab93e0ddf74487cd5fe52e23d5fc7600dad154d0f5d1ed3dcc6b429b582d1dd4a49c9
   languageName: node
   linkType: hard
 
@@ -5948,9 +5948,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.23.19":
-  version: 0.23.19
-  resolution: "typedoc@npm:0.23.19"
+"typedoc@npm:^0.23.20":
+  version: 0.23.20
+  resolution: "typedoc@npm:0.23.20"
   dependencies:
     lunr: ^2.3.9
     marked: ^4.0.19
@@ -5960,7 +5960,7 @@ __metadata:
     typescript: 4.6.x || 4.7.x || 4.8.x
   bin:
     typedoc: bin/typedoc
-  checksum: 4659dce4e8550a3f0d4739b6c9c583d8f2afba9c37e2fe38325e3cff781a50daf57afe10cbcc27f11b56da0623d502628e0713c55f30eae619c4427d18ce1064
+  checksum: 8dbe046794a827b87e186523df86573673520ea5c706e1dfc2a820360bda5e998c23fd2ced91299ef060339f6ebba1086776e4e7423769da9b135a13edee10ec
   languageName: node
   linkType: hard
 
