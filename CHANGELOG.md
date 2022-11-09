@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.6](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.5...v4.0.6) - (2022-11-09)
+
+## 🐛 Bug Fixes
+
+- Replace throw with warn ([10e7be5](https://github.com/imranbarbhuiya/pagination.djs/commit/10e7be5194d5112e8f7a819a476d7ee293366348))
+
+# [4.0.4](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.3...v4.0.4) - (2022-10-12)
+
+## 📝 Documentation
+
+- Add legendhimslef as a contributor for doc (#70) ([003c11c](https://github.com/imranbarbhuiya/pagination.djs/commit/003c11cce4cfe240ff8a5e96794a56768711fc7a))
+- Add embed field docs (#69) ([57a25c3](https://github.com/imranbarbhuiya/pagination.djs/commit/57a25c3ced81c9ec7c914d9063f8cea9e89171be))
+- Ignore type error in docs ([46811a4](https://github.com/imranbarbhuiya/pagination.djs/commit/46811a45f67e273a2ed89c4225972d20eb28b896))
+
+# [4.0.3](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.2...v4.0.3) - (2022-09-23)
+
+## 🐛 Bug Fixes
+
+- Base message options type ([1ed5617](https://github.com/imranbarbhuiya/pagination.djs/commit/1ed5617248e0d6253bbd5380f8b1df06c31d837d))
+
+# [4.0.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.1...v4.0.2) - (2022-09-11)
+
+## 🐛 Bug Fixes
+
+- Add ephemeral in the payload ([8bd0a86](https://github.com/imranbarbhuiya/pagination.djs/commit/8bd0a8604d2ed11e01e21a611a58fa931dadd9db))
+
 # [4.0.4](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.3...v4.0.4) - (2022-10-12)
 
 ## 📝 Documentation
