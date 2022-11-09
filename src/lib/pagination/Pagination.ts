@@ -70,7 +70,11 @@ export class Pagination extends PaginationEmbed {
 	) {
 		super(options);
 		if (!(messageOrInteraction instanceof BaseInteraction) && !(messageOrInteraction instanceof Message)) {
-			throw new TypeError('The interaction must be an instance of Interaction or Message');
+			console.warn(
+				`[pagination.djs] warn - The interaction must be an instance of Interaction or Message, received + ${
+					(messageOrInteraction as any).construction.name
+				}\nFor more information, see: https://github.com/imranbarbhuiya/pagination.djs/issues/68 or https://github.com/imranbarbhuiya/pagination.djs/issues/88`
+			);
 		}
 
 		this.interaction = messageOrInteraction;
