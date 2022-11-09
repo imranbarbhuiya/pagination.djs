@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 
 - Fix ephemeral reply for v3 ([de6b5b3](https://github.com/imranbarbhuiya/pagination.djs/commit/de6b5b3550f5cbc505f5122508288bd053a54a49))
 
+# [3.6.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.1...v3.6.2) - (2022-07-19)
+
+## 🐛 Bug Fixes
+
+- Fix ephemeral reply for v3 ([de6b5b3](https://github.com/imranbarbhuiya/pagination.djs/commit/de6b5b3550f5cbc505f5122508288bd053a54a49))
+
 # [3.6.2](https://github.com/imranbarbhuiya/pagination.djs/compare/v3.6.1...v3.6.2) - (2022-07-19)
 
 ## 🐛 Bug Fixes
