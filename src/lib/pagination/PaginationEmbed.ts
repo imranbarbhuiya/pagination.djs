@@ -825,7 +825,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		}
 
 		this.setFooter({
-			text: this.rawFooter.replace(/{pageNumber}/g, `${pageNumber}`).replace(/{totalPages}/g, `${this.totalPages}`),
+			text: this.rawFooter.replaceAll('{pageNumber}', `${pageNumber}`).replaceAll('{totalPages}', `${this.totalPages}`),
 			iconURL: this.data.footer?.icon_url
 		});
 		if (this.images.length) {
