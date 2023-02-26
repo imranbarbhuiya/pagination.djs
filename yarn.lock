@@ -2407,9 +2407,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-mahir@npm:^0.0.22":
-  version: 0.0.22
-  resolution: "eslint-config-mahir@npm:0.0.22"
+"eslint-config-mahir@npm:^0.0.23":
+  version: 0.0.23
+  resolution: "eslint-config-mahir@npm:0.0.23"
   dependencies:
     "@next/eslint-plugin-next": ^13.1.6
     "@rushstack/eslint-patch": ^1.2.0
@@ -2429,7 +2429,7 @@ __metadata:
     eslint-plugin-unicorn: ^45.0.2
     prettier: ^2.8.4
     typescript: ^4.9.5
-  checksum: 8aac22993a9e665395149c15c6dd21f729ab14912f3e0448618d85bb08a68d44b3a8e024d84608741ece32079ae284d02dbdb4b2d8d90b393d38b00017166825
+  checksum: 02dc9eab7b838e942b6b0f6e16bf2f51c0ae04fe5783228fe4b33d93836ba2e4b98d9079cef0f4b994a08b380bc9720e301d5211c7edd2890292dee6da3f95f6
   languageName: node
   linkType: hard
 
@@ -4984,7 +4984,7 @@ __metadata:
     cz-conventional-changelog: ^3.3.0
     discord.js: ^14.7.1
     eslint: ^8.34.0
-    eslint-config-mahir: ^0.0.22
+    eslint-config-mahir: ^0.0.23
     husky: ^8.0.3
     lint-staged: ^13.1.2
     pinst: ^3.0.0
