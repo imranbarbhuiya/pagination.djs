@@ -54,7 +54,7 @@
 		"pinst": "^3.0.0",
 		"prettier": "^2.8.4",
 		"tsup": "^6.6.3",
-		"typedoc": "^0.23.26",
+		"typedoc": "^0.23.27",
 		"typescript": "^5.0.2"
 	},
 	"peerDependencies": {
@@ -85,5 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@3.4.1"
+	"packageManager": "yarn@3.5.0"
 }
