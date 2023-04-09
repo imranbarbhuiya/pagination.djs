@@ -47,15 +47,15 @@
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.9.0",
-		"eslint": "^8.37.0",
-		"eslint-config-mahir": "^0.0.23",
+		"eslint": "^8.38.0",
+		"eslint-config-mahir": "^0.0.24",
 		"husky": "^8.0.3",
-		"lint-staged": "^13.2.0",
+		"lint-staged": "^13.2.1",
 		"pinst": "^3.0.0",
 		"prettier": "^2.8.7",
 		"tsup": "^6.7.0",
-		"typedoc": "^0.23.28",
-		"typescript": "^5.0.3"
+		"typedoc": "^0.24.0",
+		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
 		"discord.js": "^14.1.2"
