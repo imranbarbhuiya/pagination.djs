@@ -48,7 +48,7 @@
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.9.0",
 		"eslint": "^8.39.0",
-		"eslint-config-mahir": "^0.0.24",
+		"eslint-config-mahir": "^0.0.25",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.1",
 		"pinst": "^3.0.0",
