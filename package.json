@@ -41,14 +41,14 @@
 		"dist/**/*.d*"
 	],
 	"devDependencies": {
-		"@commitlint/cli": "^17.6.1",
-		"@commitlint/config-conventional": "^17.6.1",
+		"@commitlint/cli": "^17.6.3",
+		"@commitlint/config-conventional": "^17.6.3",
 		"@favware/cliff-jumper": "^2.0.0",
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.9.0",
-		"eslint": "^8.39.0",
-		"eslint-config-mahir": "^0.0.25",
+		"eslint": "^8.40.0",
+		"eslint-config-mahir": "^0.0.26",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.2",
 		"pinst": "^3.0.0",
@@ -85,5 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@3.5.0"
+	"packageManager": "yarn@3.5.1"
 }
