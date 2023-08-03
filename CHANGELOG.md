@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.12](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.11...v4.0.12) - (2023-08-03)
+
+## 🐛 Bug Fixes
+
+- Removed cached generic ([7c5644c](https://github.com/imranbarbhuiya/pagination.djs/commit/7c5644cfaa4c33000cdd05524406569d30efb5b4))
+
 # [4.0.6](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.5...v4.0.6) - (2022-11-09)
 
 ## 🐛 Bug Fixes
