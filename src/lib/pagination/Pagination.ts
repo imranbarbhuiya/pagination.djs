@@ -65,7 +65,7 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 */
 	public constructor(
-		messageOrInteraction: Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }> | Message,
+		messageOrInteraction: Exclude<Interaction, { type: InteractionType.ApplicationCommandAutocomplete }> | Message,
 		options: Partial<Options> = {}
 	) {
 		super(options);
@@ -77,7 +77,8 @@ export class Pagination extends PaginationEmbed {
 			);
 		}
 
-		this.interaction = messageOrInteraction;
+		// This is done to avoid confusion for end users. Also interaction mostly comes from cached guilds so it's safe to cast it.
+		this.interaction = messageOrInteraction as Exclude<Interaction<'cached'>, { type: InteractionType.ApplicationCommandAutocomplete }>;
 		this.authorizedUsers = [authorOrUser(messageOrInteraction).id];
 	}
 
@@ -178,7 +179,7 @@ export class Pagination extends PaginationEmbed {
 	 * Sends the final message.
 	 * By default, it will send as a reply to the message
 	 * but if the interaction is already replied or deferred then it will `editReply`.
-	 * If you want to send follow-up or update the interaction, then use {@link followUp} or {@link update} instead.
+	 * If you want to send follow-up or update the interaction, then use {@link Pagination.followUp} or {@link Pagination.update} instead.
 	 *
 	 * @returns
 	 * @example
