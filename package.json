@@ -46,7 +46,7 @@
 		"@favware/cliff-jumper": "^2.1.1",
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^14.12.1",
+		"discord.js": "^14.13.0",
 		"eslint": "^8.47.0",
 		"eslint-config-mahir": "^0.0.31",
 		"husky": "^8.0.3",
