@@ -47,14 +47,14 @@
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.13.0",
-		"eslint": "^8.50.0",
+		"eslint": "^8.51.0",
 		"eslint-config-mahir": "^0.0.33",
 		"husky": "^8.0.3",
 		"lint-staged": "^14.0.1",
 		"pinst": "^3.0.0",
 		"prettier": "^3.0.3",
 		"tsup": "^7.2.0",
-		"typedoc": "^0.25.1",
+		"typedoc": "^0.25.2",
 		"typescript": "^5.2.2"
 	},
 	"peerDependencies": {
@@ -85,5 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@3.6.3"
+	"packageManager": "yarn@3.6.4"
 }
