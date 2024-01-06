@@ -157,20 +157,25 @@ export class Pagination extends PaginationEmbed {
 			componentType: ComponentType.Button
 		});
 
-		this.collector.on('collect', (interaction) => {
-			if (interaction.customId === this.buttons.first.data.custom_id) {
-				return this.goFirst(interaction);
+		this.collector.on('collect', async (interaction) => {
+			if (interaction.customId === this.buttons.first?.data.custom_id) {
+				await this.goFirst(interaction);
+				return;
 			}
 
-			if (interaction.customId === this.buttons.prev.data.custom_id) {
-				return this.goPrev(interaction);
+			if (interaction.customId === this.buttons.prev?.data.custom_id) {
+				await this.goPrev(interaction);
+				return;
 			}
 
-			if (interaction.customId === this.buttons.next.data.custom_id) {
-				return this.goNext(interaction);
+			if (interaction.customId === this.buttons.next?.data.custom_id) {
+				await this.goNext(interaction);
+				return;
 			}
 
-			return this.goLast(interaction);
+			if (interaction.customId === this.buttons.last?.data.custom_id) {
+				await this.goLast(interaction);
+			}
 		});
 		return this;
 	}

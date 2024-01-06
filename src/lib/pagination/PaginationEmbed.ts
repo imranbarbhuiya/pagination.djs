@@ -135,7 +135,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	/**
 	 * The pagination buttons.
 	 */
-	public buttons!: Record<string, PButtonBuilder>;
+	public buttons!: Record<string, PButtonBuilder | undefined>;
 
 	/**
 	 * Contents if changing contents per page.
@@ -903,12 +903,12 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	protected async goFirst(interaction: ButtonInteraction) {
 		this.currentPage = 1;
 		if (!this.loop) {
-			this.buttons.first.setDisabled();
-			this.buttons.prev.setDisabled();
+			this.buttons.first?.setDisabled();
+			this.buttons.prev?.setDisabled();
 		}
 
-		this.buttons.next.setDisabled(false);
-		this.buttons.last.setDisabled(false);
+		this.buttons.next?.setDisabled(false);
+		this.buttons.last?.setDisabled(false);
 
 		this.goToPage(1);
 
@@ -930,12 +930,12 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	protected async goPrev(interaction: ButtonInteraction) {
 		this.currentPage--;
 		if (!this.loop) {
-			this.buttons.first.setDisabled(this.currentPage === 1);
-			this.buttons.prev.setDisabled(this.currentPage === 1);
+			this.buttons.first?.setDisabled(this.currentPage === 1);
+			this.buttons.prev?.setDisabled(this.currentPage === 1);
 		}
 
-		this.buttons.next.setDisabled(false);
-		this.buttons.last.setDisabled(false);
+		this.buttons.next?.setDisabled(false);
+		this.buttons.last?.setDisabled(false);
 		this.goToPage(this.currentPage);
 		await interaction.update(this.payload);
 	}
@@ -954,11 +954,11 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 */
 	protected async goNext(interaction: ButtonInteraction) {
 		this.currentPage++;
-		this.buttons.prev.setDisabled(false);
-		this.buttons.first.setDisabled(false);
+		this.buttons.prev?.setDisabled(false);
+		this.buttons.first?.setDisabled(false);
 		if (!this.loop) {
-			this.buttons.next.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
-			this.buttons.last.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
+			this.buttons.next?.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
+			this.buttons.last?.setDisabled(this.currentPage === Math.ceil(this.totalEntry / this.limit));
 		}
 
 		this.goToPage(this.currentPage);
@@ -979,18 +979,24 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 */
 	protected async goLast(interaction: ButtonInteraction) {
 		this.currentPage = Math.ceil(this.totalEntry / this.limit);
-		this.buttons.prev.setDisabled(false);
-		this.buttons.first.setDisabled(false);
+		this.buttons.prev?.setDisabled(false);
+		this.buttons.first?.setDisabled(false);
 		if (!this.loop) {
-			this.buttons.next.setDisabled();
-			this.buttons.last.setDisabled();
+			this.buttons.next?.setDisabled();
+			this.buttons.last?.setDisabled();
 		}
 
 		this.goToPage(this.currentPage);
 		await interaction.update(this.payload);
 	}
 
-	private _readyButton(button: ButtonBuilder, label: string | undefined, emoji: ComponentEmojiResolvable | undefined, style: PButtonStyle): this {
+	private _readyButton(
+		button: ButtonBuilder | undefined,
+		label: string | undefined,
+		emoji: ComponentEmojiResolvable | undefined,
+		style: PButtonStyle
+	): this {
+		if (!button) return this;
 		if (label) button.setLabel(label);
 		if (emoji) button.setEmoji(emoji);
 		button.setStyle(style);
@@ -1010,21 +1016,21 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			this._readyButton(this.buttons.last, this.buttonInfo.last.label, this.buttonInfo.last.emoji, this.buttonInfo.last.style);
 		}
 
-		this.buttons.first.setDisabled();
-		this.buttons.prev.setDisabled();
-		this.buttons.next.setDisabled();
-		this.buttons.last.setDisabled();
+		this.buttons.first?.setDisabled();
+		this.buttons.prev?.setDisabled();
+		this.buttons.next?.setDisabled();
+		this.buttons.last?.setDisabled();
 		if (this.totalEntry > this.limit) {
-			this.buttons.last.setDisabled(false);
-			this.buttons.next.setDisabled(false);
+			this.buttons.last?.setDisabled(false);
+			this.buttons.next?.setDisabled(false);
 		}
 
 		if (this.loop && this.totalEntry > this.limit) {
-			this.buttons.first.setDisabled(false);
-			this.buttons.prev.setDisabled(false);
+			this.buttons.first?.setDisabled(false);
+			this.buttons.prev?.setDisabled(false);
 		}
 
-		this.mainActionRow.setComponents(Object.values(this.buttons));
+		this.mainActionRow.setComponents(Object.values(this.buttons) as PButtonBuilder[]);
 		this.actionRows = [this.mainActionRow];
 		if (this.extraRows.length > 0) {
 			for (const row of this.extraRows) {
