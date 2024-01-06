@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.13](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.13...v4.0.13) - (2024-01-06)
+
+## 🐛 Bug Fixes
+
+- Buttons might be optional too ([3b30874](https://github.com/imranbarbhuiya/pagination.djs/commit/3b30874d049c17a64fb9a9175e480e46af4a80a3))
+
 # [4.0.12](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.11...v4.0.12) - (2023-08-03)
 
 ## 🐛 Bug Fixes
