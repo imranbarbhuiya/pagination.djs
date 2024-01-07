@@ -41,8 +41,8 @@
 		"dist/**/*.d*"
 	],
 	"devDependencies": {
-		"@commitlint/cli": "^18.4.3",
-		"@commitlint/config-conventional": "^18.4.3",
+		"@commitlint/cli": "^18.4.4",
+		"@commitlint/config-conventional": "^18.4.4",
 		"@favware/cliff-jumper": "^2.2.3",
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
@@ -54,7 +54,7 @@
 		"pinst": "^3.0.0",
 		"prettier": "^3.1.1",
 		"tsup": "^8.0.1",
-		"typedoc": "^0.25.4",
+		"typedoc": "^0.25.6",
 		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
