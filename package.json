@@ -18,7 +18,7 @@
 		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"postinstall": "husky install .github/husky",
+		"postinstall": "husky .github/husky",
 		"prepack": " yarn build && pinst --disable",
 		"postpack": "pinst --enable"
 	},
