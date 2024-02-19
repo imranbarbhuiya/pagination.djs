@@ -461,9 +461,8 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ```
 	 */
 	public setEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder, i: number, array: PEmbeds) => JSONEncodable<APIEmbed>): this {
-		if (template) {
+		if (template)
 			embeds = embeds.map((embed, index, array) => template(embed instanceof EmbedBuilder ? embed : EmbedBuilder.from(embed), index, array));
-		}
 
 		this.embeds = embeds;
 		this.limit = 1;
@@ -485,9 +484,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ```
 	 */
 	public addEmbeds(embeds: PEmbeds, template?: (embed: EmbedBuilder) => JSONEncodable<APIEmbed>): this {
-		if (template) {
-			embeds = embeds.map((embed) => template(EmbedBuilder.from(embed)));
-		}
+		if (template) embeds = embeds.map((embed) => template(EmbedBuilder.from(embed)));
 
 		this.embeds.push(...embeds);
 		return this;
@@ -820,17 +817,13 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 		if (!this.data.footer) {
 			this.customFooter = false;
 			this.rawFooter = 'Pages: {pageNumber}/{totalPages}';
-		} else if (this.customFooter && !this.rawFooter) {
-			this.rawFooter = this.data.footer.text;
-		}
+		} else if (this.customFooter && !this.rawFooter) this.rawFooter = this.data.footer.text;
 
 		this.setFooter({
 			text: this.rawFooter.replaceAll('{pageNumber}', `${pageNumber}`).replaceAll('{totalPages}', `${this.totalPages}`),
 			iconURL: this.data.footer?.icon_url
 		});
-		if (this.images.length) {
-			this.setImage(this.images[pageNumber - 1]);
-		}
+		if (this.images.length) this.setImage(this.images[pageNumber - 1]);
 
 		// TODO: remove null from content in a next major version. Djs changed the typings in a minor version.
 		this.payload.content = (Array.isArray(this.contents) ? this.contents[this.currentPage - 1] : this.contents) ?? undefined;
@@ -841,9 +834,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 			);
 		}
 
-		if (this.fieldPaginate) {
-			super.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
-		}
+		if (this.fieldPaginate) super.setFields(this.rawFields.slice(pageNumber * this.limit - this.limit, pageNumber * this.limit));
 
 		return this;
 	}
@@ -876,9 +867,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 * ```
 	 */
 	public ready(): Payload {
-		if (!this.fieldPaginate) {
-			this.setFields(this.rawFields);
-		}
+		if (!this.fieldPaginate) this.setFields(this.rawFields);
 
 		this.totalEntry =
 			this.embeds.length || Math.max(this.descriptions.length, this.images.length, this.fieldPaginate ? this.rawFields.length : 0);
