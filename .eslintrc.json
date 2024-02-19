@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"extends": ["mahir/common", "mahir/node", "mahir/typescript", "mahir/prettier", "mahir/tsdoc"],
+	"extends": ["mahir/common", "mahir/node", "mahir/typescript", "mahir/tsdoc"],
 	"ignorePatterns": ["**/dist/*"],
 	"rules": {
 		"no-param-reassign": "off",

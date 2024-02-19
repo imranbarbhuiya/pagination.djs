@@ -1,6 +1,4 @@
-import { type APIButtonComponentWithCustomId, type ButtonStyle, type ComponentEmojiResolvable } from 'discord.js';
-
-import type { ButtonBuilder } from 'discord.js';
+import type { APIButtonComponentWithCustomId, ButtonStyle, ComponentEmojiResolvable, ButtonBuilder } from 'discord.js';
 
 /**
  * The style of the paginator buttons.

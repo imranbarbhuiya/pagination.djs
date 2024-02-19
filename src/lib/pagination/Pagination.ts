@@ -173,9 +173,7 @@ export class Pagination extends PaginationEmbed {
 				return;
 			}
 
-			if (interaction.customId === this.buttons.last?.data.custom_id) {
-				await this.goLast(interaction);
-			}
+			if (interaction.customId === this.buttons.last?.data.custom_id) await this.goLast(interaction);
 		});
 		return this;
 	}
@@ -195,9 +193,7 @@ export class Pagination extends PaginationEmbed {
 	 * ```
 	 */
 	public async render(): Promise<InteractionResponse<true> | Message> {
-		if (this.interaction instanceof BaseInteraction && (this.interaction.replied || this.interaction.deferred)) {
-			return this.editReply();
-		}
+		if (this.interaction instanceof BaseInteraction && (this.interaction.replied || this.interaction.deferred)) return this.editReply();
 
 		return this.reply();
 	}
