@@ -54,8 +54,8 @@
 		"pinst": "^3.0.0",
 		"prettier": "^3.2.5",
 		"tsup": "^8.0.2",
-		"typedoc": "^0.25.9",
-		"typescript": "^5.3.3"
+		"typedoc": "^0.25.11",
+		"typescript": "^5.4.2"
 	},
 	"peerDependencies": {
 		"discord.js": "^14.1.2"
@@ -85,5 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@4.1.0"
+	"packageManager": "yarn@4.1.1"
 }
