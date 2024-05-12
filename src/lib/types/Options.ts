@@ -1,9 +1,10 @@
 import type { PButtonStyle } from './ButtonsOptions';
 import type { EmojiOptions } from './EmojiOptions';
-import type { BaseMessageOptions } from 'discord.js';
+import type { APIAttachment, APIEmbed, Attachment, AttachmentBuilder, AttachmentPayload, BufferResolvable, JSONEncodable } from 'discord.js';
+import type { Stream } from 'node:stream';
 
-export type PEmbeds = Required<BaseMessageOptions>['embeds'];
-export type PAttachments = Required<BaseMessageOptions>['files'];
+export type PEmbeds = (APIEmbed | JSONEncodable<APIEmbed>)[];
+export type PAttachments = (Attachment | AttachmentBuilder | AttachmentPayload | BufferResolvable | JSONEncodable<APIAttachment> | Stream)[];
 
 export enum ExtraRowPosition {
 	Above,
