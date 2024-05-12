@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.15](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.14...v4.0.15) - (2024-05-12)
+
+## 🐛 Bug Fixes
+
+- Readonly type issue ([c1760fc](https://github.com/imranbarbhuiya/pagination.djs/commit/c1760fc8fc32d74c5a11e2b096764135f5125485))
+
 # [4.0.13](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.13...v4.0.13) - (2024-01-06)
 
 ## 🐛 Bug Fixes
