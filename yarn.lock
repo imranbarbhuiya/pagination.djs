@@ -5239,7 +5239,7 @@ __metadata:
     pinst: "npm:^3.0.0"
     prettier: "npm:^3.3.2"
     tsup: "npm:^8.1.0"
-    typedoc: "npm:^0.26.0"
+    typedoc: "npm:^0.26.1"
     typescript: "npm:^5.5.2"
   peerDependencies:
     discord.js: ^14.1.2
@@ -5914,7 +5914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:^1.6.5":
+"shiki@npm:^1.9.0":
   version: 1.9.0
   resolution: "shiki@npm:1.9.0"
   dependencies:
@@ -6563,20 +6563,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.26.0":
-  version: 0.26.0
-  resolution: "typedoc@npm:0.26.0"
+"typedoc@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "typedoc@npm:0.26.1"
   dependencies:
     lunr: "npm:^2.3.9"
     markdown-it: "npm:^14.1.0"
     minimatch: "npm:^9.0.4"
-    shiki: "npm:^1.6.5"
+    shiki: "npm:^1.9.0"
     yaml: "npm:^2.4.5"
   peerDependencies:
     typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x
   bin:
     typedoc: bin/typedoc
-  checksum: 10c0/7f6cbef2a5a9913324d70ef02294efa2ec180d19171265a18ccb056e08a768371bae32219fa7e416d896755c68dfa90565342eaae615eb60ed9ae47c3c415958
+  checksum: 10c0/8e19811d5c97ba8f750b4a122223c6ff24e91deae30964310186f2fc270c8a32a94e223bfb9e59e5e2c7eb65e2a613a736ec4a21e8584c00dedae9221dcfd008
   languageName: node
   linkType: hard
 
