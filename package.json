@@ -47,7 +47,7 @@
 		"@favware/npm-deprecate": "^1.0.7",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.15.3",
-		"eslint": "^8.57.0",
+		"eslint": "^9.8.0",
 		"eslint-config-mahir": "^0.0.45",
 		"husky": "^9.1.4",
 		"lint-staged": "^15.2.8",
