@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.16](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.15...v4.0.16) - (2024-09-30)
+
+## 🐛 Bug Fixes
+
+- Type error ([1b11043](https://github.com/imranbarbhuiya/pagination.djs/commit/1b110431e5a15766cf759202bffdb318286fe00a))
+
 # [4.0.15](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.14...v4.0.15) - (2024-05-12)
 
 ## 🐛 Bug Fixes
