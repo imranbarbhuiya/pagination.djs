@@ -9,7 +9,9 @@ import {
 	type InteractionType,
 	type Snowflake,
 	type Interaction,
-	type InteractionResponse
+	type InteractionResponse,
+	type GuildTextBasedChannel,
+	type DMChannel
 } from 'discord.js';
 
 import { PaginationEmbed } from './PaginationEmbed.js';
@@ -287,8 +289,10 @@ export class Pagination extends PaginationEmbed {
 	 */
 	public async send(): Promise<Message> {
 		const payload = this.ready();
-		if (!this.interaction.channel) throw new TypeError("The interaction or message don't have a channel");
-		const message = await this.interaction.channel.send(payload);
+		if (!this.interaction.channel) throw new Error("The interaction or message don't have a channel");
+		if (this.interaction.channel.partial) await this.interaction.channel.fetch();
+		if (this.interaction.channel.partial) throw new Error('The interaction or message has a partial channel');
+		const message = await (this.interaction.channel as DMChannel | GuildTextBasedChannel).send(payload);
 		this.paginate(message);
 		return message;
 	}
