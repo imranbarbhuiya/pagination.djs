@@ -54,8 +54,8 @@
 		"pinst": "^3.0.0",
 		"prettier": "^3.3.3",
 		"tsup": "^8.3.0",
-		"typedoc": "^0.26.8",
-		"typescript": "^5.6.2"
+		"typedoc": "^0.26.9",
+		"typescript": "^5.6.3"
 	},
 	"peerDependencies": {
 		"discord.js": "^14.1.2"
