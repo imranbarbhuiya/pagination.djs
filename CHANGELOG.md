@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.17](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.16...v4.0.17) - (2024-10-25)
+
+## 🐛 Bug Fixes
+
+- Error and bump eslint to v9 ([6954279](https://github.com/imranbarbhuiya/pagination.djs/commit/6954279733ea2dc07b6cb614a764671336c3ee3d))
+
 # [4.0.16](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.15...v4.0.16) - (2024-09-30)
 
 ## 🐛 Bug Fixes
