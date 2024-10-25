@@ -23,6 +23,8 @@ jobs:
                   registry-url: https://registry.npmjs.org/
             - name: Install Dependencies
               run: yarn --immutable
+            - name: Build
+              run: yarn build
             - name: Run ESLint
               run: yarn lint --fix=false
 
@@ -42,5 +44,7 @@ jobs:
                   registry-url: https://registry.npmjs.org/
             - name: Install Dependencies
               run: yarn --immutable
+            - name: Build
+              run: yarn build
             - name: Typecheck And Build Code
               run: yarn typecheck && yarn build
