@@ -14,12 +14,12 @@
 		"docs": "typedoc",
 		"build": "tsup",
 		"format": "prettier --write . --cache",
-		"lint": "eslint src --fix --cache",
+		"lint": "eslint . --fix --cache",
 		"typecheck": "tsc -p tsconfig.eslint.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky .github/husky",
-		"prepack": " yarn build && pinst --disable",
+		"prepack": "yarn build && pinst --disable",
 		"postpack": "pinst --enable"
 	},
 	"keywords": [
@@ -47,13 +47,13 @@
 		"@favware/npm-deprecate": "^2.0.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.16.3",
-		"eslint": "^8.57.1",
-		"eslint-config-mahir": "^0.0.46",
+		"eslint": "^9.13.0",
+		"eslint-config-mahir": "^1.0.4",
 		"husky": "^9.1.6",
 		"lint-staged": "^15.2.10",
 		"pinst": "^3.0.0",
 		"prettier": "^3.3.3",
-		"tsup": "^8.3.0",
+		"tsup": "^8.3.4",
 		"typedoc": "^0.26.10",
 		"typescript": "^5.6.3"
 	},
@@ -74,7 +74,7 @@
 		]
 	},
 	"lint-staged": {
-		"*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
+		"*.{mjs,js,ts}": "eslint --fix"
 	},
 	"config": {
 		"commitizen": {

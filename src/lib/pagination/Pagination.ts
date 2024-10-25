@@ -74,7 +74,10 @@ export class Pagination extends PaginationEmbed {
 		if (!(messageOrInteraction instanceof BaseInteraction) && !(messageOrInteraction instanceof Message)) {
 			console.warn(
 				`[pagination.djs] warn - The interaction must be an instance of Interaction or Message, received + ${
-					(messageOrInteraction as any).construction.name
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					messageOrInteraction
+						? ((messageOrInteraction as any).construction?.name ?? (messageOrInteraction as any).name ?? typeof messageOrInteraction)
+						: typeof messageOrInteraction
 				}\nFor more information, see: https://github.com/imranbarbhuiya/pagination.djs/issues/68 or https://github.com/imranbarbhuiya/pagination.djs/issues/88`
 			);
 		}
@@ -152,7 +155,6 @@ export class Pagination extends PaginationEmbed {
 	public paginate(message: InteractionResponse<true> | Message): this {
 		this.collector = message.createMessageComponentCollector({
 			filter: ({ customId, user }) =>
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				['first', 'prev', 'next', 'last'].some((position) => this.buttons[position]?.data.custom_id === customId) &&
 				(this.authorizedUsers.length ? this.authorizedUsers.includes(user.id) : true),
 			idle: this.idle,

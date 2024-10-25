@@ -1,4 +1,5 @@
 import { Client, IntentsBitField } from 'discord.js';
+
 import { Pagination } from 'pagination.djs';
 
 const client = new Client({

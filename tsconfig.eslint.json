@@ -1,9 +1,0 @@
-{
-	"extends": "./tsconfig.base.json",
-	"compilerOptions": {
-		"noEmit": true,
-		"incremental": false,
-		"skipLibCheck": true
-	},
-	"include": ["src", "example", "tsup.config.ts"]
-}
