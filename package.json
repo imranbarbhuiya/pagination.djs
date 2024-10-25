@@ -15,7 +15,7 @@
 		"build": "tsup",
 		"format": "prettier --write . --cache",
 		"lint": "eslint . --fix --cache",
-		"typecheck": "tsc -p tsconfig.eslint.json",
+		"typecheck": "tsc -p tsconfig.base.json",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"postinstall": "husky .github/husky",
