@@ -47,7 +47,7 @@
 		"@favware/npm-deprecate": "^2.0.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.17.3",
-		"eslint": "^9.17.0",
+		"eslint": "^9.18.0",
 		"eslint-config-mahir": "^1.0.7",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.3.0",
@@ -55,7 +55,7 @@
 		"prettier": "^3.4.2",
 		"tsup": "^8.3.5",
 		"typedoc": "^0.27.6",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.3"
 	},
 	"peerDependencies": {
 		"discord.js": "^14.1.2"
