@@ -1,5 +1,5 @@
-import type { BaseMessageOptions } from 'discord.js';
+import type { BaseMessageOptions, InteractionReplyOptions } from 'discord.js';
 
-export type Payload = BaseMessageOptions & {
+export type Payload = (BaseMessageOptions & InteractionReplyOptions) & {
 	ephemeral?: boolean;
 };

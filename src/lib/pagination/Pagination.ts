@@ -2,6 +2,7 @@ import {
 	BaseInteraction,
 	ComponentType,
 	Message,
+	MessageFlags,
 	MessageComponentInteraction,
 	type ButtonInteraction,
 	type CommandInteraction,
