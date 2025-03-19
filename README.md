@@ -14,10 +14,10 @@ Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 ## Features
 
--   Written In Typescript
--   Offers CJS and ESM builds
--   Full TypeScript & JavaScript support
--   Simple and easy to use
+- Written In Typescript
+- Offers CJS and ESM builds
+- Full TypeScript & JavaScript support
+- Simple and easy to use
 
 ## Installation
 
@@ -26,7 +26,7 @@ Read docs here: [pagination.djs](https://pagination-djs.js.org/)
 
 `pagination.djs` depends on the following packages. Be sure to install these along with this package!
 
--   [discord.js](https://www.npmjs.com/package/discord.js)
+- [discord.js](https://www.npmjs.com/package/discord.js)
 
 You can use the following command to install this package, or replace npm install with your package manager of choice.
 
@@ -334,10 +334,10 @@ pagination.setAttachments([new AttachmentBuilder()]);
 
 By default [render()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#render) will [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) to the interaction. But if the interaction is already replied or deferred then it'll [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) instead. You can change the behavior farther more with the other send methods available. Available built-in methods are:
 
--   [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
--   [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
--   [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) edit interaction reply
--   [send()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#send) send message in the interaction channel
+- [reply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#reply) reply to the interaction
+- [followUp()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#followUp) send followUp reply to the interaction
+- [editReply()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#editReply) edit interaction reply
+- [send()](https://imranbarbhuiya.github.io/pagination.djs/classes/Pagination.html#send) send message in the interaction channel
 
 If you want to send it by yourself or send in a different channel then you can follow these steps:
 

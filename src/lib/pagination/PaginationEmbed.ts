@@ -9,7 +9,8 @@ import {
 	type ComponentEmojiResolvable,
 	type JSONEncodable,
 	type MessageActionRowComponentBuilder,
-	type RestOrArray
+	type RestOrArray,
+	MessageFlags
 } from 'discord.js';
 
 import { defaultOptions } from './defaultOptions.js';
@@ -1036,7 +1037,7 @@ export abstract class PaginationEmbed extends EmbedBuilder {
 	 */
 	private _readyPayloads(): Payload {
 		this._readyActionRows();
-		this.payload.ephemeral = this.ephemeral;
+		this.payload.flags = this.ephemeral ? MessageFlags.Ephemeral : undefined;
 		this.payload.components = this.actionRows;
 		this.payload.content = (Array.isArray(this.contents) ? this.contents[0] : this.contents) ?? undefined;
 		const embed = this.embeds.length ? EmbedBuilder.from(this.embeds[0]) : this;

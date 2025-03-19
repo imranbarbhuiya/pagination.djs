@@ -35,6 +35,7 @@ export interface Options extends EmojiOptions {
 	contents: string[];
 	/**
 	 * Whether the reply should be ephemeral.
+	 * This will be converted to MessageFlags.Ephemeral internally.
 	 *
 	 * @defaultValue false
 	 */
