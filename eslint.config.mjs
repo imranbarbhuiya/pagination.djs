@@ -26,6 +26,6 @@ export default [
 		}
 	},
 	{
-		ignores: ['.github', '.yarn', 'dist']
+		ignores: ['.github', '.yarn', 'dist', 'test-bot']
 	}
 ];

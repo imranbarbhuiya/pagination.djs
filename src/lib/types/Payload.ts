@@ -1,5 +1,5 @@
-import type { BaseMessageOptions } from 'discord.js';
+import type { BaseMessageOptions, MessageFlags } from 'discord.js';
 
-export type Payload = BaseMessageOptions & {
-	ephemeral?: boolean;
-};
+export interface Payload extends BaseMessageOptions {
+    flags?: MessageFlags | number;
+}
