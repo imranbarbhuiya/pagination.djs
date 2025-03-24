@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.18](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.17...v4.0.18) - (2025-03-24)
+
+## 🐛 Bug Fixes
+
+- **flags:** Update MessageFlags handling for interactions (#363) ([0762834](https://github.com/imranbarbhuiya/pagination.djs/commit/07628344b75b42096d71e79197dc9149e5290871))
+
 # [4.0.17](https://github.com/imranbarbhuiya/pagination.djs/compare/v4.0.16...v4.0.17) - (2024-10-25)
 
 ## 🐛 Bug Fixes
