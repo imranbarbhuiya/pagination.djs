@@ -50,11 +50,11 @@
 		"eslint": "^9.24.0",
 		"eslint-config-mahir": "^1.0.7",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.5.0",
+		"lint-staged": "^15.5.1",
 		"pinst": "^3.0.0",
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",
-		"typedoc": "^0.28.1",
+		"typedoc": "^0.28.2",
 		"typescript": "^5.8.3"
 	},
 	"peerDependencies": {
@@ -85,5 +85,5 @@
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.8"
 	},
-	"packageManager": "yarn@4.8.1"
+	"packageManager": "yarn@4.9.0"
 }
