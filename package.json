@@ -41,8 +41,8 @@
 		"dist/**/*.d*"
 	],
 	"devDependencies": {
-		"@commitlint/cli": "^19.8.0",
-		"@commitlint/config-conventional": "^19.8.0",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@favware/npm-deprecate": "^2.0.0",
 		"cz-conventional-changelog": "^3.3.0",
@@ -50,7 +50,7 @@
 		"eslint": "^9.26.0",
 		"eslint-config-mahir": "^1.0.7",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.5.1",
+		"lint-staged": "^15.5.2",
 		"pinst": "^3.0.0",
 		"prettier": "^3.5.3",
 		"tsup": "^8.4.0",
