@@ -1,6 +1,6 @@
 {
   "name": "test-bot",
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "dependencies": {
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0"
