@@ -50,7 +50,7 @@
 		"eslint": "^9.29.0",
 		"eslint-config-mahir": "^1.0.7",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.1.1",
+		"lint-staged": "^16.1.2",
 		"pinst": "^3.0.0",
 		"prettier": "^3.5.3",
 		"tsup": "^8.5.0",
